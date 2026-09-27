@@ -238,8 +238,9 @@ export const site = {
         film: {
           id: 'education',
           title: 'Education and career',
-          duration: '0:53',
-          source: impactSection(76, 129),
+          duration: '0:33',
+          // Dedicated film: the Miami Beach startup showcase. Local, git-ignored; host before launch.
+          source: { kind: 'file', src: '/media/video/education-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
       },
