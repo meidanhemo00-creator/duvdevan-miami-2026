@@ -159,13 +159,19 @@ export const site = {
     film: {
       id: 'evening',
       title: 'In their own words',
-      source: null,
+      duration: '0:13',
+      /**
+       * Local file for development (public/media/video is git-ignored).
+       * Before going live, upload the MP4 to a host (Vimeo, Mux, S3/CDN) and
+       * paste its URL here, or use { kind: 'embed', src: 'https://player.vimeo.com/video/ID' }.
+       */
+      source: { kind: 'file', src: '/media/video/evening-720.mp4', type: 'video/mp4' },
       poster: {
-        src: '/media/stills/evening-1600.jpg',
-        webp: '/media/stills/evening-1600.webp',
-        avif: '/media/stills/evening-1600.avif',
-        alt: 'City lights reflected in Biscayne Bay at night.',
-        opacity: 0.7,
+        src: '/media/posters/evening-1600.jpg',
+        webp: '/media/posters/evening-1600.webp',
+        avif: '/media/posters/evening-1600.avif',
+        alt: 'Guests seated in a darkened hall, watching the screen at a Friends of Duvdevan evening.',
+        opacity: 0.62,
       },
     } satisfies Film,
   },
