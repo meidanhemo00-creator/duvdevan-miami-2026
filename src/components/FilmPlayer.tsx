@@ -78,6 +78,12 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
             playsInline
             preload="auto"
             poster={poster?.src}
+            onLoadedMetadata={(e) => {
+              if (source.start) e.currentTarget.currentTime = source.start
+            }}
+            onTimeUpdate={(e) => {
+              if (source.end && e.currentTarget.currentTime >= source.end) e.currentTarget.pause()
+            }}
             onError={() => setState('error')}
             aria-label={film.title}
           >

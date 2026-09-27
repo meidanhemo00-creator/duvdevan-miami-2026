@@ -32,7 +32,14 @@ export type Slot = {
  *              YouTube `https://www.youtube-nocookie.com/embed/ID`)
  */
 export type FilmSource =
-  | { kind: 'file'; src: string; type?: 'video/mp4' | 'video/webm' }
+  | {
+      kind: 'file'
+      src: string
+      type?: 'video/mp4' | 'video/webm'
+      /** Play only a section of the file, in seconds (e.g. one chapter of a longer film). */
+      start?: number
+      end?: number
+    }
   | { kind: 'embed'; src: string }
 
 export type Film = {
@@ -86,6 +93,21 @@ export type SupportChapter = {
 
 // Helper so empty slots read clearly below.
 const unconfirmed = (value = ''): Slot => ({ value, confirmed: false })
+
+/**
+ * The 2026 impact film (3:19, English subtitles burned in). Each impact
+ * chapter plays its own section, starting at the film's title card.
+ * Local file for development (public/media/video is git-ignored): before
+ * launch, host it and replace the URL here.
+ */
+const IMPACT_FILM = '/media/video/impact-720.mp4'
+const impactSection = (start: number, end: number): FilmSource => ({
+  kind: 'file',
+  src: IMPACT_FILM,
+  type: 'video/mp4',
+  start,
+  end,
+})
 
 export const site = {
   meta: {
@@ -197,7 +219,8 @@ export const site = {
         film: {
           id: 'resilience',
           title: 'Resilience and recovery',
-          source: null,
+          duration: '0:44',
+          source: impactSection(32, 76),
           poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
         },
       },
@@ -208,7 +231,8 @@ export const site = {
         film: {
           id: 'education',
           title: 'Education and career',
-          source: null,
+          duration: '0:53',
+          source: impactSection(76, 129),
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
       },
@@ -219,7 +243,8 @@ export const site = {
         film: {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
-          source: null,
+          duration: '1:10',
+          source: impactSection(129, 199),
           poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
         },
       },
