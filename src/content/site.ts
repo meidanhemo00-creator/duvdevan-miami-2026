@@ -46,7 +46,7 @@ export type Film = {
   poster?: Photo
   /**
    * Play silently and on a loop while the frame is on screen (file sources
-   * only). Viewers can still unmute from the controls. Ignored for visitors
+   * only). On for every film on the page. Viewers can still unmute from the controls. Ignored for visitors
    * who prefer reduced motion: they get the poster and play button.
    */
   autoplay?: boolean
@@ -174,6 +174,7 @@ export const site = {
           id: 'resilience',
           title: 'Resilience and recovery',
           duration: '1:02',
+          autoplay: true,
           // Dedicated film: the Sri Lanka resilience retreat.
           source: { kind: 'file', src: '/media/video/resilience-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
@@ -187,6 +188,7 @@ export const site = {
           id: 'education',
           title: 'Education and career',
           duration: '0:33',
+          autoplay: true,
           // Dedicated film: the Miami Beach startup showcase.
           source: { kind: 'file', src: '/media/video/education-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
@@ -200,6 +202,7 @@ export const site = {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
           duration: '0:50',
+          autoplay: true,
           // Dedicated film: the commemoration department.
           source: { kind: 'file', src: '/media/video/remembrance-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
@@ -216,6 +219,7 @@ export const site = {
       id: 'unit',
       title: 'The unit',
       duration: '0:22',
+      autoplay: true,
             source: { kind: 'file', src: '/media/video/unit-720.mp4', type: 'video/mp4' },
       poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
     } satisfies Film,

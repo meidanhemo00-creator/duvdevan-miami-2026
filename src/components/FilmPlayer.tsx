@@ -9,6 +9,8 @@ type Props = {
   tone?: 'city' | 'night'
   /** Print the film title on the slate. Off where a heading beside it already says it. */
   slateTitle?: boolean
+  /** False while the film sits in a hidden reel panel: it must not autoplay. */
+  active?: boolean
   className?: string
 }
 
@@ -33,11 +35,12 @@ function withAutoplay(src: string) {
  *  • No source → an intentional "coming soon" title card.
  *  • Source    → poster and play control. Nothing loads until the visitor
  *                presses play, and nothing ever plays with sound on its own.
- *  • Autoplay  → starts muted and loops while on screen, pauses off screen.
+ *  • Autoplay  → loads and starts muted, looping, once on screen (and active);
+ *                pauses off screen. Reduced-motion visitors get the play button.
  *  • Failure   → an inline message with a retry.
  * Starting one film pauses any other film on the page.
  */
-export function FilmPlayer({ film, tone = 'city', slateTitle = true, className = '' }: Props) {
+export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = true, className = '' }: Props) {
   const [state, setState] = useState<State>('idle')
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
@@ -59,29 +62,42 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
     typeof window !== 'undefined' &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+  const inView = useRef(false)
+  const activeRef = useRef(active)
+  // Start (or resume) the silent loop if the film is on screen and active.
+  const tryAmbient = () => {
+    if (!autoplay || !inView.current || !activeRef.current) return
+    const v = videoRef.current
+    if (!v) {
+      ambient.current = true
+      setState((s) => (s === 'idle' ? 'playing' : s))
+    } else if (ambient.current) {
+      v.play().catch(() => {})
+    }
+  }
+
   // Autoplay: play muted while at least 40% of the frame is visible.
   useEffect(() => {
     const frame = frameRef.current
     if (!autoplay || !frame) return
     const io = new IntersectionObserver(
       ([entry]) => {
-        const v = videoRef.current
-        if (entry.isIntersecting) {
-          if (!v) {
-            ambient.current = true
-            setState((s) => (s === 'idle' ? 'playing' : s))
-          } else if (ambient.current) {
-            v.play().catch(() => {})
-          }
-        } else {
-          pauseBySystem()
-        }
+        inView.current = entry.isIntersecting
+        if (entry.isIntersecting) tryAmbient()
+        else pauseBySystem()
       },
       { threshold: 0.4 },
     )
     io.observe(frame)
     return () => io.disconnect()
   }, [autoplay])
+
+  // A reel panel becoming active starts its loop; becoming hidden pauses it.
+  useEffect(() => {
+    activeRef.current = active
+    if (active) tryAmbient()
+    else pauseBySystem()
+  }, [active])
 
   useEffect(() => {
     const onPlay = (e: Event) => {

@@ -111,7 +111,7 @@ export function Impact() {
               inert={i !== active}
               style={{ ['--slate-x' as string]: slateX[i % slateX.length] }}
             >
-              <FilmPlayer film={ch.film} tone="city" />
+              <FilmPlayer film={ch.film} tone="city" active={i === active} />
               <p className="reel__body">{ch.body}</p>
             </div>
           ))}
