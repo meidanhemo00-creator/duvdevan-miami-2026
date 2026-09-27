@@ -29,32 +29,6 @@
 .closing__lead {
   color: var(--ink);
 }
-.closing__tba {
-  color: var(--ink-3);
-}
-
-.closing__facts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem 4rem;
-  margin: 0;
-}
-.closing__facts dt {
-  color: var(--ink-3);
-}
-.closing__facts dd {
-  margin: 0.5rem 0 0;
-  font-size: var(--t-lead);
-}
-
-.closing__slots {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
 /* The same city that opened the page closes it, a little brighter. */
 .closing__city {
   --miami-opacity: 0.26;

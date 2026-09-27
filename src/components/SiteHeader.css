@@ -75,13 +75,9 @@
   }
 }
 
-.site-header__cta {
-  justify-self: end;
-}
-
 @media (max-width: 1000px) {
   .site-header__inner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
   }
   .site-header__nav {
     display: none;
@@ -97,12 +93,5 @@
   }
   .site-header__org-logo {
     display: block;
-  }
-  .site-header__cta .cta {
-    padding-inline: 0.9rem calc(0.9rem + 0.22em);
-    letter-spacing: 0.22em;
-  }
-  .site-header__cta .cta__icon {
-    display: none;
   }
 }

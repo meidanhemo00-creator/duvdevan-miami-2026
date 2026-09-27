@@ -48,23 +48,14 @@
   --d: 1;
 }
 
-.hero__foot {
-  display: grid;
-  justify-items: center;
-  gap: 1.5rem;
-}
-.hero__date {
-  color: var(--ink);
-}
-
 @media (max-width: 720px) {
-  /* Larger city on phones, lifted so the CTA rests on the dark below it. */
+  /* Larger city on phones, standing on the bottom edge. */
   .hero__city {
     --miami-opacity: 0.24;
     left: -22%;
     right: auto;
     width: 144%;
-    bottom: clamp(6.5rem, 16svh, 9rem);
+    bottom: 0;
   }
 }
 

@@ -2,32 +2,21 @@
  * ───────────────────────────────────────────────────────────────────────────
  *  SITE CONTENT: the one file to edit.
  *
- *  Event details, film sources, poster images, CTA links and copy all live
- *  here. Nothing elsewhere in the codebase should need to change when real
- *  assets arrive.
+ *  Event details, film sources, poster images and copy all live here.
+ *  Nothing elsewhere in the codebase should need to change when assets change.
  *
  *  Rules the page follows:
- *   • An event detail (date, venue, RSVP link…) is shown publicly ONLY when
- *     its `confirmed` flag is true AND it has a value.
+ *   • The page shows only the city and month: no date, venue, RSVP or
+ *     buttons until those are decided.
  *   • A film with `source: null` renders an intentional "coming soon" frame,
  *     never an empty or broken player.
  *   • `logo.src` empty → a clearly marked logo placeholder is shown.
- *
- *  Preview mode: in `npm run dev`, or on any deployed URL with `?slots` added,
- *  unconfirmed slots are drawn as dashed outlines so you can see where each
- *  detail will appear.
  * ───────────────────────────────────────────────────────────────────────────
  */
 
-/** An event detail that is hidden until someone confirms it. */
-export type Slot = {
-  value: string
-  confirmed: boolean
-}
-
 /**
- * Where a film plays from. Large video files are never committed to Git.
- *  • `file`  : a hosted MP4/WebM URL (S3, Cloudflare R2/Stream MP4, Mux MP4, CDN…)
+ * Where a film plays from.
+ *  • `file`  : a web-encoded MP4 in /public/media/video (see README), or a hosted URL
  *  • `embed` : a player URL (Vimeo `https://player.vimeo.com/video/ID`,
  *              YouTube `https://www.youtube-nocookie.com/embed/ID`)
  */
@@ -97,9 +86,6 @@ export type SupportChapter = {
   film: Film
 }
 
-// Helper so empty slots read clearly below.
-const unconfirmed = (value = ''): Slot => ({ value, confirmed: false })
-
 export const site = {
   meta: {
     title: 'Duvdevan in Miami | November 2026',
@@ -143,25 +129,6 @@ export const site = {
   event: {
     city: 'Miami',
     month: 'November 2026',
-    /** e.g. 'Thursday, November 12, 2026 · 7:00 PM' */
-    date: unconfirmed(),
-    /** e.g. 'Venue name, Miami Beach' */
-    venue: unconfirmed(),
-    /** Registration / ticketing URL. When confirmed, all CTAs point here. */
-    rsvpUrl: unconfirmed(),
-    /**
-     * Fallback "receive details" link (a form URL or mailto:) used while RSVP
-     * is not yet open. When neither link is confirmed, CTAs scroll to the
-     * invitation section instead of pointing anywhere broken.
-     */
-    detailsUrl: unconfirmed(),
-  },
-
-  /** One CTA intent per state, used identically everywhere on the page. */
-  cta: {
-    rsvpLabel: 'RSVP',
-    detailsLabel: 'Receive details',
-    fallbackLabel: 'Save the date',
   },
 
   evening: {
@@ -257,7 +224,6 @@ export const site = {
   closing: {
     // DRAFT COPY
     lead: 'Join us for one evening, and stand with the soldiers, veterans and bereaved families of the unit.',
-    tba: 'Date, venue and invitations will be announced here.',
   },
 
   credits: {

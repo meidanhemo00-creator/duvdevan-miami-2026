@@ -1,5 +1,4 @@
 import { site } from '../content/site'
-import { CtaButton } from './CtaButton'
 import { LogoMark } from './LogoMark'
 import './SiteHeader.css'
 
@@ -31,9 +30,6 @@ export function SiteHeader() {
             ))}
           </ul>
         </nav>
-        <div className="site-header__cta">
-          <CtaButton variant="quiet" />
-        </div>
       </div>
     </header>
   )
