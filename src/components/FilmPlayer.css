@@ -75,16 +75,8 @@
 .film--city .film__slate {
   background-color: var(--black-deep);
   background-image:
-    radial-gradient(ellipse 70% 60% at 50% 50%, transparent, rgb(3 3 3 / 0.85)),
-    linear-gradient(to bottom, rgb(3 3 3 / 0.55), transparent 40%, rgb(3 3 3 / 0.7)),
-    image-set(
-      url('/media/skyline/skyline-blur.avif') type('image/avif'),
-      url('/media/skyline/skyline-blur.webp') type('image/webp'),
-      url('/media/skyline/skyline-blur.jpg') type('image/jpeg')
-    );
-  background-size: cover, cover, 260% auto;
-  background-position: center, center, var(--slate-x, 50%) 60%;
-  background-repeat: no-repeat;
+    radial-gradient(60% 55% at var(--slate-x, 50%) 70%, rgb(var(--wine-rgb) / 0.22), transparent 72%),
+    linear-gradient(to bottom, #0a0809, #030303);
 }
 
 /* Night slate: letterboxed, a thin horizon, a low wine glow. */

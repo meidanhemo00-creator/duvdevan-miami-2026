@@ -71,9 +71,9 @@ export type Photo = {
 
 /** Graded Duvdevan photographs in /public/media/unit (see README). */
 const unitPhoto = (name: string, alt: string, opacity: number, position = '50% 50%'): Photo => ({
-  src: `/media/unit/${name}-1600.jpg`,
-  webp: `/media/unit/${name}-1600.webp`,
-  avif: `/media/unit/${name}-1600.avif`,
+  src: `media/unit/${name}-1600.jpg`,
+  webp: `media/unit/${name}-1600.webp`,
+  avif: `media/unit/${name}-1600.avif`,
   alt,
   opacity,
   position,
@@ -101,8 +101,8 @@ export const site = {
    * Set `src` to '' to fall back to the marked placeholder.
    */
   logo: {
-    src: '/media/brand/duvdevan-logo.webp',
-    fallback: '/media/brand/duvdevan-logo.png',
+    src: 'media/brand/duvdevan-logo.webp',
+    fallback: 'media/brand/duvdevan-logo.png',
     width: 1896,
     height: 686,
     /** Read by screen readers wherever the logo stands in for the word. */
@@ -141,11 +141,11 @@ export const site = {
       title: 'In their own words',
       duration: '0:13',
       autoplay: true,
-      source: { kind: 'file', src: '/media/video/evening-720.mp4', type: 'video/mp4' },
+      source: { kind: 'file', src: 'media/video/evening-720.mp4', type: 'video/mp4' },
       poster: {
-        src: '/media/posters/evening-1600.jpg',
-        webp: '/media/posters/evening-1600.webp',
-        avif: '/media/posters/evening-1600.avif',
+        src: 'media/posters/evening-1600.jpg',
+        webp: 'media/posters/evening-1600.webp',
+        avif: 'media/posters/evening-1600.avif',
         alt: 'Guests seated in a darkened hall, watching the screen at a Friends of Duvdevan evening.',
         opacity: 0.62,
       },
@@ -161,8 +161,8 @@ export const site = {
       'Funds raised at our events go to the soldiers, veterans and bereaved families of the unit, across three areas of work.',
     /** Backdrop behind the statement: wide frame, and a phone crop on the subject. */
     backdrop: {
-      wide: '/media/unit/watch',
-      portrait: '/media/unit/watch-portrait-900',
+      wide: 'media/unit/watch',
+      portrait: 'media/unit/watch-portrait-900',
       alt: 'Two soldiers of the unit under a concrete shelter, one sighting across the hills.',
     },
     chapters: [
@@ -176,7 +176,7 @@ export const site = {
           duration: '1:02',
           autoplay: true,
           // Dedicated film: the Sri Lanka resilience retreat.
-          source: { kind: 'file', src: '/media/video/resilience-720.mp4', type: 'video/mp4' },
+          source: { kind: 'file', src: 'media/video/resilience-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
         },
       },
@@ -190,7 +190,7 @@ export const site = {
           duration: '0:33',
           autoplay: true,
           // Dedicated film: the Miami Beach startup showcase.
-          source: { kind: 'file', src: '/media/video/education-720.mp4', type: 'video/mp4' },
+          source: { kind: 'file', src: 'media/video/education-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
       },
@@ -204,7 +204,7 @@ export const site = {
           duration: '0:50',
           autoplay: true,
           // Dedicated film: the commemoration department.
-          source: { kind: 'file', src: '/media/video/remembrance-720.mp4', type: 'video/mp4' },
+          source: { kind: 'file', src: 'media/video/remembrance-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
         },
       },
@@ -220,7 +220,7 @@ export const site = {
       title: 'The unit',
       duration: '0:22',
       autoplay: true,
-            source: { kind: 'file', src: '/media/video/unit-720.mp4', type: 'video/mp4' },
+            source: { kind: 'file', src: 'media/video/unit-720.mp4', type: 'video/mp4' },
       poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
     } satisfies Film,
   },

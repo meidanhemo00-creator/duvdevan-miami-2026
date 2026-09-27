@@ -18,13 +18,13 @@ export function HeroReel() {
   return (
     <div className="hero-reel" style={style} aria-hidden>
       {images.map((img, i) => {
-        const set = (ext: string) => img.sizes.map((w) => `/media/unit/${img.name}-${w}.${ext} ${w}w`).join(', ')
+        const set = (ext: string) => img.sizes.map((w) => `media/unit/${img.name}-${w}.${ext} ${w}w`).join(', ')
         return (
           <picture key={img.name} className="hero-reel__slide" style={{ '--i': i } as CSSProperties}>
             <source type="image/avif" srcSet={set('avif')} sizes="100vw" />
             <source type="image/webp" srcSet={set('webp')} sizes="100vw" />
             <img
-              src={`/media/unit/${img.name}-${img.sizes[0]}.jpg`}
+              src={`media/unit/${img.name}-${img.sizes[0]}.jpg`}
               alt=""
               decoding="async"
               loading={i === 0 ? 'eager' : 'lazy'}

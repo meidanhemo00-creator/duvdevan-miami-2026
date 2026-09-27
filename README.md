@@ -34,3 +34,11 @@ ffmpeg -i input.mov -vf "scale=-2:720" -c:v libx264 -preset slow -crf 26 \
   -maxrate 1800k -bufsize 3600k -pix_fmt yuv420p \
   -c:a aac -b:a 96k -ac 2 -movflags +faststart public/media/video/name-720.mp4
 ```
+
+## Publish
+
+The live site is on GitHub Pages:
+https://meidanhemo00-creator.github.io/duvdevan-miami-2026/
+
+After committing changes, run `npm run deploy`. It builds the site and pushes
+the result to the `gh-pages` branch, which Pages serves.
