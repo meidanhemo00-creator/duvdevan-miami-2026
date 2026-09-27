@@ -226,8 +226,9 @@ export const site = {
         film: {
           id: 'resilience',
           title: 'Resilience and recovery',
-          duration: '0:44',
-          source: impactSection(32, 76),
+          duration: '1:02',
+          // Dedicated film: the Sri Lanka resilience retreat. Local, git-ignored; host before launch.
+          source: { kind: 'file', src: '/media/video/resilience-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
         },
       },
