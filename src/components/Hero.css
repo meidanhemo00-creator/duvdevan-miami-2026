@@ -1,0 +1,121 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--black-deep);
+}
+
+/* ─── Media: stars over the black sky, the city rising at the horizon ── */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(90% 55% at 50% 100%, #0b0708, var(--black-deep) 70%);
+}
+.hero__media .starfield {
+  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 66%);
+}
+.hero__city {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  --miami-opacity: 0.2;
+}
+
+/* ─── Content ───────────────────────────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: var(--z-content);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  gap: 2.5rem;
+  padding: clamp(6rem, 13vh, 9.5rem) var(--gutter) clamp(2.25rem, 6vh, 4rem);
+  text-align: center;
+}
+
+/* The title block sits in the middle of the night sky. */
+.hero__lockup {
+  padding-top: clamp(1rem, 11svh, 8rem);
+}
+.hero [data-intro]:nth-child(1) {
+  --d: 0;
+}
+.hero .event-title__month {
+  --d: 1;
+}
+
+.hero__foot {
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+}
+.hero__date {
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  /* Larger city on phones, lifted so the CTA rests on the dark below it. */
+  .hero__city {
+    --miami-opacity: 0.24;
+    left: -22%;
+    right: auto;
+    width: 144%;
+    bottom: clamp(6.5rem, 16svh, 9rem);
+  }
+}
+
+/* ─── Motion ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Title elements arrive quickly and quietly, in reading order. */
+  .hero [data-intro] {
+    animation: hero-rise 1400ms var(--ease-cine) both;
+    animation-delay: calc(150ms + var(--d, 0) * 130ms);
+  }
+
+  /* Scroll: the skyline sinks slowly, the title lifts away. Progressive. */
+  @supports (animation-timeline: scroll()) {
+    .hero__city {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+    .hero__content {
+      animation: hero-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80svh;
+    }
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem);
+  }
+}
+@keyframes hero-drift {
+  to {
+    transform: translateY(18%);
+  }
+}
+@keyframes hero-lift {
+  to {
+    opacity: 0;
+    transform: translateY(-7svh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero [data-intro] {
+    animation: hero-fade 600ms ease both;
+  }
+}
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+}

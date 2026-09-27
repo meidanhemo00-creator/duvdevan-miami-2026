@@ -1,0 +1,92 @@
+.event-title {
+  --title: clamp(2.25rem, 0.6rem + 5.4vw, 6.25rem);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: clamp(1.75rem, 3.2vw, 2.75rem);
+}
+.event-title--closing {
+  --title: clamp(1.9rem, 0.6rem + 3.9vw, 4.5rem);
+}
+
+.event-title__line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.32em; /* one word space, used between all three words */
+  row-gap: 0.28em;
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 700;
+  font-size: var(--title);
+  letter-spacing: 0.07em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* Tracking also follows the last letter; cancel it so the line centres. */
+.event-title__word--last {
+  margin-right: -0.07em;
+}
+.event-title__word--logo {
+  display: block;
+  height: 0.7em; /* fallback: Archivo's cap height */
+  height: 1cap;
+}
+.event-title__word--logo .logo-mark,
+.event-title__word--logo img,
+.event-title__word--logo .logo-slot {
+  height: 100%;
+  width: auto;
+}
+
+.event-title__month {
+  display: grid;
+  grid-template-columns: minmax(2.5rem, 7rem) auto minmax(2.5rem, 7rem);
+  align-items: center;
+  gap: 1.5rem;
+}
+.event-title__month-text {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-size: clamp(0.72rem, 0.62rem + 0.35vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.62em;
+  padding-left: 0.62em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+.event-title__rule {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--hair-strong));
+}
+.event-title__rule:last-child {
+  background: linear-gradient(to left, transparent, var(--hair-strong));
+}
+
+@media (max-width: 720px) {
+  /* Two balanced lines, "DUVDEVAN IN" / "MIAMI", one size throughout. */
+  .event-title {
+    --title: clamp(2.2rem, 13.2vw, 4rem);
+  }
+  .event-title--closing {
+    --title: clamp(1.9rem, 11vw, 3.25rem);
+  }
+  .event-title__word--last {
+    flex-basis: 100%;
+    text-align: center;
+    margin-right: 0;
+    padding-left: 0.07em;
+  }
+  .event-title__month {
+    grid-template-columns: 1.5rem auto 1.5rem;
+    gap: 0.9rem;
+  }
+  .event-title__month-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.44em;
+    padding-left: 0.44em;
+  }
+}

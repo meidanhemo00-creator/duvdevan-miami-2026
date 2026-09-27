@@ -1,0 +1,82 @@
+.closing {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  overflow: clip;
+  background: var(--black-deep);
+}
+
+.closing__sky {
+  position: absolute;
+  inset: 0 0 30% 0;
+  z-index: -1;
+}
+.closing__sky .starfield {
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 60%, transparent 100%);
+}
+
+.closing__content {
+  display: grid;
+  justify-items: center;
+  gap: 2rem;
+  padding-block: var(--scene) clamp(3rem, 6vw, 5rem);
+  text-align: center;
+}
+
+.closing__title {
+  margin-bottom: 0.5rem;
+}
+.closing__lead {
+  color: var(--ink);
+}
+.closing__tba {
+  color: var(--ink-3);
+}
+
+.closing__facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 4rem;
+  margin: 0;
+}
+.closing__facts dt {
+  color: var(--ink-3);
+}
+.closing__facts dd {
+  margin: 0.5rem 0 0;
+  font-size: var(--t-lead);
+}
+
+.closing__slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* The same city that opened the page closes it, a little brighter. */
+.closing__city {
+  --miami-opacity: 0.26;
+  margin-top: clamp(1rem, 4vw, 3rem);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* The city rises slightly into frame as the page comes to rest. */
+      .closing__city img {
+      animation: closing-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+  }
+}
+@keyframes closing-rise {
+  from {
+    transform: translateY(8%);
+  }
+  to {
+    transform: none;
+  }
+}
+

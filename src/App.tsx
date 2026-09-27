@@ -1,7 +1,28 @@
+import { Closing } from './components/Closing'
+import { Evening } from './components/Evening'
+import { Hero } from './components/Hero'
+import { Impact } from './components/Impact'
+import { SiteFooter } from './components/SiteFooter'
+import { SiteHeader } from './components/SiteHeader'
+import { Unit } from './components/Unit'
+import { useReveal } from './lib/useReveal'
+
 export default function App() {
+  useReveal()
   return (
-    <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', background: '#050506', color: '#f3eee6', fontFamily: 'system-ui, sans-serif' }}>
-      <h1>Duvdevan in Miami — November 2026</h1>
-    </main>
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main id="main">
+        <Hero />
+        <Evening />
+        <Impact />
+        <Unit />
+        <Closing />
+      </main>
+      <SiteFooter />
+    </>
   )
 }

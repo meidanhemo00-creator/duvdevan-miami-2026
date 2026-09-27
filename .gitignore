@@ -21,3 +21,6 @@ public/media/video/
 !.vscode/extensions.json
 .idea/
 *.log
+
+# Local browser-testing output
+.playwright-mcp/

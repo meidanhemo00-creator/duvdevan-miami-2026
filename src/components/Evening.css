@@ -1,0 +1,28 @@
+.evening {
+  position: relative;
+  padding-block: calc(var(--scene) * 0.7) var(--scene);
+}
+
+.evening .scene-head {
+  margin-bottom: clamp(3.5rem, 2rem + 5vw, 7rem);
+}
+
+.evening__stage {
+  width: min(100% - 2 * var(--gutter), 1440px);
+  margin-inline: auto;
+}
+/* A faint wine light spills beneath the frame, like a screen in a dark room. */
+.evening__stage::after {
+  content: '';
+  display: block;
+  height: clamp(4rem, 10vw, 9rem);
+  margin-top: -1px;
+  background: radial-gradient(50% 100% at 50% 0%, rgb(var(--wine-rgb) / 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .evening__stage {
+    width: 100%;
+  }
+}

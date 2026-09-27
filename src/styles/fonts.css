@@ -1,0 +1,24 @@
+/*
+ * Display face: Sackers Gothic (Monotype, licensed separately).
+ * Not included. When the licensed web fonts are available, place them in
+ * public/fonts/sackers-gothic/ and uncomment below. `--font-display` already
+ * lists 'Sackers Gothic Std' first, so nothing else needs to change.
+ *
+ * @font-face {
+ *   font-family: 'Sackers Gothic Std';
+ *   src: url('/fonts/sackers-gothic/SackersGothicStd-Medium.woff2') format('woff2');
+ *   font-weight: 500;
+ *   font-style: normal;
+ *   font-display: swap;
+ * }
+ * @font-face {
+ *   font-family: 'Sackers Gothic Std';
+ *   src: url('/fonts/sackers-gothic/SackersGothicStd-Heavy.woff2') format('woff2');
+ *   font-weight: 800;
+ *   font-style: normal;
+ *   font-display: swap;
+ * }
+ *
+ * With Sackers active, the wide stand-in settings stop mattering: font-stretch
+ * is ignored for a single-width family.
+ */

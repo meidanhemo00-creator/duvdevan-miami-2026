@@ -1,0 +1,57 @@
+/*
+ * Duvdevan in Miami: design tokens.
+ * Near-black, off-white, very dark wine. One theme by design (a night event).
+ * Shapes are sharp; the only circle is the play control.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --black: #060506;
+  --black-deep: #030303;
+  --black-raise: #0c0a0b;
+
+  /* Ink */
+  --ink: #efe9e1;
+  --ink-2: rgb(239 233 225 / 0.72);
+  --ink-3: rgb(239 233 225 / 0.5);
+  --hair: rgb(239 233 225 / 0.12);
+  --hair-strong: rgb(239 233 225 / 0.26);
+
+  /* Wine */
+  --wine: #4a0d16;
+  --wine-2: #6a1522;
+  --wine-rgb: 106 21 34;
+
+  /* Type */
+  --font-display: 'Sackers Gothic Std', 'Sackers Gothic', 'Archivo Variable', 'Archivo', sans-serif;
+  --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Stand-in only: Archivo at its widest cut approximates Sackers' wide build. */
+  --display-stretch: 125%;
+  --display-track: 0.34em;
+
+  --t-micro: 0.6875rem;
+  --t-small: 0.8125rem;
+  --t-body: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --t-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --t-statement: clamp(1.45rem, 1.1rem + 1.3vw, 2.3rem);
+  --t-display-s: clamp(0.8rem, 0.72rem + 0.3vw, 1.05rem);
+  --t-display-m: clamp(1.05rem, 0.85rem + 0.8vw, 1.6rem);
+  --t-display-l: clamp(2.2rem, 0.8rem + 6vw, 7.5rem);
+
+  /* Space */
+  --gutter: clamp(1.25rem, 0.6rem + 3vw, 4rem);
+  --scene: clamp(7rem, 4rem + 12vw, 15rem);
+  --max: 1560px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layers */
+  --z-content: 1;
+  --z-header: 10;
+  --z-grain: 20;
+  --z-skip: 30;
+}

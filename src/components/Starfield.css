@@ -1,0 +1,11 @@
+.starfield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Screen: stars add light to the sky, and vanish against lit towers. */
+  mix-blend-mode: screen;
+  /* Fade out toward the skyline so stars never sit on the buildings. */
+  mask-image: linear-gradient(to bottom, #000 0%, #000 34%, transparent 62%);
+}

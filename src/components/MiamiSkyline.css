@@ -1,0 +1,42 @@
+.miami {
+  position: relative;
+  display: block;
+  width: 100%;
+  pointer-events: none;
+}
+.miami img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: var(--miami-opacity, 0.2);
+  /* Base of the city dissolves into the black below it. */
+  mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+}
+/* City light: a low wine glow behind the towers, never a bright band. */
+.miami::before {
+  content: '';
+  position: absolute;
+  inset: -40% -5% 0;
+  background: radial-gradient(55% 60% at 50% 85%, rgb(var(--wine-rgb) / 0.32), transparent 72%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .miami--rise img {
+    animation: miami-rise 2600ms var(--ease-cine) 200ms both;
+  }
+  .miami--rise::before {
+    animation: miami-glow 3200ms var(--ease-out) 600ms both;
+  }
+}
+@keyframes miami-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6%);
+  }
+}
+@keyframes miami-glow {
+  from {
+    opacity: 0;
+  }
+}

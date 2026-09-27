@@ -1,0 +1,168 @@
+.unit {
+  position: relative;
+  background: var(--black-deep);
+  padding-bottom: var(--scene);
+}
+/* Soft handoff from the page black above into the deeper black of this scene. */
+.unit::before {
+  content: '';
+  position: absolute;
+  inset: -16rem 0 auto;
+  height: 16rem;
+  background: linear-gradient(to bottom, transparent, var(--black-deep));
+  pointer-events: none;
+}
+
+.unit__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: var(--scene) var(--gutter) calc(var(--scene) * 0.6);
+  overflow: hidden;
+  text-align: center;
+}
+
+.unit__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(46% 38% at 50% 78%, rgb(var(--wine-rgb) / 0.3), transparent 72%);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+  pointer-events: none;
+}
+
+.unit__copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: clamp(0.4rem, 1vw, 0.9rem);
+}
+
+.unit__line {
+  font-size: var(--t-statement);
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+.unit__title {
+  margin-top: clamp(3rem, 6vw, 6rem);
+  font-size: clamp(1.7rem, 0.9rem + 3.4vw, 4.25rem);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  line-height: 1;
+}
+
+.unit__film {
+  width: min(100% - 2 * var(--gutter), 1760px);
+  margin-inline: auto;
+}
+@media (max-width: 640px) {
+  .unit__film {
+    width: 100%;
+  }
+}
+
+/* ─── Scroll-linked sequence (progressive enhancement) ──────────────── */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .unit__track {
+      height: 250svh;
+      view-timeline: --unit block;
+    }
+    .unit__stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      padding-block: 0;
+    }
+
+    /* The scroll timeline drives these instead of the one-shot reveal. */
+    .reveal-ready .unit__copy [data-reveal] {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+    .unit__line,
+    .unit__title {
+      animation-timeline: --unit, --unit;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .unit__line {
+      animation-name: unit-in, unit-dim;
+    }
+    .unit__line:nth-child(1) {
+      animation-range: contain 2% contain 16%, contain 30% contain 44%;
+    }
+    .unit__line:nth-child(2) {
+      animation-range: contain 20% contain 34%, contain 48% contain 60%;
+    }
+    .unit__line:nth-child(3) {
+      animation-range: contain 38% contain 52%, contain 64% contain 76%;
+    }
+    .unit__title {
+      animation-name: unit-title;
+      animation-timeline: --unit;
+      animation-range: contain 58% contain 84%;
+    }
+    .unit__glow {
+      animation: unit-glow linear both;
+      animation-timeline: --unit;
+      animation-range: contain 45% contain 95%;
+    }
+
+    /* The film opens from a narrower frame to full width as it arrives. */
+    .unit__film .film__frame {
+      animation: unit-film linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+@keyframes unit-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes unit-dim {
+  to {
+    opacity: 0.22;
+  }
+}
+@keyframes unit-title {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes unit-glow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes unit-film {
+  from {
+    transform: scale(0.82);
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
