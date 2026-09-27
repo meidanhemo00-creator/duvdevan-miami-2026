@@ -10,7 +10,7 @@ export function Hero() {
       <div className="hero__media" aria-hidden>
         <HeroReel />
         <Starfield />
-        <MiamiSkyline className="hero__city miami--rise" />
+        <MiamiSkyline className="hero__city miami--rise" full />
       </div>
 
       <div className="hero__content">

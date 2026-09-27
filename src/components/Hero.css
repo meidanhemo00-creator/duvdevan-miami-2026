@@ -49,13 +49,9 @@
 }
 
 @media (max-width: 720px) {
-  /* Larger city on phones, standing on the bottom edge. */
+  /* The whole skyline, edge to edge, standing on the bottom edge. */
   .hero__city {
-    --miami-opacity: 0.24;
-    left: -22%;
-    right: auto;
-    width: 144%;
-    bottom: 0;
+    --miami-opacity: 0.26;
   }
 }
 

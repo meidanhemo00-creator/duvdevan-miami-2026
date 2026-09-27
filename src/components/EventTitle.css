@@ -14,8 +14,8 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: baseline;
-  column-gap: 0.32em; /* one word space, used between all three words */
-  row-gap: 0.28em;
+  column-gap: 0.2em; /* one word space, used between all three words */
+  row-gap: 0.14em;
   font-family: var(--font-display);
   font-stretch: var(--display-stretch);
   font-weight: 700;
