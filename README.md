@@ -19,12 +19,13 @@ values are supplied — nothing is invented.
 
 ## Media
 
-Large video files are **not** committed (see `.gitignore`). Host them externally
-(Vimeo/Mux/Cloudflare Stream/S3/CDN) and paste the URL into the content file.
+Raw footage is **not** committed. Web-encoded films (`public/media/video/*-720.mp4`,
+about 10 MB or less each, see "Preparing a film") are committed and deploy with
+the site. Larger films can be hosted externally and referenced by URL instead.
 
 ### Preparing a film
 
-Films live in `public/media/video/` locally (git-ignored) and are referenced from
+Films live in `public/media/video/` and are referenced from
 `src/content/site.ts`. Encode each one for the web before use: 720p H.264 with
 fast start keeps a one-minute film under ~10 MB.
 

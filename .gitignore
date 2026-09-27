@@ -3,14 +3,15 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# Large media — host videos externally or add via a CDN; never commit them
+# Video: raw footage stays out of Git. Only web-encoded films (see README,
+# "Preparing a film", ~10 MB or less) named *-720.mp4 are committed.
 *.mp4
 *.mov
 *.m4v
 *.webm
 *.mkv
 *.avi
-public/media/video/
+!public/media/video/*-720.mp4
 
 # Env & editor
 .env

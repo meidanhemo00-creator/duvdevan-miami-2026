@@ -174,11 +174,6 @@ export const site = {
       title: 'In their own words',
       duration: '0:13',
       autoplay: true,
-      /**
-       * Local file for development (public/media/video is git-ignored).
-       * Before going live, upload the MP4 to a host (Vimeo, Mux, S3/CDN) and
-       * paste its URL here, or use { kind: 'embed', src: 'https://player.vimeo.com/video/ID' }.
-       */
       source: { kind: 'file', src: '/media/video/evening-720.mp4', type: 'video/mp4' },
       poster: {
         src: '/media/posters/evening-1600.jpg',
@@ -212,7 +207,7 @@ export const site = {
           id: 'resilience',
           title: 'Resilience and recovery',
           duration: '1:02',
-          // Dedicated film: the Sri Lanka resilience retreat. Local, git-ignored; host before launch.
+          // Dedicated film: the Sri Lanka resilience retreat.
           source: { kind: 'file', src: '/media/video/resilience-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
         },
@@ -225,7 +220,7 @@ export const site = {
           id: 'education',
           title: 'Education and career',
           duration: '0:33',
-          // Dedicated film: the Miami Beach startup showcase. Local, git-ignored; host before launch.
+          // Dedicated film: the Miami Beach startup showcase.
           source: { kind: 'file', src: '/media/video/education-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
@@ -238,7 +233,7 @@ export const site = {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
           duration: '0:50',
-          // Dedicated film: the commemoration department. Local, git-ignored; host before launch.
+          // Dedicated film: the commemoration department.
           source: { kind: 'file', src: '/media/video/remembrance-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
         },
@@ -254,8 +249,7 @@ export const site = {
       id: 'unit',
       title: 'The unit',
       duration: '0:22',
-      // Local file for development (git-ignored); host it before launch.
-      source: { kind: 'file', src: '/media/video/unit-720.mp4', type: 'video/mp4' },
+            source: { kind: 'file', src: '/media/video/unit-720.mp4', type: 'video/mp4' },
       poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
     } satisfies Film,
   },
