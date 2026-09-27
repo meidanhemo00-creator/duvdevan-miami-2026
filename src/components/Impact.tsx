@@ -42,13 +42,37 @@ export function Impact() {
         </h2>
       </div>
 
-      <div className="wrap impact__intro">
-        <p className="impact__statement" data-reveal>
-          {impact.statement}
-        </p>
-        <p className="lead" data-reveal style={stagger(1)}>
-          {impact.intro}
-        </p>
+      {/* The Duvdevan imagery enters here: a photograph rising out of black. */}
+      <div className="impact__scene" data-reveal="scene">
+        <picture className="impact__photo" aria-hidden>
+          <source media="(max-width: 720px)" type="image/avif" srcSet={`${impact.backdrop.portrait}.avif`} />
+          <source media="(max-width: 720px)" type="image/webp" srcSet={`${impact.backdrop.portrait}.webp`} />
+          <source media="(max-width: 720px)" srcSet={`${impact.backdrop.portrait}.jpg`} />
+          <source
+            type="image/avif"
+            srcSet={`${impact.backdrop.wide}-1600.avif 1600w, ${impact.backdrop.wide}-2400.avif 2400w`}
+            sizes="100vw"
+          />
+          <source
+            type="image/webp"
+            srcSet={`${impact.backdrop.wide}-1600.webp 1600w, ${impact.backdrop.wide}-2400.webp 2400w`}
+            sizes="100vw"
+          />
+          <img
+            src={`${impact.backdrop.wide}-1600.jpg`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        <div className="wrap impact__intro">
+          <p className="impact__statement" data-reveal>
+            {impact.statement}
+          </p>
+          <p className="lead" data-reveal style={stagger(1)}>
+            {impact.intro}
+          </p>
+        </div>
       </div>
 
       <div className="reel">

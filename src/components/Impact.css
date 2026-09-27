@@ -2,12 +2,78 @@
   padding-block: calc(var(--scene) * 0.4) var(--scene);
 }
 
+/* ─── Scene: the photograph behind the statement ───────────────────── */
+.impact__scene {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(34rem, 90svh, 60rem);
+  margin-top: clamp(2rem, 1rem + 3vw, 4rem);
+}
+.impact__photo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  /* Every edge dissolves into the page black. */
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+}
+.impact__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 45%;
+  opacity: 0.3;
+}
+/* Black overlay concentrated behind the words, so the type stays crisp. */
+.impact__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 42% at 50% 50%, rgb(3 3 3 / 0.72), transparent 100%),
+    linear-gradient(to right, rgb(3 3 3 / 0.55), transparent 30%, transparent 70%, rgb(3 3 3 / 0.55));
+}
+
 .impact__intro {
   display: grid;
   justify-items: center;
   gap: 2.25rem;
-  margin-top: clamp(3rem, 2rem + 4vw, 6rem);
+  padding-block: clamp(4rem, 10vw, 8rem);
   text-align: center;
+}
+
+/* Slow emergence: the photograph brightens and settles as it arrives. */
+.reveal-ready [data-reveal='scene'] {
+  opacity: 1;
+  transform: none;
+}
+.reveal-ready [data-reveal='scene'] .impact__photo img {
+  opacity: 0;
+  transform: scale(1.08);
+  transition:
+    opacity 2400ms var(--ease-out),
+    transform 3200ms var(--ease-cine);
+}
+.reveal-ready [data-reveal='scene'][data-inview] .impact__photo img {
+  opacity: 0.3;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal='scene'] .impact__photo img {
+    transform: none;
+    transition: opacity 600ms ease;
+  }
+}
+@media (max-width: 720px) {
+  .impact__photo img {
+    object-position: 50% 40%;
+  }
+  .reveal-ready [data-reveal='scene'][data-inview] .impact__photo img {
+    opacity: 0.34;
+  }
 }
 /* The human statement: large, light, unhurried. */
 .impact__statement {

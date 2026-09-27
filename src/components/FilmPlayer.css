@@ -46,26 +46,29 @@
   pointer-events: none;
 }
 
-/* Supplied posters are toned to the page: monochrome with a faint wine cast. */
+/* Posters arrive pre-graded (monochrome, faint wine in the shadows) and sit
+   over black at a per-image opacity, so each frame emerges from the dark. */
+.film__poster {
+  background: var(--black-deep);
+}
 .film__poster-img {
   object-fit: cover;
-  filter: grayscale(1) contrast(1.08) brightness(0.78);
   transition: transform 2600ms var(--ease-cine);
 }
-/* Slow settle as the frame opens. */
-.reveal-ready .film__poster-img {
+.reveal-ready [data-reveal] .film__poster-img {
   transform: scale(1.07);
 }
 .reveal-ready [data-inview] .film__poster-img {
   transform: none;
 }
+/* Soft vignette: the edges of every frame fall away into the page. */
 .film__poster:has(.film__poster-img)::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgb(var(--wine-rgb) / 0.35);
-  mix-blend-mode: soft-light;
+  background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 40%, rgb(3 3 3 / 0.7));
+  pointer-events: none;
 }
 
 /* City slate: the graded skyline, pre-blurred, thrown far out of focus. */
@@ -234,5 +237,19 @@
   .film__ring,
   .film__ring::before {
     transition-duration: 1ms;
+  }
+}
+
+/* Small screens: over a photograph, keep the subject clear. The chapter name
+   is already stated beside the frame, so the card drops to its control. */
+@media (max-width: 640px) {
+  .film__poster:has(.film__poster-img) .film__title {
+    display: none;
+  }
+  .film__poster:has(.film__poster-img) {
+    place-items: end center;
+  }
+  .film__poster:has(.film__poster-img) .film__card {
+    padding-bottom: 1.25rem;
   }
 }

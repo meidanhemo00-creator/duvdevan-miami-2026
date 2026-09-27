@@ -108,7 +108,21 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
         {/* The poster stays mounted and fades away when the film starts. */}
         <div className="film__poster" aria-hidden={playing || undefined}>
           {poster ? (
-            <img className="film__poster-img" src={poster.src} alt={poster.alt} loading="lazy" decoding="async" />
+            <picture>
+              {poster.avif && <source srcSet={poster.avif} type="image/avif" />}
+              {poster.webp && <source srcSet={poster.webp} type="image/webp" />}
+              <img
+                className="film__poster-img"
+                src={poster.src}
+                alt={poster.alt}
+                loading="lazy"
+                decoding="async"
+                style={{
+                  opacity: poster.opacity ?? 0.55,
+                  objectPosition: poster.position,
+                }}
+              />
+            </picture>
           ) : (
             <div className="film__slate" aria-hidden />
           )}

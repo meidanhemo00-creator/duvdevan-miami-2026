@@ -47,10 +47,35 @@ export type Film = {
    * /public/media/posters/. The page tones every poster to monochrome.
    * Until real posters exist, graded stills of the Miami skyline stand in.
    */
-  poster?: { src: string; alt: string }
+  poster?: Photo
   /** Optional WebVTT captions file (strongly recommended). */
   captions?: { src: string; label: string; srclang: string }
 }
+
+/**
+ * A graded photograph. `src` is the JPEG fallback; `avif`/`webp` are optional
+ * modern formats. Photos sit over black at `opacity` (0–1) so they emerge
+ * from the dark; tune it per image so the subject stays readable.
+ */
+export type Photo = {
+  src: string
+  alt: string
+  avif?: string
+  webp?: string
+  opacity?: number
+  /** CSS object-position, to keep the subject in frame on narrow screens. */
+  position?: string
+}
+
+/** Graded Duvdevan photographs in /public/media/unit (see README). */
+const unitPhoto = (name: string, alt: string, opacity: number, position = '50% 50%'): Photo => ({
+  src: `/media/unit/${name}-1600.jpg`,
+  webp: `/media/unit/${name}-1600.webp`,
+  avif: `/media/unit/${name}-1600.avif`,
+  alt,
+  opacity,
+  position,
+})
 
 export type SupportChapter = {
   id: string
@@ -118,7 +143,13 @@ export const site = {
       id: 'evening',
       title: 'In their own words',
       source: null,
-      poster: { src: '/media/stills/evening-1600.webp', alt: 'City lights reflected in Biscayne Bay at night.' },
+      poster: {
+        src: '/media/stills/evening-1600.jpg',
+        webp: '/media/stills/evening-1600.webp',
+        avif: '/media/stills/evening-1600.avif',
+        alt: 'City lights reflected in Biscayne Bay at night.',
+        opacity: 0.7,
+      },
     } satisfies Film,
   },
 
@@ -129,6 +160,12 @@ export const site = {
       'Service does not end when the uniform comes off. It stays with the soldier, with the family, and with everyone who stands beside them.',
     intro:
       'Funds raised at our events go to the soldiers, veterans and bereaved families of the unit, across three areas of work.',
+    /** Backdrop behind the statement: wide frame, and a phone crop on the subject. */
+    backdrop: {
+      wide: '/media/unit/watch',
+      portrait: '/media/unit/watch-portrait-900',
+      alt: 'Two soldiers of the unit under a concrete shelter, one sighting across the hills.',
+    },
     chapters: [
       {
         id: 'resilience',
@@ -138,7 +175,7 @@ export const site = {
           id: 'resilience',
           title: 'Resilience and recovery',
           source: null,
-          poster: { src: '/media/stills/resilience-1600.webp', alt: 'Downtown Miami towers above the causeway at night.' },
+          poster: unitPhoto('resilience', 'A soldier of the unit looks down as he pulls on his gloves.', 0.5, '50% 30%'),
         },
       },
       {
@@ -149,7 +186,7 @@ export const site = {
           id: 'education',
           title: 'Education and career',
           source: null,
-          poster: { src: '/media/stills/education-1600.webp', alt: 'Lit towers of downtown Miami against the night sky.' },
+          poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
       },
       {
@@ -160,7 +197,7 @@ export const site = {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
           source: null,
-          poster: { src: '/media/stills/remembrance-1600.webp', alt: 'A single tower in the Miami night sky.' },
+          poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
         },
       },
     ] satisfies SupportChapter[],
@@ -170,7 +207,12 @@ export const site = {
     heading: 'The unit',
     // DRAFT COPY. Deliberately contains no operational detail.
     lines: ['Most of their work is never seen.', 'Few ever meet them.', 'This is a glimpse.'],
-    film: { id: 'unit', title: 'The unit', source: null } satisfies Film,
+    film: {
+      id: 'unit',
+      title: 'The unit',
+      source: null,
+      poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
+    } satisfies Film,
   },
 
   closing: {
