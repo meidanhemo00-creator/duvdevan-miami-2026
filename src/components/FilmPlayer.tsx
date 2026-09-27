@@ -33,6 +33,7 @@ function withAutoplay(src: string) {
  *  • No source → an intentional "coming soon" title card.
  *  • Source    → poster and play control. Nothing loads until the visitor
  *                presses play, and nothing ever plays with sound on its own.
+ *  • Autoplay  → starts muted and loops while on screen, pauses off screen.
  *  • Failure   → an inline message with a retry.
  * Starting one film pauses any other film on the page.
  */
@@ -41,10 +42,50 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
+  // True when playback was started by scrolling into view, not by the visitor.
+  const ambient = useRef(false)
+  // Set just before the page itself pauses the video (scroll-out, another film).
+  const systemPause = useRef(false)
+  const pauseBySystem = () => {
+    const v = videoRef.current
+    if (v && !v.paused) {
+      systemPause.current = true
+      v.pause()
+    }
+  }
+  const autoplay =
+    Boolean(film.autoplay) &&
+    film.source?.kind === 'file' &&
+    typeof window !== 'undefined' &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Autoplay: play muted while at least 40% of the frame is visible.
+  useEffect(() => {
+    const frame = frameRef.current
+    if (!autoplay || !frame) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const v = videoRef.current
+        if (entry.isIntersecting) {
+          if (!v) {
+            ambient.current = true
+            setState((s) => (s === 'idle' ? 'playing' : s))
+          } else if (ambient.current) {
+            v.play().catch(() => {})
+          }
+        } else {
+          pauseBySystem()
+        }
+      },
+      { threshold: 0.4 },
+    )
+    io.observe(frame)
+    return () => io.disconnect()
+  }, [autoplay])
 
   useEffect(() => {
     const onPlay = (e: Event) => {
-      if ((e as CustomEvent<string>).detail !== film.id) videoRef.current?.pause()
+      if ((e as CustomEvent<string>).detail !== film.id) pauseBySystem()
     }
     document.addEventListener(PLAY_EVENT, onPlay)
     return () => document.removeEventListener(PLAY_EVENT, onPlay)
@@ -52,12 +93,13 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
 
   // Keep keyboard users in place: focus moves into the player once it mounts.
   useEffect(() => {
-    if (state !== 'playing') return
+    if (state !== 'playing' || ambient.current) return
     const target = videoRef.current ?? frameRef.current?.querySelector('iframe')
     target?.focus({ preventScroll: true })
   }, [state])
 
   const start = () => {
+    ambient.current = false
     document.dispatchEvent(new CustomEvent(PLAY_EVENT, { detail: film.id }))
     setState('playing')
   }
@@ -76,6 +118,7 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
             controls
             autoPlay
             muted
+            loop={autoplay}
             playsInline
             preload="auto"
             poster={poster?.src}
@@ -86,6 +129,11 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
               if (source.end && e.currentTarget.currentTime >= source.end) e.currentTarget.pause()
             }}
             onError={() => setState('error')}
+            // A visitor pressing pause takes over from the ambient loop.
+            onPause={() => {
+              if (!systemPause.current) ambient.current = false
+              systemPause.current = false
+            }}
             aria-label={film.title}
           >
             <source src={source.src} type={source.type} onError={() => setState('error')} />

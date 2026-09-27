@@ -55,6 +55,12 @@ export type Film = {
    * Until real posters exist, graded stills of the Miami skyline stand in.
    */
   poster?: Photo
+  /**
+   * Play silently and on a loop while the frame is on screen (file sources
+   * only). Viewers can still unmute from the controls. Ignored for visitors
+   * who prefer reduced motion: they get the poster and play button.
+   */
+  autoplay?: boolean
   /** Optional WebVTT captions file (strongly recommended). */
   captions?: { src: string; label: string; srclang: string }
 }
@@ -182,6 +188,7 @@ export const site = {
       id: 'evening',
       title: 'In their own words',
       duration: '0:13',
+      autoplay: true,
       /**
        * Local file for development (public/media/video is git-ignored).
        * Before going live, upload the MP4 to a host (Vimeo, Mux, S3/CDN) and
