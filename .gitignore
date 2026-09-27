@@ -1,0 +1,23 @@
+# Dependencies & build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Large media — host videos externally or add via a CDN; never commit them
+*.mp4
+*.mov
+*.m4v
+*.webm
+*.mkv
+*.avi
+public/media/video/
+
+# Env & editor
+.env
+.env.*
+!.env.example
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.log
