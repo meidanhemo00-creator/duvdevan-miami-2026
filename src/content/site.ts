@@ -115,7 +115,7 @@ export const site = {
    * `name` refers to /public/media/unit/<name>-{960,1600}.{avif,webp,jpg}.
    */
   heroReel: {
-    opacity: 0.13,
+    opacity: 0.2,
     secondsPerImage: 7,
     images: [
       { name: 'watch', position: '62% 45%', sizes: [1600, 2400] },
