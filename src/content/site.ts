@@ -258,7 +258,9 @@ export const site = {
     film: {
       id: 'unit',
       title: 'The unit',
-      source: null,
+      duration: '0:22',
+      // Local file for development (git-ignored); host it before launch.
+      source: { kind: 'file', src: '/media/video/unit-720.mp4', type: 'video/mp4' },
       poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
     } satisfies Film,
   },
