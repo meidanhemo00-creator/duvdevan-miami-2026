@@ -100,21 +100,6 @@ export type SupportChapter = {
 // Helper so empty slots read clearly below.
 const unconfirmed = (value = ''): Slot => ({ value, confirmed: false })
 
-/**
- * The 2026 impact film (3:19, English subtitles burned in). Each impact
- * chapter plays its own section, starting at the film's title card.
- * Local file for development (public/media/video is git-ignored): before
- * launch, host it and replace the URL here.
- */
-const IMPACT_FILM = '/media/video/impact-720.mp4'
-const impactSection = (start: number, end: number): FilmSource => ({
-  kind: 'file',
-  src: IMPACT_FILM,
-  type: 'video/mp4',
-  start,
-  end,
-})
-
 export const site = {
   meta: {
     title: 'Duvdevan in Miami | November 2026',
@@ -252,8 +237,9 @@ export const site = {
         film: {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
-          duration: '1:10',
-          source: impactSection(129, 199),
+          duration: '0:50',
+          // Dedicated film: the commemoration department. Local, git-ignored; host before launch.
+          source: { kind: 'file', src: '/media/video/remembrance-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('remembrance', 'Two soldiers of the unit stand beside their vehicles.', 0.45, '55% 60%'),
         },
       },
