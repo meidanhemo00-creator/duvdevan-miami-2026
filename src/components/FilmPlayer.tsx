@@ -75,6 +75,7 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, className =
             className="film__media"
             controls
             autoPlay
+            muted
             playsInline
             preload="auto"
             poster={poster?.src}
