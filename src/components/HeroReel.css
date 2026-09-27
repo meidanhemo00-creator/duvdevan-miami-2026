@@ -1,0 +1,77 @@
+.hero-reel {
+  position: absolute;
+  inset: 0;
+  opacity: var(--reel-opacity, 0.16);
+  /* Photos live in the sky and fade out before the skyline and the page edge. */
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 48%, transparent 72%),
+    linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+  mask-composite: intersect;
+}
+.hero-reel__slide,
+.hero-reel__slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero-reel__slide img {
+  object-fit: cover;
+}
+.hero-reel__slide {
+  opacity: 0;
+}
+.hero-reel__slide:first-child {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-reel__slide {
+    /* One cycle = step × count. Each slide fades in, holds, fades out. */
+    animation: hero-reel-fade calc(var(--reel-step) * var(--reel-count)) linear infinite;
+    animation-delay: calc(var(--reel-step) * var(--i));
+    opacity: 0;
+  }
+  .hero-reel__slide img {
+    animation: hero-reel-drift calc(var(--reel-step) * var(--reel-count)) linear infinite;
+    animation-delay: calc(var(--reel-step) * var(--i));
+  }
+  /* The first frame is visible immediately rather than fading up from black. */
+  .hero-reel__slide:first-child {
+    animation-delay: calc(var(--reel-step) * -0.15);
+  }
+  .hero-reel__slide:first-child img {
+    animation-delay: calc(var(--reel-step) * -0.15);
+  }
+}
+
+/* With 5 slides each owns 20% of the cycle; crossfades overlap its neighbours. */
+@keyframes hero-reel-fade {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  26% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* A barely perceptible push-in while each image is on screen. */
+@keyframes hero-reel-drift {
+  0% {
+    transform: scale(1.02);
+  }
+  26% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}

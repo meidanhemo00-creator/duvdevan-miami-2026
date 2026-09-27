@@ -110,6 +110,23 @@ export const site = {
     alt: 'Duvdevan',
   },
 
+  /**
+   * Hero background: graded Duvdevan photographs that crossfade slowly
+   * beneath the Miami skyline, at low opacity. Decorative (no alt text).
+   * `name` refers to /public/media/unit/<name>-{960,1600}.{avif,webp,jpg}.
+   */
+  heroReel: {
+    opacity: 0.13,
+    secondsPerImage: 7,
+    images: [
+      { name: 'watch', position: '62% 45%', sizes: [1600, 2400] },
+      { name: 'unit', position: '60% 40%', sizes: [960, 1600] },
+      { name: 'education', position: '60% 40%', sizes: [960, 1600] },
+      { name: 'remembrance', position: '55% 60%', sizes: [960, 1600] },
+      { name: 'resilience', position: '50% 30%', sizes: [960, 1600] },
+    ],
+  },
+
   event: {
     city: 'Miami',
     month: 'November 2026',
