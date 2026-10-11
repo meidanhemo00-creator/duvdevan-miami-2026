@@ -259,7 +259,7 @@
   z-index: -1;
   width: 100%;
   height: 100%;
-  filter: blur(clamp(36px, 6vw, 90px)) saturate(1.6);
+  filter: blur(clamp(36px, 6vw, 90px)) saturate(0.6);
   opacity: 0;
   transition: opacity 1600ms var(--ease-out);
   pointer-events: none;
@@ -352,14 +352,14 @@
   min-height: 2.75rem;
   padding: 0 1.1rem 0 0.9rem;
   border: 1px solid rgb(var(--light-rgb) / 0.55);
-  border-radius: 999px;
-  background: rgb(3 3 3 / 0.55);
+  border-radius: 2px;
+  background: rgb(3 4 5 / 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  color: var(--light);
+  color: #fff;
   font-size: 0.66rem;
   cursor: pointer;
-  box-shadow: 0 0 24px rgb(var(--light-rgb) / 0.25);
+  box-shadow: 0 0 24px rgb(var(--light-rgb) / 0.18);
   transition:
     opacity 400ms ease,
     background-color 300ms ease,
@@ -368,6 +368,9 @@
 .film__sound svg {
   font-size: 1.05rem;
   flex: none;
+}
+.film__sound[data-muted] svg {
+  color: var(--signal);
 }
 .film__sound:active {
   transform: scale(0.96);
@@ -401,4 +404,13 @@
     min-height: 2.5rem;
     padding: 0 0.9rem 0 0.75rem;
   }
+}
+
+/* Viewfinder corners over the poster; they step back once the film plays. */
+.film__brackets {
+  z-index: 3;
+  transition: opacity 600ms ease;
+}
+.film[data-state='playing'] .film__brackets {
+  opacity: 0;
 }

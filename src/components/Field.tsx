@@ -67,6 +67,10 @@ export function Field() {
               <div className="field__lit" aria-hidden>
                 {img('field__lit-img', '')}
               </div>
+              <span className="brackets field__brackets" aria-hidden />
+              <span className="hud field__index" aria-hidden>
+                Frame {String(i + 1).padStart(2, '0')}
+              </span>
             </figure>
           )
         })}

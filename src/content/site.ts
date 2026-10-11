@@ -256,7 +256,6 @@ export const site = {
       { name: 'ghillie', ratio: 1.5, alt: 'A soldier of the unit in a camouflage ghillie suit kneels with a rifle in the desert.' },
       { name: 'desert', ratio: 1.5, alt: 'A soldier of the unit walks across pale desert ground.' },
       { name: 'wall', ratio: 1.5, alt: 'A soldier of the unit holds his rifle beside a wall painted with a large eye.' },
-      { name: 'beret', ratio: 1.5, alt: 'Two soldiers of the unit embrace at a beret ceremony.' },
     ],
   },
 

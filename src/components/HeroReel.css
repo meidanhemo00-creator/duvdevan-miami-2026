@@ -28,6 +28,8 @@
 }
 .hero-reel__slide img {
   object-fit: cover;
+  /* Bleach bypass: drained of colour, hard contrast. */
+  filter: grayscale(0.85) contrast(1.25) brightness(0.9);
 }
 .hero-reel__slide {
   opacity: 0;

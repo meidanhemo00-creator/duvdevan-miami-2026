@@ -1,7 +1,7 @@
 import { site } from '../content/site'
 import { stagger } from '../lib/style'
 import { EventTitle } from './EventTitle'
-import { Horizon } from './Horizon'
+import { Searchlights } from './Searchlights'
 import { Starfield } from './Starfield'
 import './Closing.css'
 
@@ -24,9 +24,9 @@ export function Closing() {
         </p>
       </div>
 
-      {/* First light returns as the base of the final frame, beneath the words. */}
+      {/* The searchlights return at the base of the final frame, beneath the words. */}
       <div className="closing__dawn">
-        <Horizon className="closing__horizon" />
+        <Searchlights className="closing__lights" />
       </div>
     </section>
   )

@@ -43,10 +43,22 @@ function inside(x: number, y: number) {
 
 type Dot = { x: number; y: number; u: number; v: number; seed: number }
 
+/** Canvas x/y (0..1) back to longitude/latitude, for the crosshair readout. */
+function unproject(u: number, v: number) {
+  const x = BOX.x0 + u * (BOX.x1 - BOX.x0)
+  const lat = -(BOX.y0 + v * (BOX.y1 - BOX.y0))
+  return [x / Math.cos((lat * Math.PI) / 180) + LON0, lat] as const
+}
+const fmt = (deg: number, pos: string, neg: string) => {
+  const a = Math.abs(deg)
+  return `${Math.floor(a)}°${String(Math.floor((a % 1) * 60)).padStart(2, '0')}′${deg >= 0 ? pos : neg}`
+}
+
 /**
- * The country as a field of points of light. Waves of light cross it west
- * to east, the pointer lights the dots beneath it, and each confirmed stop
- * glows and pulses. Canvas 2D, runs only while on screen.
+ * The country as a tactical display: a field of points over a lat/long grid.
+ * A scan line sweeps it west to east, the pointer gets a crosshair with a
+ * live coordinate readout, and each confirmed stop is a red blip.
+ * Canvas 2D, runs only while on screen.
  */
 export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -102,46 +114,103 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       ctx.clearRect(0, 0, w, h)
       const r0 = Math.max(1.25, w / 900)
-      const pr = Math.max(90, w * 0.12) // pointer light radius
+      const pr = Math.max(70, w * 0.08) // pointer light radius
       // Lighting up: the country fills in from west to east on arrival.
       const fill = reduce ? 2 : since * 0.7
+      // The scan line: one pass every ~7s, with a fading trail behind it.
+      const scan = reduce ? -1 : ((t * 0.15) % 1.3) - 0.15
+
+      // Graticule: every 5° of longitude and latitude, very faint.
+      ctx.lineWidth = 1
+      ctx.strokeStyle = 'rgba(160,190,198,0.07)'
+      ctx.beginPath()
+      for (let lon = -125; lon <= -65; lon += 5) {
+        for (let lat = 24; lat <= 50; lat += 0.5) {
+          const [x, y] = project(lon, lat)
+          const px = ((x - BOX.x0) / (BOX.x1 - BOX.x0)) * w
+          const py = ((y - BOX.y0) / (BOX.y1 - BOX.y0)) * h
+          if (lat === 24) ctx.moveTo(px, py)
+          else ctx.lineTo(px, py)
+        }
+      }
+      for (let lat = 25; lat <= 50; lat += 5) {
+        const py = ((-lat - BOX.y0) / (BOX.y1 - BOX.y0)) * h
+        ctx.moveTo(0, py)
+        ctx.lineTo(w, py)
+      }
+      ctx.stroke()
 
       for (const d of dots) {
         const arrive = Math.min(1, Math.max(0, (fill - d.u) * 4))
         if (arrive <= 0) continue
-        // Two waves of light sweeping coast to coast, slightly diagonal.
+        // Scan line: bright at the leading edge, a trail decaying behind it.
         let wave = 0
         if (!reduce) {
-          const p1 = ((t * 0.09) % 1.6) - 0.3
-          const p2 = ((t * 0.09 + 0.8) % 1.6) - 0.3
-          const pos = d.u + d.v * 0.18
-          wave = Math.exp(-((pos - p1) ** 2) / 0.0035) + 0.6 * Math.exp(-((pos - p2) ** 2) / 0.006)
+          const behind = scan - d.u
+          if (behind >= 0 && behind < 0.35) wave = behind < 0.012 ? 1 : Math.pow(1 - behind / 0.35, 3) * 0.55
         }
         const twinkle = reduce ? 0 : 0.08 * Math.sin(t * 1.3 + d.seed * 40)
         const dx = d.x - pointer.x
         const dy = d.y - pointer.y
         const lit = pointer.a * Math.exp(-(dx * dx + dy * dy) / (pr * pr * 0.35))
-        const a = Math.min(1, (0.34 + twinkle + wave * 0.66 + lit * 0.9) * arrive)
-        const glow = wave * 0.6 + lit
+        const a = Math.min(1, (0.3 + twinkle + wave * 0.7 + lit * 0.9) * arrive)
+        const glow = wave * 0.8 + lit
         ctx.globalAlpha = a
-        // Warm light at the crest, wine in the dark.
-        ctx.fillStyle = glow > 0.35 ? '#ffe3c2' : glow > 0.12 ? '#e8a7a0' : '#c97a86'
+        // Hard white where the scan or the pointer is, cold steel elsewhere.
+        ctx.fillStyle = glow > 0.4 ? '#f2f8f9' : glow > 0.12 ? '#a9c3c9' : '#6f8b93'
         const r = r0 * (1 + glow * 0.9)
         ctx.beginPath()
         ctx.arc(d.x, d.y, r, 0, Math.PI * 2)
         ctx.fill()
       }
 
-      // Confirmed stops: a bright core and a ring that keeps sending out light.
+      // The scan line itself.
+      if (scan > 0 && scan < 1) {
+        const sx = scan * w
+        const g = ctx.createLinearGradient(sx - w * 0.08, 0, sx, 0)
+        g.addColorStop(0, 'rgba(226,238,242,0)')
+        g.addColorStop(1, 'rgba(226,238,242,0.10)')
+        ctx.fillStyle = g
+        ctx.fillRect(sx - w * 0.08, 0, w * 0.08, h)
+        ctx.fillStyle = 'rgba(242,248,249,0.55)'
+        ctx.fillRect(sx, 0, 1, h)
+      }
+
+      // Crosshair and readout under the pointer.
+      if (pointer.a > 0.02) {
+        ctx.globalAlpha = pointer.a
+        ctx.strokeStyle = 'rgba(242,248,249,0.35)'
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.moveTo(0, Math.round(pointer.y) + 0.5)
+        ctx.lineTo(w, Math.round(pointer.y) + 0.5)
+        ctx.moveTo(Math.round(pointer.x) + 0.5, 0)
+        ctx.lineTo(Math.round(pointer.x) + 0.5, h)
+        ctx.stroke()
+        const rr = Math.max(10, w * 0.018)
+        ctx.strokeStyle = 'rgba(229,53,43,0.95)'
+        ctx.strokeRect(pointer.x - rr, pointer.y - rr, rr * 2, rr * 2)
+        const [lon, lat] = unproject(pointer.x / w, pointer.y / h)
+        ctx.font = `500 ${Math.max(10, w / 95)}px ui-monospace, Menlo, monospace`
+        ctx.fillStyle = 'rgba(242,248,249,0.9)'
+        const label = `${fmt(lat, 'N', 'S')}  ${fmt(lon, 'E', 'W')}`
+        const lx = pointer.x + rr + 8
+        ctx.textAlign = lx + 160 > w ? 'right' : 'left'
+        ctx.fillText(label, ctx.textAlign === 'right' ? pointer.x - rr - 8 : lx, pointer.y - rr - 6)
+        ctx.textAlign = 'left'
+        ctx.globalAlpha = 1
+      }
+
+      // Confirmed stops: red blips with a ring that keeps pinging outward.
       ctx.globalCompositeOperation = 'lighter'
       for (const [i, s] of stopUV.entries()) {
         const arrive = Math.min(1, Math.max(0, (fill - s.u) * 3))
         if (arrive <= 0) continue
         const [x, y] = toCanvas(s.u, s.v)
         const g = ctx.createRadialGradient(x, y, 0, x, y, r0 * 22)
-        g.addColorStop(0, 'rgba(255,227,194,0.9)')
-        g.addColorStop(0.25, 'rgba(194,58,74,0.35)')
-        g.addColorStop(1, 'rgba(194,58,74,0)')
+        g.addColorStop(0, 'rgba(255,120,110,0.95)')
+        g.addColorStop(0.25, 'rgba(229,53,43,0.4)')
+        g.addColorStop(1, 'rgba(229,53,43,0)')
         ctx.globalAlpha = arrive
         ctx.fillStyle = g
         ctx.beginPath()
@@ -150,7 +219,7 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
         if (!reduce) {
           const ph = (t * 0.45 + i * 0.37) % 1
           ctx.globalAlpha = arrive * (1 - ph) * 0.8
-          ctx.strokeStyle = '#ffe3c2'
+          ctx.strokeStyle = '#e5352b'
           ctx.lineWidth = 1
           ctx.beginPath()
           ctx.arc(x, y, r0 * (3 + ph * 26), 0, Math.PI * 2)

@@ -43,6 +43,40 @@
   text-align: center;
 }
 
+/* ─── Viewfinder overlay ────────────────────────────────────────────── */
+.hero__hud {
+  position: absolute;
+  inset: 4.25rem 0 0;
+  z-index: var(--z-content);
+  pointer-events: none;
+}
+.hero__hud > .hud {
+  position: absolute;
+}
+.hero__rec {
+  top: clamp(1.4rem, 3vw, 2.4rem);
+  left: clamp(1.6rem, 3.6vw, 3rem);
+  color: var(--ink-2);
+}
+.hero__ref {
+  top: clamp(1.4rem, 3vw, 2.4rem);
+  right: clamp(1.6rem, 3.6vw, 3rem);
+}
+.hero__op {
+  bottom: clamp(1.4rem, 3vw, 2.4rem);
+  left: clamp(1.6rem, 3.6vw, 3rem);
+}
+.hero__fmt {
+  bottom: clamp(1.4rem, 3vw, 2.4rem);
+  right: clamp(1.6rem, 3.6vw, 3rem);
+}
+@media (max-width: 640px) {
+  .hero__op,
+  .hero__fmt {
+    display: none;
+  }
+}
+
 /* "Follow the light": a quiet cue to scroll. */
 .hero__cue {
   display: grid;
@@ -108,7 +142,7 @@
 
   /* Scroll: the skyline sinks slowly, the title lifts away. Progressive. */
   @supports (animation-timeline: scroll()) {
-    .hero__horizon {
+    .hero__lights {
       animation: hero-drift linear both;
       animation-timeline: scroll(root);
       animation-range: 0 100svh;
@@ -129,7 +163,8 @@
 }
 @keyframes hero-drift {
   to {
-    transform: translateY(-14%);
+    transform: translateY(12%);
+    opacity: 0.4;
   }
 }
 @keyframes hero-lift {

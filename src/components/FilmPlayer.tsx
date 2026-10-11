@@ -349,6 +349,7 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
           </button>
         )}
 
+        <span className="brackets film__brackets" aria-hidden />
         <span className="film__edge" aria-hidden />
 
         {state === 'error' && (

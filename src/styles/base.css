@@ -33,8 +33,18 @@ body::after {
   inset: 0;
   z-index: var(--z-grain);
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0.09;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Lens vignette: the edges of the frame fall off, as in a film print. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgb(0 0 0 / 0.55));
 }
 
 img,
@@ -74,8 +84,8 @@ button {
 }
 
 ::selection {
-  background: var(--light);
-  color: var(--black);
+  background: var(--signal);
+  color: #fff;
 }
 
 /* Scene headings carry a faint glow, as if lit from just in front. */
@@ -132,7 +142,7 @@ button {
 .display {
   font-family: var(--font-display);
   font-stretch: var(--display-stretch);
-  font-weight: 500;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: var(--display-track);
   padding-left: var(--display-track);
@@ -144,16 +154,10 @@ button {
 }
 .display--m {
   font-size: var(--t-display-m);
-  letter-spacing: 0.36em;
-  padding-left: 0.36em;
-  line-height: 1.6;
-  max-width: 26em;
-}
-@media (max-width: 640px) {
-  .display--m {
-    letter-spacing: 0.24em;
-    padding-left: 0.24em;
-  }
+  letter-spacing: 0.04em;
+  padding-left: 0.04em;
+  line-height: 1;
+  max-width: 18em;
 }
 .display--l {
   font-size: var(--t-display-l);
@@ -164,11 +168,61 @@ button {
 }
 
 .micro {
+  font-family: var(--font-mono);
   font-size: var(--t-micro);
   font-weight: 500;
-  letter-spacing: 0.32em;
-  padding-left: 0.32em;
+  letter-spacing: 0.18em;
+  padding-left: 0.18em;
   text-transform: uppercase;
+}
+
+/* Tactical readout: monospaced, small, like a camera or map overlay. */
+.hud {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.rec-dot {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 8px rgb(var(--signal-rgb) / 0.8);
+  vertical-align: 0.05em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rec-dot {
+    animation: rec-blink 1.2s steps(1) infinite;
+  }
+}
+@keyframes rec-blink {
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* Viewfinder corners: four short L-shaped marks inside an element. */
+.brackets {
+  position: absolute;
+  inset: clamp(0.75rem, 2vw, 1.5rem);
+  pointer-events: none;
+  --b: clamp(0.9rem, 2vw, 1.6rem);
+  background:
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) top left / var(--b) 1px,
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) top left / 1px var(--b),
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) top right / var(--b) 1px,
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) top right / 1px var(--b),
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) bottom left / var(--b) 1px,
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) bottom left / 1px var(--b),
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) bottom right / var(--b) 1px,
+    linear-gradient(var(--hud-c, rgb(227 231 228 / 0.55)) 0 0) bottom right / 1px var(--b);
+  background-repeat: no-repeat;
 }
 
 .lead {

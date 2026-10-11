@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { EventTitle } from './EventTitle'
 import { HeroReel } from './HeroReel'
-import { Horizon } from './Horizon'
+import { Searchlights } from './Searchlights'
 import { Starfield } from './Starfield'
+import { Timecode } from './Timecode'
 import './Hero.css'
 
 /**
@@ -80,7 +81,19 @@ export function Hero() {
         <HeroReel />
         <div className="hero__beam" />
         <Starfield />
-        <Horizon className="hero__horizon horizon--rise" />
+        <Searchlights className="hero__lights searchlights--rise" />
+      </div>
+
+      {/* Viewfinder overlay: corners, REC and timecode, a map reference. */}
+      <div className="hero__hud" aria-hidden>
+        <span className="brackets" />
+        <span className="hud hero__rec">
+          <span className="rec-dot" />
+          REC <Timecode />
+        </span>
+        <span className="hud hero__ref">39°50′N 98°35′W</span>
+        <span className="hud hero__op">Op. Coast to Coast</span>
+        <span className="hud hero__fmt">24 FPS · 2.39:1</span>
       </div>
 
       <div className="hero__content">

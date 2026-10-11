@@ -63,7 +63,8 @@
   transition: opacity 600ms var(--ease-out);
 }
 .field__lit-img {
-  filter: brightness(1.08) saturate(1.05);
+  /* The war-film grade: colour pulled down, contrast pushed up. */
+  filter: saturate(0.55) contrast(1.18) brightness(1.02);
   transition: transform 1600ms var(--ease-cine);
 }
 /* A warm cast where the light is strongest. */
@@ -71,7 +72,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle 9rem at var(--px, 50%) var(--py, 50%), rgb(var(--light-rgb) / 0.16), transparent 70%);
+  background: radial-gradient(circle 9rem at var(--px, 50%) var(--py, 50%), rgb(var(--light-rgb) / 0.12), transparent 70%);
   mix-blend-mode: screen;
 }
 /* The frame's edge catches the light too. */
@@ -108,6 +109,30 @@
 }
 .field__tile[data-lit]::after {
   border-color: rgb(var(--light-rgb) / 0.4);
+}
+
+/* Viewfinder corners and a frame number, shown when a photograph is lit. */
+.field__brackets,
+.field__index {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.field__index {
+  position: absolute;
+  left: clamp(1.1rem, 2.4vw, 2rem);
+  bottom: clamp(1rem, 2.2vw, 1.8rem);
+  color: #fff;
+}
+.field__tile[data-lit] .field__brackets,
+.field__tile[data-lit] .field__index {
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .field__tile:hover .field__brackets,
+  .field__tile:hover .field__index {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

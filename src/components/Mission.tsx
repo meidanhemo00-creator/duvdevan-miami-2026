@@ -17,7 +17,17 @@ export function Mission() {
         </p>
       </div>
       <div className="mission__stage" data-reveal style={stagger(2)}>
-        <MissionMap stops={mission.stops} />
+        <div className="mission__display">
+          <MissionMap stops={mission.stops} />
+          <span className="brackets mission__brackets" aria-hidden />
+          <span className="hud mission__label mission__label--tl" aria-hidden>
+            Theater: Continental U.S.
+          </span>
+          <span className="hud mission__label mission__label--br" aria-hidden>
+            <span className="rec-dot" />
+            Live
+          </span>
+        </div>
         {mission.stops.length > 0 && (
           <ul className="mission__stops micro" aria-label="Cities on the mission">
             {mission.stops.map((s) => (

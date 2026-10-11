@@ -15,6 +15,37 @@
   justify-items: center;
   gap: 2.5rem;
 }
+/* The map sits in a framed display, like a screen in an ops room. */
+.mission__display {
+  position: relative;
+  width: 100%;
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 4vw, 3.5rem);
+  border: 1px solid var(--hair);
+  background:
+    repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 3px),
+    rgb(8 12 13 / 0.6);
+}
+.mission__brackets {
+  inset: 0.6rem;
+}
+.mission__label {
+  position: absolute;
+}
+.mission__label--tl {
+  top: 1.2rem;
+  left: 1.6rem;
+}
+.mission__label--br {
+  right: 1.6rem;
+  bottom: 1.2rem;
+  color: var(--ink-2);
+}
+@media (max-width: 560px) {
+  .mission__label--tl {
+    font-size: 0.56rem;
+  }
+}
+
 /* A low pool of light the country stands in. */
 .mission__stage::before {
   content: '';
@@ -43,6 +74,6 @@
   margin-right: 0.8em;
   vertical-align: 0.15em;
   border-radius: 50%;
-  background: var(--light);
-  box-shadow: 0 0 8px var(--light);
+  background: var(--signal);
+  box-shadow: 0 0 8px var(--signal);
 }

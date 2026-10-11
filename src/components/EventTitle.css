@@ -1,12 +1,12 @@
 .event-title {
-  --title: clamp(2.25rem, 0.6rem + 5.4vw, 6.25rem);
+  --title: clamp(3.2rem, 0.8rem + 8vw, 9.5rem);
   display: grid;
   justify-items: center;
   align-content: start;
   gap: clamp(1.75rem, 3.2vw, 2.75rem);
 }
 .event-title--closing {
-  --title: clamp(1.9rem, 0.6rem + 3.9vw, 4.5rem);
+  --title: clamp(2.6rem, 0.8rem + 5.6vw, 6.5rem);
 }
 
 .event-title__line {
@@ -18,16 +18,16 @@
   row-gap: 0.14em;
   font-family: var(--font-display);
   font-stretch: var(--display-stretch);
-  font-weight: 700;
+  font-weight: 800;
   font-size: var(--title);
-  letter-spacing: 0.07em;
+  letter-spacing: 0.015em;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
 }
 /* Tracking also follows the last letter; cancel it so the line centres. */
 .event-title__word--last {
-  margin-right: -0.07em;
+  margin-right: -0.015em;
 }
 .event-title__word--logo {
   display: block;
@@ -50,12 +50,11 @@
   gap: 1.5rem;
 }
 .event-title__month-text {
-  font-family: var(--font-display);
-  font-stretch: var(--display-stretch);
-  font-size: clamp(0.72rem, 0.62rem + 0.35vw, 0.95rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 0.62rem + 0.3vw, 0.9rem);
   font-weight: 500;
-  letter-spacing: 0.62em;
-  padding-left: 0.62em;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--ink-2);
@@ -76,9 +75,9 @@
     100deg,
     var(--ink) 0%,
     var(--ink) 40%,
-    #fff8ee 47%,
-    var(--light) 50%,
-    #fff8ee 53%,
+    #ffffff 48%,
+    #ffffff 50%,
+    #ffffff 52%,
     var(--ink) 60%,
     var(--ink) 100%
   );
@@ -87,7 +86,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 0.6em rgb(var(--light-rgb) / 0.18);
+  text-shadow: 0 0 0.5em rgb(var(--light-rgb) / 0.12);
 }
 @media (prefers-reduced-motion: no-preference) {
   .event-title__word--lit {
@@ -110,16 +109,16 @@
 @media (max-width: 720px) {
   /* Two balanced lines, "THE [logo]" / "MISSION", one size throughout. */
   .event-title {
-    --title: clamp(2.2rem, 13.2vw, 4rem);
+    --title: clamp(3rem, 18vw, 5.5rem);
   }
   .event-title--closing {
-    --title: clamp(1.9rem, 11vw, 3.25rem);
+    --title: clamp(2.4rem, 14vw, 4.25rem);
   }
   .event-title__word--last {
     flex-basis: 100%;
     text-align: center;
     margin-right: 0;
-    padding-left: 0.07em;
+    padding-left: 0.015em;
   }
   .event-title__month {
     grid-template-columns: 1.5rem auto 1.5rem;
@@ -130,8 +129,8 @@
     justify-items: center;
     gap: 0.5em;
     font-size: 0.66rem;
-    letter-spacing: 0.3em;
-    padding-left: 0.3em;
+    letter-spacing: 0.2em;
+    padding-left: 0.2em;
   }
   /* "ACROSS THE UNITED STATES" over the year, without the separator. */
   .event-title__dot {
