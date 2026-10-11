@@ -6,20 +6,15 @@
   background: var(--black-deep);
 }
 
-.closing__sky {
-  position: absolute;
-  inset: 0 0 30% 0;
+.closing__atmos {
   z-index: -1;
-}
-.closing__sky .starfield {
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 60%, transparent 100%);
 }
 
 .closing__content {
   display: grid;
   justify-items: center;
   gap: 2rem;
-  padding-block: var(--scene) clamp(3rem, 6vw, 5rem);
+  padding-block: var(--scene) calc(var(--scene) * 0.8);
   text-align: center;
 }
 
@@ -29,34 +24,3 @@
 .closing__lead {
   color: var(--ink);
 }
-/* The light that opened the page closes it, risen a little higher. */
-.closing__dawn {
-  position: relative;
-  height: clamp(14rem, 34vw, 26rem);
-  margin-top: clamp(1rem, 4vw, 3rem);
-}
-.closing__lights {
-  inset: -60% 0 0;
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* The sun comes up as the page comes to rest. */
-    .closing__lights {
-      animation: closing-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 70%;
-    }
-  }
-}
-@keyframes closing-rise {
-  from {
-    transform: translateY(30%);
-    opacity: 0.3;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-

@@ -30,7 +30,6 @@
   overflow: hidden;
   isolation: isolate;
   background: #000;
-  cursor: crosshair;
 }
 .field__tile picture,
 .field__tile img {
@@ -49,31 +48,17 @@
   transition: transform 1600ms var(--ease-cine);
 }
 
-/* In the light: full colour, only where the light falls. */
+/* Hovered or centred: the graded photograph cuts in, a few frames at a time. */
 .field__lit {
   position: absolute;
   inset: 0;
   opacity: 0;
-  mask-image: radial-gradient(
-    circle 15rem at var(--px, 50%) var(--py, 50%),
-    #000 0%,
-    rgb(0 0 0 / 0.75) 40%,
-    transparent 100%
-  );
-  transition: opacity 600ms var(--ease-out);
+  transition: opacity 260ms steps(3, end);
 }
 .field__lit-img {
   /* The war-film grade: colour pulled down, contrast pushed up. */
-  filter: saturate(0.55) contrast(1.18) brightness(1.02);
+  filter: saturate(0.5) sepia(0.2) contrast(1.25) brightness(0.98);
   transition: transform 1600ms var(--ease-cine);
-}
-/* A warm cast where the light is strongest. */
-.field__lit::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle 9rem at var(--px, 50%) var(--py, 50%), rgb(var(--light-rgb) / 0.12), transparent 70%);
-  mix-blend-mode: screen;
 }
 /* The frame's edge catches the light too. */
 .field__tile::after {
@@ -98,14 +83,12 @@
   }
   .field__tile:hover::after {
     border-color: rgb(var(--light-rgb) / 0.4);
-    box-shadow: inset 0 0 40px rgb(var(--light-rgb) / 0.08);
   }
 }
 
 /* Touch: the photograph in the centre of the screen is lit whole. */
 .field__tile[data-lit] .field__lit {
   opacity: 1;
-  mask-image: none;
 }
 .field__tile[data-lit]::after {
   border-color: rgb(var(--light-rgb) / 0.4);

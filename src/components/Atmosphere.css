@@ -1,0 +1,135 @@
+.atmos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ─── Smoke: big soft banks rolling slowly across the lower frame ───── */
+.atmos__smoke {
+  position: absolute;
+  inset: 0;
+  filter: blur(28px);
+  mask-image: linear-gradient(to bottom, transparent 15%, #000 60%);
+}
+.atmos__puff {
+  position: absolute;
+  width: 70vw;
+  height: 46vh;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(120 112 92 / 0.34), rgb(80 74 60 / 0.16) 60%, transparent);
+}
+.atmos__puff--1 {
+  left: -20%;
+  bottom: -8%;
+}
+.atmos__puff--2 {
+  left: 30%;
+  bottom: 4%;
+  width: 60vw;
+  opacity: 0.8;
+}
+.atmos__puff--3 {
+  left: 65%;
+  bottom: -12%;
+  width: 80vw;
+}
+.atmos__puff--4 {
+  left: 5%;
+  bottom: 20%;
+  width: 50vw;
+  height: 30vh;
+  opacity: 0.5;
+}
+
+/* ─── The print: vertical scratches and a nervous exposure ─────────── */
+.atmos__scratches {
+  position: absolute;
+  inset: -5% 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, transparent 0 18.2%, rgb(232 224 204 / 0.35) 18.2% 18.28%, transparent 18.28%),
+    linear-gradient(to right, transparent 0 63.5%, rgb(0 0 0 / 0.6) 63.5% 63.62%, transparent 63.62%),
+    linear-gradient(to right, transparent 0 81%, rgb(232 224 204 / 0.2) 81% 81.06%, transparent 81.06%);
+  mix-blend-mode: screen;
+}
+.atmos__flicker {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .atmos__puff--1 {
+    animation: smoke-roll 46s ease-in-out infinite alternate;
+  }
+  .atmos__puff--2 {
+    animation: smoke-roll 38s ease-in-out -12s infinite alternate-reverse;
+  }
+  .atmos__puff--3 {
+    animation: smoke-roll 52s ease-in-out -20s infinite alternate;
+  }
+  .atmos__puff--4 {
+    animation: smoke-roll 34s ease-in-out -6s infinite alternate-reverse;
+  }
+  .atmos__scratches {
+    animation: scratch-jump 0.9s steps(1) infinite;
+  }
+  .atmos__flicker {
+    animation: print-flicker 5.3s steps(1) infinite;
+  }
+}
+@keyframes smoke-roll {
+  from {
+    transform: translateX(-12vw) scale(1);
+  }
+  to {
+    transform: translateX(14vw) scale(1.25);
+  }
+}
+/* Scratches jump between positions frame to frame, like a worn print. */
+@keyframes scratch-jump {
+  0% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  22% {
+    transform: translateX(-11vw);
+    opacity: 0.2;
+  }
+  41% {
+    transform: translateX(7vw);
+    opacity: 0.55;
+  }
+  63% {
+    transform: translateX(-3vw);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(15vw);
+    opacity: 0.4;
+  }
+}
+/* An uneven exposure: a dip every few seconds. */
+@keyframes print-flicker {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  31% {
+    opacity: 0.08;
+  }
+  33% {
+    opacity: 0;
+  }
+  71% {
+    opacity: 0.14;
+  }
+  72% {
+    opacity: 0.03;
+  }
+  74% {
+    opacity: 0;
+  }
+}

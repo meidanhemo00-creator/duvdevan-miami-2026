@@ -14,22 +14,52 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: radial-gradient(90% 55% at 50% 100%, #0b0708, var(--black-deep) 70%);
+  background: radial-gradient(90% 60% at 50% 100%, #1a1812, var(--black-deep) 75%);
 }
-.hero__media .starfield {
-  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 66%);
-}
-
-/* The light itself: a soft warm pool that moves with --lx/--ly. */
-.hero__beam {
+/* The foot of the frame sinks into the black of the next scene. */
+.hero__media::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle 9rem at var(--lx) var(--ly), rgb(var(--light-rgb) / 0.1), transparent 70%),
-    radial-gradient(circle 26rem at var(--lx) var(--ly), rgb(var(--ember-rgb) / 0.07), transparent 70%);
-  mix-blend-mode: screen;
+  inset: auto 0 0;
+  height: 28%;
+  background: linear-gradient(to bottom, transparent, var(--black) 96%);
   pointer-events: none;
 }
+
+/* Handheld: the whole picture weaves a pixel or two, like film in a gate. */
+.hero__shake {
+  position: absolute;
+  inset: -1%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero__shake {
+    animation: handheld 2.6s steps(1) infinite;
+  }
+}
+@keyframes handheld {
+  0% {
+    transform: translate(0, 0);
+  }
+  13% {
+    transform: translate(1px, -1px);
+  }
+  29% {
+    transform: translate(-1px, 1px) rotate(0.03deg);
+  }
+  44% {
+    transform: translate(2px, 0);
+  }
+  58% {
+    transform: translate(0, 2px);
+  }
+  71% {
+    transform: translate(-2px, -1px) rotate(-0.03deg);
+  }
+  87% {
+    transform: translate(1px, 1px);
+  }
+}
+
 
 /* ─── Content ───────────────────────────────────────────────────────── */
 .hero__content {
@@ -97,8 +127,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, var(--light), transparent);
-  box-shadow: 0 0 8px var(--light);
+  background: linear-gradient(to bottom, transparent, var(--sand), transparent);
   translate: 0 -100%;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -142,7 +171,7 @@
 
   /* Scroll: the skyline sinks slowly, the title lifts away. Progressive. */
   @supports (animation-timeline: scroll()) {
-    .hero__lights {
+    .hero__atmos {
       animation: hero-drift linear both;
       animation-timeline: scroll(root);
       animation-range: 0 100svh;

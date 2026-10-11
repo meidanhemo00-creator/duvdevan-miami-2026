@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type PointerEvent as RPointerEvent } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { ArrowCounterClockwise, Play, SpeakerHigh, SpeakerSlash } from '@phosphor-icons/react'
 import type { Film } from '../content/site'
 import './FilmPlayer.css'
@@ -30,47 +30,6 @@ function withAutoplay(src: string) {
   return url.toString()
 }
 
-/**
- * Light spill: the film's own colours, sampled a few times a second into a
- * tiny canvas that sits blurred behind the frame, so the screen lights the
- * page around it.
- */
-function useLightSpill(videoRef: React.RefObject<HTMLVideoElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>) {
-  useEffect(() => {
-    const v = videoRef.current
-    const c = canvasRef.current
-    const ctx = c?.getContext('2d', { willReadFrequently: false })
-    if (!v || !c || !ctx) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    let timer = 0
-    const paint = () => {
-      if (v.readyState >= 2) {
-        try {
-          ctx.drawImage(v, 0, 0, c.width, c.height)
-        } catch {
-          /* cross-origin or not ready: keep the last frame */
-        }
-      }
-    }
-    const startLoop = () => {
-      window.clearInterval(timer)
-      paint()
-      timer = window.setInterval(paint, 120)
-    }
-    const stopLoop = () => window.clearInterval(timer)
-    v.addEventListener('playing', startLoop)
-    v.addEventListener('pause', stopLoop)
-    v.addEventListener('ended', stopLoop)
-    v.addEventListener('seeked', paint)
-    return () => {
-      stopLoop()
-      v.removeEventListener('playing', startLoop)
-      v.removeEventListener('pause', stopLoop)
-      v.removeEventListener('ended', stopLoop)
-      v.removeEventListener('seeked', paint)
-    }
-  }, [videoRef, canvasRef])
-}
 
 /**
  * A film frame that never shows a broken player.
@@ -90,9 +49,7 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
   stateRef.current = state
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
-  const spillRef = useRef<HTMLCanvasElement>(null)
   const titleId = useId()
-  useLightSpill(videoRef, spillRef)
 
   // True when playback was started by scrolling into view, not by the visitor.
   const ambient = useRef(false)
@@ -214,12 +171,6 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
     else v.muted = true
   }
 
-  // Edge light: follows the pointer around the frame.
-  const onPointerMove = (e: RPointerEvent<HTMLElement>) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    e.currentTarget.style.setProperty('--px', `${e.clientX - r.left}px`)
-    e.currentTarget.style.setProperty('--py', `${e.clientY - r.top}px`)
-  }
 
   const hasSource = Boolean(source?.src)
   const playing = state === 'playing'
@@ -230,9 +181,7 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
       data-state={state}
       data-sound={playing && !muted ? '' : undefined}
       aria-labelledby={titleId}
-      onPointerMove={onPointerMove}
     >
-      <canvas ref={spillRef} className="film__spill" width={48} height={27} aria-hidden />
       <div className="film__frame" ref={frameRef}>
         {source?.kind === 'file' && (
           <video
@@ -350,7 +299,6 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
         )}
 
         <span className="brackets film__brackets" aria-hidden />
-        <span className="film__edge" aria-hidden />
 
         {state === 'error' && (
           <div className="film__error" role="alert">

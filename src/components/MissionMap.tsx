@@ -122,7 +122,7 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
 
       // Graticule: every 5° of longitude and latitude, very faint.
       ctx.lineWidth = 1
-      ctx.strokeStyle = 'rgba(160,190,198,0.07)'
+      ctx.strokeStyle = 'rgba(200,188,150,0.08)'
       ctx.beginPath()
       for (let lon = -125; lon <= -65; lon += 5) {
         for (let lat = 24; lat <= 50; lat += 0.5) {
@@ -157,7 +157,7 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
         const glow = wave * 0.8 + lit
         ctx.globalAlpha = a
         // Hard white where the scan or the pointer is, cold steel elsewhere.
-        ctx.fillStyle = glow > 0.4 ? '#f2f8f9' : glow > 0.12 ? '#a9c3c9' : '#6f8b93'
+        ctx.fillStyle = glow > 0.4 ? '#efe7d3' : glow > 0.12 ? '#b9ab88' : '#7d7458'
         const r = r0 * (1 + glow * 0.9)
         ctx.beginPath()
         ctx.arc(d.x, d.y, r, 0, Math.PI * 2)
@@ -168,18 +168,18 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
       if (scan > 0 && scan < 1) {
         const sx = scan * w
         const g = ctx.createLinearGradient(sx - w * 0.08, 0, sx, 0)
-        g.addColorStop(0, 'rgba(226,238,242,0)')
-        g.addColorStop(1, 'rgba(226,238,242,0.10)')
+        g.addColorStop(0, 'rgba(232,224,204,0)')
+        g.addColorStop(1, 'rgba(232,224,204,0.08)')
         ctx.fillStyle = g
         ctx.fillRect(sx - w * 0.08, 0, w * 0.08, h)
-        ctx.fillStyle = 'rgba(242,248,249,0.55)'
+        ctx.fillStyle = 'rgba(239,231,211,0.5)'
         ctx.fillRect(sx, 0, 1, h)
       }
 
       // Crosshair and readout under the pointer.
       if (pointer.a > 0.02) {
         ctx.globalAlpha = pointer.a
-        ctx.strokeStyle = 'rgba(242,248,249,0.35)'
+        ctx.strokeStyle = 'rgba(239,231,211,0.3)'
         ctx.lineWidth = 1
         ctx.beginPath()
         ctx.moveTo(0, Math.round(pointer.y) + 0.5)
@@ -192,7 +192,7 @@ export function MissionMap({ stops = [] }: { stops?: readonly Stop[] }) {
         ctx.strokeRect(pointer.x - rr, pointer.y - rr, rr * 2, rr * 2)
         const [lon, lat] = unproject(pointer.x / w, pointer.y / h)
         ctx.font = `500 ${Math.max(10, w / 95)}px ui-monospace, Menlo, monospace`
-        ctx.fillStyle = 'rgba(242,248,249,0.9)'
+        ctx.fillStyle = 'rgba(239,231,211,0.9)'
         const label = `${fmt(lat, 'N', 'S')}  ${fmt(lon, 'E', 'W')}`
         const lx = pointer.x + rr + 8
         ctx.textAlign = lx + 160 > w ? 'right' : 'left'

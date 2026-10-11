@@ -1,8 +1,7 @@
 import { site } from '../content/site'
 import { stagger } from '../lib/style'
 import { EventTitle } from './EventTitle'
-import { Searchlights } from './Searchlights'
-import { Starfield } from './Starfield'
+import { Atmosphere } from './Atmosphere'
 import './Closing.css'
 
 export function Closing() {
@@ -10,9 +9,7 @@ export function Closing() {
 
   return (
     <section className="closing" id="invitation" aria-labelledby="closing-title">
-      <div className="closing__sky" aria-hidden>
-        <Starfield density={1.2} horizon={0.9} seed={1126} />
-      </div>
+      <Atmosphere className="closing__atmos" seed={1126} density={0.8} />
 
       <div className="closing__content wrap">
         <div className="closing__title" data-reveal>
@@ -24,10 +21,6 @@ export function Closing() {
         </p>
       </div>
 
-      {/* The searchlights return at the base of the final frame, beneath the words. */}
-      <div className="closing__dawn">
-        <Searchlights className="closing__lights" />
-      </div>
     </section>
   )
 }

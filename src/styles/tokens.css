@@ -1,30 +1,30 @@
 /*
  * The Duvdevan Mission: design tokens.
- * A war-film grade: cold blue-black, desaturated steel and olive, one hard
- * white searchlight, and signal red used only for small marks (REC, targets).
+ * Raw and dusty: smoke black, bone, khaki and olive drab, the colours of
+ * dust on gear. Nothing glows. Signal red only for small marks (REC, targets).
  * One theme by design. Shapes are sharp; the only circle is the play control.
  */
 :root {
   color-scheme: dark;
 
   /* Surfaces */
-  --black: #07090a;
-  --black-deep: #030405;
-  --black-raise: #0b0e10;
+  --black: #0c0b09;
+  --black-deep: #070605;
+  --black-raise: #13110e;
 
   /* Ink */
-  --ink: #e3e7e4;
-  --ink-2: rgb(227 231 228 / 0.72);
-  --ink-3: rgb(227 231 228 / 0.5);
-  --hair: rgb(227 231 228 / 0.12);
-  --hair-strong: rgb(227 231 228 / 0.26);
+  --ink: #ddd6c6;
+  --ink-2: rgb(221 214 198 / 0.74);
+  --ink-3: rgb(221 214 198 / 0.5);
+  --hair: rgb(221 214 198 / 0.13);
+  --hair-strong: rgb(221 214 198 / 0.28);
 
-  /* Shadow tint: cold steel (names kept from the first palette) */
-  --wine: #1a2226;
-  --wine-2: #3a4a4f;
-  --wine-rgb: 46 66 72;
-  --ember: #6f8b93;
-  --ember-rgb: 111 139 147;
+  /* Shadow tint: olive drab and dust (names kept from the first palette) */
+  --wine: #1e1d15;
+  --wine-2: #4a4a36;
+  --wine-rgb: 60 58 40;
+  --ember: #8a7f63;
+  --ember-rgb: 138 127 99;
   --olive: #4b5139;
   --olive-rgb: 75 81 57;
 
@@ -32,9 +32,11 @@
   --signal: #e5352b;
   --signal-rgb: 229 53 43;
 
-  /* Light: a hard, cold searchlight white, used only for glow and highlight */
-  --light: #eaf3f5;
-  --light-rgb: 226 238 242;
+  /* Dust: bone-coloured, for the few highlights (lines, the scan, hover) */
+  --light: #e8e0cc;
+  --light-rgb: 232 224 204;
+  --sand: #b5a685;
+  --sand-rgb: 181 166 133;
 
   /* Type */
   --font-display: 'Sackers Gothic Std', 'Sackers Gothic', 'Archivo Variable', 'Archivo', sans-serif;

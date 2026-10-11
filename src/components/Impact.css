@@ -122,13 +122,11 @@
   width: 9rem;
   height: 1px;
   background: linear-gradient(to right, transparent, var(--light), transparent);
-  box-shadow: 0 0 12px 1px rgb(var(--light-rgb) / 0.6), 0 6px 30px 2px rgb(var(--ember-rgb) / 0.4);
   transform: translateX(-50%) scaleX(0);
   transition: transform 500ms var(--ease-out);
 }
 .reel__tab[aria-selected='true'] {
   color: var(--light);
-  text-shadow: 0 0 16px rgb(var(--light-rgb) / 0.45);
 }
 .reel__tab[aria-selected='true']::before {
   transform: translateX(-50%) scaleX(1);

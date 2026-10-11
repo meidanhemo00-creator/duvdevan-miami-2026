@@ -23,7 +23,7 @@
   border: 1px solid var(--hair);
   background:
     repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 3px),
-    rgb(8 12 13 / 0.6);
+    rgb(14 13 10 / 0.6);
 }
 .mission__brackets {
   inset: 0.6rem;
