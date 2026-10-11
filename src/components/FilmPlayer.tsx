@@ -1,11 +1,11 @@
-import { useEffect, useId, useRef, useState } from 'react'
-import { ArrowCounterClockwise, Play } from '@phosphor-icons/react'
+import { useEffect, useId, useRef, useState, type PointerEvent as RPointerEvent } from 'react'
+import { ArrowCounterClockwise, Play, SpeakerHigh, SpeakerSlash } from '@phosphor-icons/react'
 import type { Film } from '../content/site'
 import './FilmPlayer.css'
 
 type Props = {
   film: Film
-  /** `city`: toned city-light slate. `night`: letterboxed, a low wine horizon. */
+  /** `city`: toned slate with a wine glow. `night`: letterboxed, a low wine horizon. */
   tone?: 'city' | 'night'
   /** Print the film title on the slate. Off where a heading beside it already says it. */
   slateTitle?: boolean
@@ -31,20 +31,69 @@ function withAutoplay(src: string) {
 }
 
 /**
+ * Light spill: the film's own colours, sampled a few times a second into a
+ * tiny canvas that sits blurred behind the frame, so the screen lights the
+ * page around it.
+ */
+function useLightSpill(videoRef: React.RefObject<HTMLVideoElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>) {
+  useEffect(() => {
+    const v = videoRef.current
+    const c = canvasRef.current
+    const ctx = c?.getContext('2d', { willReadFrequently: false })
+    if (!v || !c || !ctx) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let timer = 0
+    const paint = () => {
+      if (v.readyState >= 2) {
+        try {
+          ctx.drawImage(v, 0, 0, c.width, c.height)
+        } catch {
+          /* cross-origin or not ready: keep the last frame */
+        }
+      }
+    }
+    const startLoop = () => {
+      window.clearInterval(timer)
+      paint()
+      timer = window.setInterval(paint, 120)
+    }
+    const stopLoop = () => window.clearInterval(timer)
+    v.addEventListener('playing', startLoop)
+    v.addEventListener('pause', stopLoop)
+    v.addEventListener('ended', stopLoop)
+    v.addEventListener('seeked', paint)
+    return () => {
+      stopLoop()
+      v.removeEventListener('playing', startLoop)
+      v.removeEventListener('pause', stopLoop)
+      v.removeEventListener('ended', stopLoop)
+      v.removeEventListener('seeked', paint)
+    }
+  }, [videoRef, canvasRef])
+}
+
+/**
  * A film frame that never shows a broken player.
  *  • No source → an intentional "coming soon" title card.
- *  • Source    → poster and play control. Nothing loads until the visitor
- *                presses play, and nothing ever plays with sound on its own.
- *  • Autoplay  → loads and starts muted, looping, once on screen (and active);
- *                pauses off screen. Reduced-motion visitors get the play button.
+ *  • Source    → poster and play control. Pressing play starts the film from
+ *                the beginning WITH sound.
+ *  • Autoplay  → starts muted and looping once on screen (and active); pauses
+ *                off screen. A "Sound on" control restarts it with sound.
+ *                Reduced-motion visitors get the poster and play button.
  *  • Failure   → an inline message with a retry.
- * Starting one film pauses any other film on the page.
+ * Starting one film pauses any other film on the page, so only one is ever heard.
  */
 export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = true, className = '' }: Props) {
   const [state, setState] = useState<State>('idle')
+  const [muted, setMuted] = useState(true)
+  const stateRef = useRef<State>('idle')
+  stateRef.current = state
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
+  const spillRef = useRef<HTMLCanvasElement>(null)
   const titleId = useId()
+  useLightSpill(videoRef, spillRef)
+
   // True when playback was started by scrolling into view, not by the visitor.
   const ambient = useRef(false)
   // Set just before the page itself pauses the video (scroll-out, another film).
@@ -56,11 +105,22 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
       v.pause()
     }
   }
+
+  const { source, poster } = film
+  const isFile = source?.kind === 'file'
   const autoplay =
     Boolean(film.autoplay) &&
-    film.source?.kind === 'file' &&
+    isFile &&
     typeof window !== 'undefined' &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Muted must be set as a property before any play() for browsers to allow autoplay.
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.muted = true
+    v.defaultMuted = true
+  }, [])
 
   const inView = useRef(false)
   const activeRef = useRef(active)
@@ -68,10 +128,15 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
   const tryAmbient = () => {
     if (!autoplay || !inView.current || !activeRef.current) return
     const v = videoRef.current
-    if (!v) {
+    if (!v) return
+    if (stateRef.current === 'idle') {
       ambient.current = true
-      setState((s) => (s === 'idle' ? 'playing' : s))
-    } else if (ambient.current) {
+      v.muted = true
+      v.preload = 'auto'
+      v.play()
+        .then(() => setState('playing'))
+        .catch(() => {})
+    } else if (ambient.current && v.paused) {
       v.play().catch(() => {})
     }
   }
@@ -99,51 +164,92 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
     else pauseBySystem()
   }, [active])
 
+  // Another film started: stop this one, and drop its sound so it never resumes loud.
   useEffect(() => {
     const onPlay = (e: Event) => {
-      if ((e as CustomEvent<string>).detail !== film.id) pauseBySystem()
+      if ((e as CustomEvent<string>).detail === film.id) return
+      pauseBySystem()
+      const v = videoRef.current
+      if (v && !v.muted) {
+        v.muted = true
+        ambient.current = false
+      }
     }
     document.addEventListener(PLAY_EVENT, onPlay)
     return () => document.removeEventListener(PLAY_EVENT, onPlay)
   }, [film.id])
 
-  // Keep keyboard users in place: focus moves into the player once it mounts.
+  // Keep keyboard users in place: focus moves into an embed once it mounts.
   useEffect(() => {
-    if (state !== 'playing' || ambient.current) return
-    const target = videoRef.current ?? frameRef.current?.querySelector('iframe')
-    target?.focus({ preventScroll: true })
-  }, [state])
+    if (state !== 'playing' || ambient.current || isFile) return
+    frameRef.current?.querySelector('iframe')?.focus({ preventScroll: true })
+  }, [state, isFile])
 
+  /** The visitor asked for the film: from the start, with sound. */
   const start = () => {
     ambient.current = false
     document.dispatchEvent(new CustomEvent(PLAY_EVENT, { detail: film.id }))
+    const v = videoRef.current
+    if (source?.kind === 'file' && v) {
+      if (state === 'error') v.load()
+      // All of this runs inside the click, so the browser allows sound.
+      v.muted = false
+      v.volume = 1
+      v.currentTime = source.start ?? 0
+      v.play()
+        .then(() => v.focus({ preventScroll: true }))
+        .catch(() => {
+          // Sound refused by the browser: still play, muted, and offer the control.
+          v.muted = true
+          v.play().catch(() => setState('error'))
+        })
+    }
     setState('playing')
   }
 
-  const { source, poster } = film
+  const toggleSound = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (v.muted) start()
+    else v.muted = true
+  }
+
+  // Edge light: follows the pointer around the frame.
+  const onPointerMove = (e: RPointerEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--px', `${e.clientX - r.left}px`)
+    e.currentTarget.style.setProperty('--py', `${e.clientY - r.top}px`)
+  }
+
   const hasSource = Boolean(source?.src)
   const playing = state === 'playing'
 
   return (
-    <figure className={`film film--${tone} ${className}`} data-state={state} aria-labelledby={titleId}>
+    <figure
+      className={`film film--${tone} ${className}`}
+      data-state={state}
+      data-sound={playing && !muted ? '' : undefined}
+      aria-labelledby={titleId}
+      onPointerMove={onPointerMove}
+    >
+      <canvas ref={spillRef} className="film__spill" width={48} height={27} aria-hidden />
       <div className="film__frame" ref={frameRef}>
-        {playing && source?.kind === 'file' && (
+        {source?.kind === 'file' && (
           <video
             ref={videoRef}
             className="film__media"
-            controls
-            autoPlay
-            muted
+            controls={playing}
             loop={autoplay}
             playsInline
-            preload="auto"
+            preload="none"
             poster={poster?.src}
             onLoadedMetadata={(e) => {
-              if (source.start) e.currentTarget.currentTime = source.start
+              if (source.start && e.currentTarget.currentTime < source.start) e.currentTarget.currentTime = source.start
             }}
             onTimeUpdate={(e) => {
               if (source.end && e.currentTarget.currentTime >= source.end) e.currentTarget.pause()
             }}
+            onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
             onError={() => setState('error')}
             // A visitor pressing pause takes over from the ambient loop.
             onPause={() => {
@@ -151,8 +257,9 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
               systemPause.current = false
             }}
             aria-label={film.title}
+            tabIndex={playing ? 0 : -1}
           >
-            <source src={source.src} type={source.type} onError={() => setState('error')} />
+            <source src={source.src} type={source.type} />
             {film.captions && (
               <track
                 kind="captions"
@@ -207,8 +314,8 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
                   <Play weight="fill" />
                 </span>
                 <span className="film__play-label micro">
-                  <span aria-hidden>Play film</span>
-                  <span className="sr-only">Play film: {film.title}</span>
+                  <span aria-hidden>Play with sound</span>
+                  <span className="sr-only">Play film with sound: {film.title}</span>
                   {film.duration && (
                     <span className="film__duration">
                       <span className="sr-only">, running time </span>
@@ -227,6 +334,22 @@ export function FilmPlayer({ film, tone = 'city', slateTitle = true, active = tr
             )}
           </div>
         </div>
+
+        {/* Sound: obvious while a film plays silently, quiet once it is on. */}
+        {playing && isFile && (
+          <button
+            type="button"
+            className="film__sound micro"
+            data-muted={muted || undefined}
+            onClick={toggleSound}
+            aria-label={muted ? `Play ${film.title} from the start with sound` : `Mute ${film.title}`}
+          >
+            {muted ? <SpeakerSlash weight="fill" aria-hidden /> : <SpeakerHigh weight="fill" aria-hidden />}
+            <span aria-hidden>{muted ? 'Tap for sound' : 'Sound on'}</span>
+          </button>
+        )}
+
+        <span className="film__edge" aria-hidden />
 
         {state === 'error' && (
           <div className="film__error" role="alert">

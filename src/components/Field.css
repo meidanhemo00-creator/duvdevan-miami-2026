@@ -1,0 +1,119 @@
+.field {
+  position: relative;
+  padding-block: var(--scene);
+  background: var(--black-deep);
+}
+.field .scene-head {
+  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+/* A loose masonry of photographs, three columns at full width. */
+.field__grid {
+  columns: 3;
+  column-gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+@media (max-width: 1000px) {
+  .field__grid {
+    columns: 2;
+  }
+}
+@media (max-width: 560px) {
+  .field__grid {
+    columns: 1;
+  }
+}
+
+.field__tile {
+  position: relative;
+  break-inside: avoid;
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1.5rem);
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+  cursor: crosshair;
+}
+.field__tile picture,
+.field__tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.field__tile img {
+  object-fit: cover;
+}
+
+/* In the dark: black and white, barely there. */
+.field__dark {
+  filter: grayscale(1) brightness(0.42) contrast(1.1);
+  transition: transform 1600ms var(--ease-cine);
+}
+
+/* In the light: full colour, only where the light falls. */
+.field__lit {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mask-image: radial-gradient(
+    circle 15rem at var(--px, 50%) var(--py, 50%),
+    #000 0%,
+    rgb(0 0 0 / 0.75) 40%,
+    transparent 100%
+  );
+  transition: opacity 600ms var(--ease-out);
+}
+.field__lit-img {
+  filter: brightness(1.08) saturate(1.05);
+  transition: transform 1600ms var(--ease-cine);
+}
+/* A warm cast where the light is strongest. */
+.field__lit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 9rem at var(--px, 50%) var(--py, 50%), rgb(var(--light-rgb) / 0.16), transparent 70%);
+  mix-blend-mode: screen;
+}
+/* The frame's edge catches the light too. */
+.field__tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 1px solid var(--hair);
+  pointer-events: none;
+  transition:
+    border-color 500ms ease,
+    box-shadow 500ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .field__tile:hover .field__lit {
+    opacity: 1;
+  }
+  .field__tile:hover .field__dark,
+  .field__tile:hover .field__lit-img {
+    transform: scale(1.035);
+  }
+  .field__tile:hover::after {
+    border-color: rgb(var(--light-rgb) / 0.4);
+    box-shadow: inset 0 0 40px rgb(var(--light-rgb) / 0.08);
+  }
+}
+
+/* Touch: the photograph in the centre of the screen is lit whole. */
+.field__tile[data-lit] .field__lit {
+  opacity: 1;
+  mask-image: none;
+}
+.field__tile[data-lit]::after {
+  border-color: rgb(var(--light-rgb) / 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field__dark,
+  .field__lit,
+  .field__lit-img {
+    transition-duration: 1ms;
+  }
+}

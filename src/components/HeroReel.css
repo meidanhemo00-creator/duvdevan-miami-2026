@@ -2,11 +2,22 @@
   position: absolute;
   inset: 0;
   opacity: var(--reel-opacity, 0.16);
-  /* Photos live in the sky and fade out before the skyline and the page edge. */
+  /* Photos live in the sky and fade out before the horizon and the page edge. */
   mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 12%, #000 48%, transparent 72%),
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 52%, transparent 74%),
     linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
   mask-composite: intersect;
+}
+/* Where the light falls, the photographs come up out of the dark. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-reel {
+    opacity: calc(var(--reel-opacity, 0.16) * 3);
+    mask-image:
+      radial-gradient(circle 22rem at var(--lx, 50%) var(--ly, 34%), #000 0%, rgb(0 0 0 / 0.55) 45%, rgb(0 0 0 / 0.3) 100%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 52%, transparent 74%),
+      linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+    mask-composite: intersect;
+  }
 }
 .hero-reel__slide,
 .hero-reel__slide img {

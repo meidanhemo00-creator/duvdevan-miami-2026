@@ -1,0 +1,48 @@
+.mission {
+  position: relative;
+  padding-block: var(--scene) calc(var(--scene) * 0.6);
+  overflow: clip;
+}
+.mission .scene-head {
+  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.mission__stage {
+  position: relative;
+  width: min(100% - 2 * var(--gutter), 1200px);
+  margin-inline: auto;
+  display: grid;
+  justify-items: center;
+  gap: 2.5rem;
+}
+/* A low pool of light the country stands in. */
+.mission__stage::before {
+  content: '';
+  position: absolute;
+  inset: 10% -10% -10%;
+  z-index: -1;
+  background: radial-gradient(50% 50% at 50% 55%, rgb(var(--wine-rgb) / 0.35), transparent 70%);
+  pointer-events: none;
+}
+
+.mission__stops {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 2.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+}
+.mission__stops li::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.8em;
+  vertical-align: 0.15em;
+  border-radius: 50%;
+  background: var(--light);
+  box-shadow: 0 0 8px var(--light);
+}

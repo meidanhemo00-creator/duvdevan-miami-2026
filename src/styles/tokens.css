@@ -1,6 +1,7 @@
 /*
- * Duvdevan in Miami: design tokens.
- * Near-black, off-white, very dark wine. One theme by design (a night event).
+ * The Duvdevan Mission: design tokens.
+ * Near-black, off-white, very dark wine, and one warm light that finds things
+ * in the dark. One theme by design.
  * Shapes are sharp; the only circle is the play control.
  */
 :root {
@@ -22,6 +23,12 @@
   --wine: #4a0d16;
   --wine-2: #6a1522;
   --wine-rgb: 106 21 34;
+  --ember: #c23a4a;
+  --ember-rgb: 194 58 74;
+
+  /* Light: a warm lamp colour, used only for glow and highlight */
+  --light: #ffe3c2;
+  --light-rgb: 255 227 194;
 
   /* Type */
   --font-display: 'Sackers Gothic Std', 'Sackers Gothic', 'Archivo Variable', 'Archivo', sans-serif;

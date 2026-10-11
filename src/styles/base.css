@@ -74,8 +74,13 @@ button {
 }
 
 ::selection {
-  background: var(--wine-2);
-  color: var(--ink);
+  background: var(--light);
+  color: var(--black);
+}
+
+/* Scene headings carry a faint glow, as if lit from just in front. */
+.display--m {
+  text-shadow: 0 0 28px rgb(var(--light-rgb) / 0.22);
 }
 
 :focus-visible {
@@ -174,13 +179,14 @@ button {
   margin-inline: auto;
 }
 
-/* A short wine hairline: the page's one ornament, used to open scenes. */
+/* A short line of light: the page's one ornament, used to open scenes. */
 .tick {
   display: block;
-  width: 3.5rem;
+  width: 4.5rem;
   height: 1px;
   margin-inline: auto;
-  background: var(--wine-2);
+  background: linear-gradient(to right, transparent, var(--light), transparent);
+  box-shadow: 0 0 12px 1px rgb(var(--light-rgb) / 0.55), 0 0 40px 4px rgb(var(--ember-rgb) / 0.35);
 }
 
 /* ─── Scenes ───────────────────────────────────────────────────────── */
@@ -215,8 +221,9 @@ button {
   clip-path: inset(0 14% 0 14%);
   transition: clip-path 1600ms var(--ease-in-out);
 }
+/* Opens past its edges so the light a film spills around it isn't cut off. */
 .reveal-ready [data-reveal='frame'][data-inview] {
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(-40% -20% -40% -20%);
 }
 
 /* Hairlines draw outward from the centre. */

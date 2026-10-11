@@ -3,9 +3,11 @@ import { LogoMark } from './LogoMark'
 import './SiteHeader.css'
 
 const links = [
+  { href: '#mission', label: 'The mission' },
   { href: '#evening', label: 'The evening' },
   { href: '#impact', label: 'The impact' },
   { href: '#unit', label: 'The unit' },
+  { href: '#field', label: 'In the field' },
   { href: '#invitation', label: 'Invitation' },
 ]
 
@@ -31,6 +33,7 @@ export function SiteHeader() {
           </ul>
         </nav>
       </div>
+      <span className="site-header__progress" aria-hidden />
     </header>
   )
 }

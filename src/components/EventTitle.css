@@ -31,6 +31,8 @@
 }
 .event-title__word--logo {
   display: block;
+  /* The mark glows faintly, as if lit from in front. */
+  filter: drop-shadow(0 0 0.18em rgb(var(--light-rgb) / 0.35)) drop-shadow(0 0 0.6em rgb(var(--ember-rgb) / 0.35));
   height: 0.7em; /* fallback: Archivo's cap height */
   height: 1cap;
 }
@@ -60,14 +62,53 @@
 }
 .event-title__rule {
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--hair-strong));
+  background: linear-gradient(to right, transparent, rgb(var(--light-rgb) / 0.6));
+  box-shadow: 0 0 8px rgb(var(--light-rgb) / 0.35);
 }
 .event-title__rule:last-child {
-  background: linear-gradient(to left, transparent, var(--hair-strong));
+  background: linear-gradient(to left, transparent, rgb(var(--light-rgb) / 0.6));
+}
+
+/* Words lit by a band of warm light that sweeps across them every few seconds. */
+.event-title__word--lit {
+  color: var(--ink);
+  background-image: linear-gradient(
+    100deg,
+    var(--ink) 0%,
+    var(--ink) 40%,
+    #fff8ee 47%,
+    var(--light) 50%,
+    #fff8ee 53%,
+    var(--ink) 60%,
+    var(--ink) 100%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 0.6em rgb(var(--light-rgb) / 0.18);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .event-title__word--lit {
+    animation: title-sheen 7s var(--ease-in-out) 1.4s infinite;
+  }
+  .event-title__word--last {
+    animation-delay: 1.75s;
+  }
+}
+@keyframes title-sheen {
+  0% {
+    background-position: 100% 0;
+  }
+  32%,
+  100% {
+    background-position: 0% 0;
+  }
 }
 
 @media (max-width: 720px) {
-  /* Two balanced lines, "DUVDEVAN IN" / "MIAMI", one size throughout. */
+  /* Two balanced lines, "THE [logo]" / "MISSION", one size throughout. */
   .event-title {
     --title: clamp(2.2rem, 13.2vw, 4rem);
   }
@@ -85,8 +126,15 @@
     gap: 0.9rem;
   }
   .event-title__month-text {
-    font-size: 0.72rem;
-    letter-spacing: 0.44em;
-    padding-left: 0.44em;
+    display: grid;
+    justify-items: center;
+    gap: 0.5em;
+    font-size: 0.66rem;
+    letter-spacing: 0.3em;
+    padding-left: 0.3em;
+  }
+  /* "ACROSS THE UNITED STATES" over the year, without the separator. */
+  .event-title__dot {
+    display: none;
   }
 }

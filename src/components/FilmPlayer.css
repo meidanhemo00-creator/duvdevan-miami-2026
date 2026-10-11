@@ -245,3 +245,160 @@
     padding-bottom: 1.25rem;
   }
 }
+
+/* ─── Light ────────────────────────────────────────────────────────── */
+.film {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Light spill: the film's colours, blurred wide behind the frame. */
+.film__spill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  filter: blur(clamp(36px, 6vw, 90px)) saturate(1.6);
+  opacity: 0;
+  transition: opacity 1600ms var(--ease-out);
+  pointer-events: none;
+}
+.film[data-state='playing'] .film__spill {
+  opacity: 0.7;
+}
+/* Before a film plays, a quiet wine glow holds its place. */
+.film::before {
+  content: '';
+  position: absolute;
+  inset: 4% 6%;
+  z-index: -2;
+  background: rgb(var(--ember-rgb) / 0.22);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* Edge light: the frame's hairline catches the light under the pointer. */
+.film__edge {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  padding: 1px;
+  background: radial-gradient(
+    18rem circle at var(--px, -20rem) var(--py, -20rem),
+    rgb(var(--light-rgb) / 0.95),
+    rgb(var(--ember-rgb) / 0.5) 35%,
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 500ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .film:hover .film__edge {
+    opacity: 1;
+  }
+}
+
+/* The play ring holds a soft light of its own. */
+.film__ring {
+  box-shadow:
+    0 0 0 0 rgb(var(--light-rgb) / 0),
+    0 0 30px rgb(var(--light-rgb) / 0.18) inset;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .film[data-state='idle'] .film__ring {
+    animation: ring-pulse 2.8s var(--ease-out) infinite;
+  }
+}
+@keyframes ring-pulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgb(var(--light-rgb) / 0.4),
+      0 0 30px rgb(var(--light-rgb) / 0.18) inset;
+  }
+  70%,
+  100% {
+    box-shadow:
+      0 0 0 1.4rem rgb(var(--light-rgb) / 0),
+      0 0 30px rgb(var(--light-rgb) / 0.18) inset;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .film__play:hover .film__ring {
+    background: var(--light);
+    border-color: var(--light);
+    color: var(--black);
+    box-shadow: 0 0 40px rgb(var(--light-rgb) / 0.6), 0 0 90px rgb(var(--ember-rgb) / 0.5);
+  }
+}
+
+/* ─── Sound control ────────────────────────────────────────────────── */
+.film__sound {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.25rem);
+  right: clamp(0.75rem, 2vw, 1.25rem);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0 1.1rem 0 0.9rem;
+  border: 1px solid rgb(var(--light-rgb) / 0.55);
+  border-radius: 999px;
+  background: rgb(3 3 3 / 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--light);
+  font-size: 0.66rem;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgb(var(--light-rgb) / 0.25);
+  transition:
+    opacity 400ms ease,
+    background-color 300ms ease,
+    transform 160ms var(--ease-out);
+}
+.film__sound svg {
+  font-size: 1.05rem;
+  flex: none;
+}
+.film__sound:active {
+  transform: scale(0.96);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .film__sound[data-muted] {
+    animation: sound-call 2.4s ease-in-out infinite;
+  }
+}
+@keyframes sound-call {
+  50% {
+    box-shadow: 0 0 36px rgb(var(--light-rgb) / 0.55);
+    border-color: var(--light);
+  }
+}
+/* Once the sound is on it steps back, and returns on hover. */
+.film__sound:not([data-muted]) {
+  opacity: 0.5;
+  box-shadow: none;
+  border-color: var(--hair-strong);
+  color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .film__sound:hover {
+    opacity: 1;
+    background: rgb(var(--light-rgb) / 0.16);
+  }
+}
+@media (max-width: 640px) {
+  .film__sound {
+    min-height: 2.5rem;
+    padding: 0 0.9rem 0 0.75rem;
+  }
+}

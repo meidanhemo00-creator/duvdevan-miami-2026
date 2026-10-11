@@ -41,12 +41,11 @@ export type Film = {
   /**
    * Poster frame, 16:9. Recommended: a 1920×1080 still from the film in
    * /public/media/posters/. The page tones every poster to monochrome.
-   * Until real posters exist, graded stills of the Miami skyline stand in.
    */
   poster?: Photo
   /**
    * Play silently and on a loop while the frame is on screen (file sources
-   * only). On for every film on the page. Viewers can still unmute from the controls. Ignored for visitors
+   * only). A "Sound on" control restarts the film with sound. Ignored for visitors
    * who prefer reduced motion: they get the poster and play button.
    */
   autoplay?: boolean
@@ -88,9 +87,9 @@ export type SupportChapter = {
 
 export const site = {
   meta: {
-    title: 'Duvdevan in Miami | November 2026',
+    title: 'The Duvdevan Mission | United States 2026',
     description:
-      'An evening with Friends of Duvdevan in Miami, November 2026, in support of the soldiers, veterans and bereaved families of the unit.',
+      'The Duvdevan Mission: Friends of Duvdevan across the United States, in support of the soldiers, veterans and bereaved families of the unit.',
   },
 
   organisation: 'Friends of Duvdevan',
@@ -111,7 +110,7 @@ export const site = {
 
   /**
    * Hero background: graded Duvdevan photographs that crossfade slowly
-   * beneath the Miami skyline, at low opacity. Decorative (no alt text).
+   * in the dark, revealed by a moving light. Decorative (no alt text).
    * `name` refers to /public/media/unit/<name>-{960,1600}.{avif,webp,jpg}.
    */
   heroReel: {
@@ -127,8 +126,23 @@ export const site = {
   },
 
   event: {
-    city: 'Miami',
-    month: 'November 2026',
+    /** The words after the logo in the title: THE [logo] MISSION. */
+    before: 'The',
+    after: 'Mission',
+    /** The line under the title. */
+    tagline: 'Across the United States · 2026',
+  },
+
+  mission: {
+    heading: 'One mission. Coast to coast.',
+    // DRAFT COPY
+    intro:
+      'From city to city across America, friends of the unit come together to honor its soldiers and stand with the families who carry its story.',
+    /**
+     * Cities on the mission, lit on the map. Add only confirmed stops, e.g.
+     * { name: 'Miami', lon: -80.19, lat: 25.76 }. Empty → the whole map glows.
+     */
+    stops: [] as { name: string; lon: number; lat: number }[],
   },
 
   evening: {
@@ -189,7 +203,7 @@ export const site = {
           title: 'Education and career',
           duration: '0:33',
           autoplay: true,
-          // Dedicated film: the Miami Beach startup showcase.
+          // Dedicated film: the startup showcase.
           source: { kind: 'file', src: 'media/video/education-720.mp4', type: 'video/mp4' },
           poster: unitPhoto('education', 'A soldier of the unit looks through a spotting scope on a tripod.', 0.5, '60% 40%'),
         },
@@ -220,23 +234,35 @@ export const site = {
       title: 'The unit',
       duration: '0:22',
       autoplay: true,
-            source: { kind: 'file', src: 'media/video/unit-720.mp4', type: 'video/mp4' },
+      source: { kind: 'file', src: 'media/video/unit-720.mp4', type: 'video/mp4' },
       poster: unitPhoto('unit', 'A soldier of the unit in a concrete passage, looking up.', 0.42, '60% 40%'),
     } satisfies Film,
   },
 
-  closing: {
+  /**
+   * "In the field": photographs of the unit's soldiers. Each sits dark and in
+   * black and white until light falls on it. `name` refers to
+   * /public/media/field/<name>-1400.{avif,webp,jpg}; `ratio` is width / height.
+   */
+  field: {
+    heading: 'In the field',
     // DRAFT COPY
-    lead: 'Join us for one evening, and stand with the soldiers, veterans and bereaved families of the unit.',
+    lead: 'Rarely seen. Always there.',
+    photos: [
+      { name: 'pair', ratio: 1.5, alt: 'Two soldiers of the unit stand beside their armored vehicles under a wide sky.' },
+      { name: 'vehicle', ratio: 0.67, alt: 'A soldier of the unit in full gear stands in front of an armored vehicle.' },
+      { name: 'scope', ratio: 1.5, alt: 'A soldier of the unit sights through a rifle scope on a tripod inside a concrete post.' },
+      { name: 'drone', ratio: 0.67, alt: 'Two soldiers of the unit on a desert slope as a drone flies overhead.' },
+      { name: 'ghillie', ratio: 1.5, alt: 'A soldier of the unit in a camouflage ghillie suit kneels with a rifle in the desert.' },
+      { name: 'desert', ratio: 1.5, alt: 'A soldier of the unit walks across pale desert ground.' },
+      { name: 'wall', ratio: 1.5, alt: 'A soldier of the unit holds his rifle beside a wall painted with a large eye.' },
+      { name: 'beret', ratio: 1.5, alt: 'Two soldiers of the unit embrace at a beret ceremony.' },
+    ],
   },
 
-  credits: {
-    skyline: {
-      text: 'Skyline photograph: Downtown Miami from Watson Island by Dori, cropped and toned',
-      source: 'https://commons.wikimedia.org/wiki/File:Night_Panorama_Miami_Florida_5462.jpg',
-      license: 'CC BY-SA 3.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/',
-    },
+  closing: {
+    // DRAFT COPY
+    lead: 'Join the mission, and stand with the soldiers, veterans and bereaved families of the unit.',
   },
 } as const
 

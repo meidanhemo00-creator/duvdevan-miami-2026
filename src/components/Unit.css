@@ -48,6 +48,10 @@
 
 .unit__title {
   margin-top: clamp(3rem, 6vw, 6rem);
+  color: #fff8ee;
+  text-shadow:
+    0 0 18px rgb(var(--light-rgb) / 0.55),
+    0 0 60px rgb(var(--ember-rgb) / 0.6);
   font-size: clamp(1.7rem, 0.9rem + 3.4vw, 4.25rem);
   font-weight: 600;
   letter-spacing: 0.34em;

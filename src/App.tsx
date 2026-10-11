@@ -1,7 +1,9 @@
 import { Closing } from './components/Closing'
 import { Evening } from './components/Evening'
 import { Hero } from './components/Hero'
+import { Field } from './components/Field'
 import { Impact } from './components/Impact'
+import { Mission } from './components/Mission'
 import { SiteFooter } from './components/SiteFooter'
 import { SiteHeader } from './components/SiteHeader'
 import { Unit } from './components/Unit'
@@ -17,9 +19,11 @@ export default function App() {
       <SiteHeader />
       <main id="main">
         <Hero />
+        <Mission />
         <Evening />
         <Impact />
         <Unit />
+        <Field />
         <Closing />
       </main>
       <SiteFooter />

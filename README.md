@@ -1,4 +1,4 @@
-# Duvdevan in Miami — November 2026
+# The Duvdevan Mission — United States 2026
 
 Event landing page for Friends of Duvdevan. React + TypeScript + Vite.
 

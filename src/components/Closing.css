@@ -29,28 +29,34 @@
 .closing__lead {
   color: var(--ink);
 }
-/* The same city that opened the page closes it, a little brighter. */
-.closing__city {
-  --miami-opacity: 0.26;
+/* The light that opened the page closes it, risen a little higher. */
+.closing__dawn {
+  position: relative;
+  height: clamp(14rem, 34vw, 26rem);
   margin-top: clamp(1rem, 4vw, 3rem);
+}
+.closing__horizon {
+  height: 100%;
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    /* The city rises slightly into frame as the page comes to rest. */
-      .closing__city img {
+    /* The sun comes up as the page comes to rest. */
+    .closing__horizon {
       animation: closing-rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 60%;
+      animation-range: entry 0% cover 70%;
     }
   }
 }
 @keyframes closing-rise {
   from {
-    transform: translateY(8%);
+    transform: translateY(30%);
+    opacity: 0.3;
   }
   to {
     transform: none;
+    opacity: 1;
   }
 }
 

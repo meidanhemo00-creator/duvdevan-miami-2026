@@ -1,4 +1,6 @@
 .hero {
+  --lx: 50%;
+  --ly: 34%;
   position: relative;
   min-height: 100svh;
   display: grid;
@@ -7,7 +9,7 @@
   background: var(--black-deep);
 }
 
-/* ─── Media: stars over the black sky, the city rising at the horizon ── */
+/* ─── Media: stars over the black sky, first light at the horizon ───── */
 .hero__media {
   position: absolute;
   inset: 0;
@@ -17,12 +19,16 @@
 .hero__media .starfield {
   mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 66%);
 }
-.hero__city {
+
+/* The light itself: a soft warm pool that moves with --lx/--ly. */
+.hero__beam {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  --miami-opacity: 0.2;
+  inset: 0;
+  background:
+    radial-gradient(circle 9rem at var(--lx) var(--ly), rgb(var(--light-rgb) / 0.1), transparent 70%),
+    radial-gradient(circle 26rem at var(--lx) var(--ly), rgb(var(--ember-rgb) / 0.07), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 /* ─── Content ───────────────────────────────────────────────────────── */
@@ -37,6 +43,46 @@
   text-align: center;
 }
 
+/* "Follow the light": a quiet cue to scroll. */
+.hero__cue {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+.hero__cue-line {
+  position: relative;
+  width: 1px;
+  height: 3.25rem;
+  overflow: hidden;
+  background: var(--hair);
+}
+.hero__cue-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--light), transparent);
+  box-shadow: 0 0 8px var(--light);
+  translate: 0 -100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero__cue-line::after {
+    animation: cue-fall 2.4s var(--ease-in-out) 2.6s infinite;
+  }
+}
+@keyframes cue-fall {
+  to {
+    translate: 0 100%;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero__cue:hover {
+    color: var(--light);
+  }
+}
+
 /* The title block sits in the middle of the night sky. */
 .hero__lockup {
   padding-top: clamp(1rem, 11svh, 8rem);
@@ -47,12 +93,9 @@
 .hero .event-title__month {
   --d: 1;
 }
-
-@media (max-width: 720px) {
-  /* The whole skyline, edge to edge, standing on the bottom edge. */
-  .hero__city {
-    --miami-opacity: 0.26;
-  }
+.hero__cue {
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── Motion ────────────────────────────────────────────────────────── */
@@ -65,7 +108,7 @@
 
   /* Scroll: the skyline sinks slowly, the title lifts away. Progressive. */
   @supports (animation-timeline: scroll()) {
-    .hero__city {
+    .hero__horizon {
       animation: hero-drift linear both;
       animation-timeline: scroll(root);
       animation-range: 0 100svh;
@@ -86,7 +129,7 @@
 }
 @keyframes hero-drift {
   to {
-    transform: translateY(18%);
+    transform: translateY(-14%);
   }
 }
 @keyframes hero-lift {

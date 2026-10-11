@@ -3,7 +3,7 @@ import { site } from '../content/site'
 import './HeroReel.css'
 
 /**
- * Graded Duvdevan photographs crossfading slowly behind the Miami skyline.
+ * Graded Duvdevan photographs crossfading slowly in the dark, revealed by a moving light.
  * Pure CSS: every image runs the same keyframes, offset by its index.
  * Reduced motion shows the first image, still.
  */
