@@ -26,3 +26,5 @@ dist/
 # Local browser-testing output
 .playwright-mcp/
 .claude/
+.vercel
+.env*
