@@ -27,6 +27,10 @@ export default function App() {
           />
           <feComposite in="rough" in2="holes" operator="in" />
         </filter>
+        {/* Tints the white logo to the page's bone ink, so it matches the words beside it. */}
+        <filter id="bone" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="0.891 0 0 0 0  0 0.866 0 0 0  0 0 0.805 0 0  0 0 0 1 0" />
+        </filter>
       </svg>
       <a className="skip-link" href="#main">
         Skip to content

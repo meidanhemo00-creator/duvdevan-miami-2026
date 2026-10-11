@@ -4,6 +4,10 @@
   width: 100%;
   height: auto;
 }
+/* Same bone as the type around it (see #bone in App). */
+.logo-mark img {
+  filter: url(#bone);
+}
 
 .logo-slot {
   display: grid;

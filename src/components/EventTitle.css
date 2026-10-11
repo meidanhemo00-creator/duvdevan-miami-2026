@@ -31,7 +31,6 @@
 }
 .event-title__word--logo {
   display: block;
-  /* The mark glows faintly, as if lit from in front. */
   height: 0.7em; /* fallback: Archivo's cap height */
   height: 1cap;
 }
@@ -40,6 +39,10 @@
 .event-title__word--logo .logo-slot {
   height: 100%;
   width: auto;
+}
+/* In the title the mark takes the same bone and the same stencil wear as the words. */
+.event-title__word--logo img {
+  filter: url(#bone) url(#grit);
 }
 
 .event-title__month {
@@ -76,6 +79,13 @@
   /* Two balanced lines, "THE [logo]" / "MISSION", one size throughout. */
   .event-title {
     --title: clamp(3rem, 18vw, 5.5rem);
+    gap: 1.1rem;
+  }
+  /* The two lines sit tight, like one stencilled block. */
+  .event-title__line {
+    row-gap: 0;
+    line-height: 0.92;
+    letter-spacing: 0;
   }
   .event-title--closing {
     --title: clamp(2.4rem, 14vw, 4.25rem);
