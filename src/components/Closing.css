@@ -24,3 +24,8 @@
 .closing__lead {
   color: var(--ink);
 }
+
+.closing__rsvp {
+  width: 100%;
+  scroll-margin-top: 5rem;
+}

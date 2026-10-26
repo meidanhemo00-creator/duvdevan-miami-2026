@@ -1,6 +1,8 @@
+import { site } from '../content/site'
 import { Atmosphere } from './Atmosphere'
 import { EventTitle } from './EventTitle'
 import { HeroReel } from './HeroReel'
+import { Rsvp } from './Rsvp'
 import { Timecode } from './Timecode'
 import './Hero.css'
 
@@ -21,14 +23,15 @@ export function Hero() {
           <span className="rec-dot" />
           REC <Timecode />
         </span>
-        <span className="hud hero__ref">39°50′N 98°35′W</span>
-        <span className="hud hero__op">Op. Coast to Coast</span>
+        <span className="hud hero__ref">{site.event.hud.ref}</span>
+        <span className="hud hero__op">{site.event.hud.op}</span>
         <span className="hud hero__fmt">16 mm · Reel 01</span>
       </div>
 
       <div className="hero__content">
         <div className="hero__lockup">
           <EventTitle id="hero-title" priority />
+          <Rsvp className="hero__rsvp" />
         </div>
         <a className="hero__cue" href="#mission">
           <span className="micro">Move out</span>

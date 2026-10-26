@@ -2,13 +2,14 @@ import { site } from '../content/site'
 import { LogoMark } from './LogoMark'
 import './SiteHeader.css'
 
-const links = [
+const links: { href: string; label: string }[] = [
   { href: '#mission', label: 'The mission' },
   { href: '#evening', label: 'The evening' },
   { href: '#impact', label: 'The impact' },
   { href: '#unit', label: 'The unit' },
   { href: '#field', label: 'In the field' },
   { href: '#invitation', label: 'Invitation' },
+  ...(site.rsvp.url ? [{ href: site.rsvp.url, label: site.rsvp.label }] : []),
 ]
 
 export function SiteHeader() {

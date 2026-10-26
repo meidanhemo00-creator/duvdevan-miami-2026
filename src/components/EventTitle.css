@@ -78,7 +78,8 @@
 @media (max-width: 720px) {
   /* Two balanced lines, "THE [logo]" / "MISSION", one size throughout. */
   .event-title {
-    --title: clamp(3rem, 18vw, 5.5rem);
+    /* Sized so "LOS ANGELES" fits the narrowest phones on one line. */
+    --title: clamp(2.6rem, 14.2vw, 5.5rem);
     gap: 1.1rem;
   }
   /* The two lines sit tight, like one stencilled block. */

@@ -1,0 +1,40 @@
+.rsvp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 3.25rem;
+  padding: 0 1.6rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--black-deep);
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+.rsvp .rec-dot {
+  margin-right: 0;
+}
+.rsvp__sub {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  opacity: 0.7;
+}
+.rsvp:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .rsvp:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+}

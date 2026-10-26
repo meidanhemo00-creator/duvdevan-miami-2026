@@ -10,7 +10,7 @@ type Props = {
 }
 
 /**
- * "THE DUVDEVAN MISSION / ACROSS THE UNITED STATES", the page's one title,
+ * "DUVDEVAN IN LOS ANGELES / SUNDAY · NOVEMBER 15, 2026", the page's one title,
  * used to open and close it. The logo stands in for "Duvdevan": its height is
  * exactly one cap height of the display face, on the same baseline as the
  * words around it. A band of light passes across the words now and then.
@@ -20,11 +20,12 @@ export function EventTitle({ as: Tag = 'h1', id, size = 'hero', priority = false
   return (
     <Tag id={id} className={`event-title event-title--${size}`}>
       <span className="event-title__line" data-intro>
-        <span className="event-title__word event-title__word--lit">{event.before} </span>
+        {event.before && <span className="event-title__word event-title__word--lit">{event.before} </span>}
         <span className="event-title__word event-title__word--logo">
           <LogoMark labelled priority={priority} />
         </span>
-        <span className="event-title__word event-title__word--lit event-title__word--last"> {event.after}</span>
+        {event.after && <span className="event-title__word event-title__word--lit"> {event.after}</span>}
+        <span className="event-title__word event-title__word--lit event-title__word--last"> {event.city}</span>
       </span>
       <span className="event-title__month" data-intro>
         <span className="event-title__rule" aria-hidden />

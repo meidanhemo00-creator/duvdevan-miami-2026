@@ -102,7 +102,8 @@
 }
 @media (max-width: 640px) {
   .hero__op,
-  .hero__fmt {
+  .hero__fmt,
+  .hero__ref {
     display: none;
   }
 }
@@ -159,6 +160,13 @@
 .hero__cue {
   position: relative;
   z-index: 1;
+}
+.hero__lockup {
+  display: grid;
+  justify-items: center;
+}
+.hero__rsvp {
+  margin-top: clamp(2rem, 5vh, 3rem);
 }
 
 /* ─── Motion ────────────────────────────────────────────────────────── */

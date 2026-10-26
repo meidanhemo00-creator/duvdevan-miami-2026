@@ -2,6 +2,7 @@ import { site } from '../content/site'
 import { stagger } from '../lib/style'
 import { EventTitle } from './EventTitle'
 import { Atmosphere } from './Atmosphere'
+import { RsvpForm } from './RsvpForm'
 import './Closing.css'
 
 export function Closing() {
@@ -19,6 +20,10 @@ export function Closing() {
         <p className="lead closing__lead" data-reveal style={stagger(3)}>
           {closing.lead}
         </p>
+        {/* No reveal animation here: the form is always visible and usable. */}
+        <div id="rsvp" className="closing__rsvp">
+          <RsvpForm />
+        </div>
       </div>
 
     </section>

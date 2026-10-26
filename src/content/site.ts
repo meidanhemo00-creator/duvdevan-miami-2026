@@ -87,9 +87,9 @@ export type SupportChapter = {
 
 export const site = {
   meta: {
-    title: 'The Duvdevan Mission | United States 2026',
+    title: 'Duvdevan in Los Angeles | November 15, 2026',
     description:
-      'The Duvdevan Mission: Friends of Duvdevan across the United States, in support of the soldiers, veterans and bereaved families of the unit.',
+      'An evening with Friends of Duvdevan in Beverly Hills, Los Angeles, on November 15, 2026, in support of the soldiers, veterans and bereaved families of the unit.',
   },
 
   organisation: 'Friends of Duvdevan',
@@ -126,11 +126,30 @@ export const site = {
   },
 
   event: {
-    /** The words after the logo in the title: THE [logo] MISSION. */
-    before: 'The',
-    after: 'Mission',
-    /** The line under the title. */
-    tagline: 'Across the United States · 2026',
+    /** The title reads: [before] [logo] [after] [city]. Empty parts are skipped. */
+    before: '',
+    after: 'In',
+    city: 'Los Angeles',
+    /** The line under the title (split at " · " onto two lines on phones). */
+    tagline: 'Sunday, November 15, 2026 · Beverly Hills',
+    /** Viewfinder overlay in the hero. */
+    hud: { ref: '34°04′N 118°24′W', op: 'Beverly Hills · 11.15.26' },
+  },
+
+  /**
+   * RSVP. `url` is where the RSVP buttons point (the form on this page).
+   * `endpoint` receives each reply as JSON (a Google Apps Script web app, or
+   * any URL that accepts a POST). Empty endpoint → the form says RSVP isn't
+   * open yet instead of pretending to submit.
+   */
+  rsvp: {
+    url: '#rsvp',
+    label: 'RSVP',
+    endpoint: '',
+    maxGuests: 6,
+    heading: 'RSVP',
+    intro: 'Let us know you’re coming. Sunday, November 15, 2026, Beverly Hills.',
+    thanks: 'You’re on the list. We’ll see you on November 15 in Beverly Hills.',
   },
 
   mission: {
@@ -142,7 +161,7 @@ export const site = {
      * Cities on the mission, lit on the map. Add only confirmed stops, e.g.
      * { name: 'Miami', lon: -80.19, lat: 25.76 }. Empty → the whole map glows.
      */
-    stops: [] as { name: string; lon: number; lat: number }[],
+    stops: [{ name: 'Beverly Hills, Los Angeles · November 15', lon: -118.4, lat: 34.07 }] as { name: string; lon: number; lat: number }[],
   },
 
   evening: {
@@ -261,7 +280,7 @@ export const site = {
 
   closing: {
     // DRAFT COPY
-    lead: 'Join the mission, and stand with the soldiers, veterans and bereaved families of the unit.',
+    lead: 'Join us in Beverly Hills on November 15, and stand with the soldiers, veterans and bereaved families of the unit.',
   },
 } as const
 
