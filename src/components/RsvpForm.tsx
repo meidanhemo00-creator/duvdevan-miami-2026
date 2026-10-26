@@ -1,5 +1,6 @@
 import { useId, useState, type FormEvent } from 'react'
 import { site } from '../content/site'
+import './Rsvp.css'
 import './RsvpForm.css'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
@@ -75,7 +76,7 @@ export function RsvpForm() {
         </label>
         <label className="rsvp-form__field">
           <span>Phone</span>
-          <input name="phone" type="tel" autoComplete="tel" required maxLength={40} pattern="[0-9+()\-\s.]{7,}" />
+          <input name="phone" type="tel" autoComplete="tel" required maxLength={40} minLength={7} />
         </label>
         <label className="rsvp-form__field rsvp-form__field--wide">
           <span>Additional guests</span>

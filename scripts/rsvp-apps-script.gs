@@ -6,6 +6,8 @@
  *    updates that row) and a confirmation email goes out right away.
  *  • sendReminders: runs once, the day before the event, and emails everyone
  *    on the list who hasn't had a reminder yet.
+ *  • sendThankYous: runs once, the day after the event, and thanks everyone
+ *    with a link to the donation page.
  *
  * SETUP (once, about 2 minutes)
  *  1. In the RSVP sheet: Extensions → Apps Script. Delete what's there, paste this file, Save.
@@ -23,8 +25,11 @@ const CONFIG = {
   eventName: 'Duvdevan in Los Angeles',
   eventDate: 'Sunday, November 15, 2026',
   eventPlace: 'Beverly Hills, Los Angeles',
-  /** When the reminder goes out (Los Angeles time). */
+  /** When the reminder and the thank-you go out (Los Angeles time). */
   reminderAt: '2026-11-14T10:00:00-08:00',
+  thankYouAt: '2026-11-16T10:00:00-08:00',
+  /** The donation page linked in the thank-you email. */
+  donateUrl: 'PASTE_DONATION_LINK_HERE',
   /** Shown as the sender name. Mail is sent from the Google account that deploys this script. */
   senderName: 'Friends of Duvdevan',
   /** Optional: where guests' replies go, e.g. 'events@yourdomain.org'. Empty = your own address. */
@@ -51,9 +56,20 @@ const CONFIG = {
       'See you there,\n' +
       'Friends of Duvdevan',
   },
+  thankYou: {
+    subject: 'Thank you for standing with Duvdevan',
+    body:
+      'Hi {name},\n\n' +
+      'Thank you for joining us last night at Duvdevan in Los Angeles. Your presence means a great deal to the soldiers, ' +
+      'veterans and bereaved families of the unit.\n\n' +
+      'If you would like to support their care, education and the families of the fallen, you can give here:\n' +
+      '{donate}\n\n' +
+      'With gratitude,\n' +
+      'Friends of Duvdevan',
+  },
 }
 
-const HEADERS = ['Submitted', 'Name', 'Email', 'Phone', 'Additional guests', 'Total attending', 'Confirmation sent', 'Reminder sent']
+const HEADERS = ['Submitted', 'Name', 'Email', 'Phone', 'Additional guests', 'Total attending', 'Confirmation sent', 'Reminder sent', 'Thank-you sent']
 
 /** Run once from the editor: prepares the tab and schedules the reminder. */
 function setup() {
@@ -61,9 +77,10 @@ function setup() {
   sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold')
   sheet.setFrozenRows(1)
   ScriptApp.getProjectTriggers()
-    .filter((t) => t.getHandlerFunction() === 'sendReminders')
+    .filter((t) => ['sendReminders', 'sendThankYous'].includes(t.getHandlerFunction()))
     .forEach((t) => ScriptApp.deleteTrigger(t))
   ScriptApp.newTrigger('sendReminders').timeBased().at(new Date(CONFIG.reminderAt)).create()
+  ScriptApp.newTrigger('sendThankYous').timeBased().at(new Date(CONFIG.thankYouAt)).create()
   // Touch MailApp so the permission prompt covers sending email.
   Logger.log('Emails left today: ' + MailApp.getRemainingDailyQuota())
 }
@@ -89,7 +106,7 @@ function doPost(e) {
       rowIndex = existing
       sheet.getRange(rowIndex, 1, 1, row.length).setValues([row])
     } else {
-      sheet.appendRow(row.concat(['', '']))
+      sheet.appendRow(row.concat(['', '', '']))
       rowIndex = sheet.getLastRow()
     }
 
@@ -112,18 +129,28 @@ function doGet() {
 
 /** Runs from the time trigger the day before the event. Safe to run again: it skips people already reminded. */
 function sendReminders() {
+  sendToAll_(CONFIG.reminder, 8)
+}
+
+/** Runs from the time trigger the day after the event. Safe to run again. */
+function sendThankYous() {
+  sendToAll_(CONFIG.thankYou, 9)
+}
+
+/** Emails everyone on the list whose `column` is still empty, then stamps it. */
+function sendToAll_(tpl, column) {
   const sheet = getSheet_()
   const last = sheet.getLastRow()
   if (last < 2) return
   const rows = sheet.getRange(2, 1, last - 1, HEADERS.length).getValues()
   rows.forEach((r, i) => {
-    const [, name, email, , guests, , , reminded] = r
-    if (!email || reminded) return
+    const [, name, email, , guests] = r
+    if (!email || r[column - 1]) return
     try {
-      send_(email, CONFIG.reminder, { name, guests })
-      sheet.getRange(i + 2, 8).setValue(new Date())
+      send_(email, tpl, { name, guests })
+      sheet.getRange(i + 2, column).setValue(new Date())
     } catch (err) {
-      sheet.getRange(i + 2, 8).setValue('Failed: ' + err)
+      sheet.getRange(i + 2, column).setValue('Failed: ' + err)
     }
   })
 }
@@ -135,6 +162,7 @@ function send_(to, tpl, v) {
       .replace(/{guests}/g, v.guests ? String(v.guests) : 'none')
       .replace(/{date}/g, CONFIG.eventDate)
       .replace(/{place}/g, CONFIG.eventPlace)
+      .replace(/{donate}/g, CONFIG.donateUrl)
   const options = { name: CONFIG.senderName }
   if (CONFIG.replyTo) options.replyTo = CONFIG.replyTo
   MailApp.sendEmail(to, fill(tpl.subject), fill(tpl.body), options)
