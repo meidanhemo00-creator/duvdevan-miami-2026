@@ -164,6 +164,7 @@
 .hero__lockup {
   display: grid;
   justify-items: center;
+  align-content: start;
 }
 .hero__rsvp {
   margin-top: clamp(2rem, 5vh, 3rem);

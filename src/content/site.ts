@@ -136,20 +136,10 @@ export const site = {
     hud: { ref: '34°04′N 118°24′W', op: 'Beverly Hills · 11.15.26' },
   },
 
-  /**
-   * RSVP. `url` is where the RSVP buttons point (the form on this page).
-   * `endpoint` receives each reply as JSON (a Google Apps Script web app, or
-   * any URL that accepts a POST). Empty endpoint → the form says RSVP isn't
-   * open yet instead of pretending to submit.
-   */
+  /** RSVP on Luma (registration, approval and guest emails are handled there). */
   rsvp: {
-    url: '#rsvp',
+    url: 'https://luma.com/8dcclift',
     label: 'RSVP',
-    endpoint: '',
-    maxGuests: 6,
-    heading: 'RSVP',
-    intro: 'Let us know you’re coming. Sunday, November 15, 2026, Beverly Hills.',
-    thanks: 'You’re on the list. We’ll see you on November 15 in Beverly Hills.',
   },
 
   mission: {

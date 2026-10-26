@@ -27,5 +27,6 @@
 
 .closing__rsvp {
   width: 100%;
-  scroll-margin-top: 5rem;
+  margin-top: 0.5rem;
+  text-align: center;
 }

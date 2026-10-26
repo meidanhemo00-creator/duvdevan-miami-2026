@@ -28,7 +28,9 @@ export function SiteHeader() {
           <ul>
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href}>{l.label}</a>
+                <a href={l.href} {...(l.href.startsWith('#') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
+                  {l.label}
+                </a>
               </li>
             ))}
           </ul>
