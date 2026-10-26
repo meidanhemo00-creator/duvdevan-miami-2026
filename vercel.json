@@ -1,0 +1,5 @@
+{
+  "buildCommand": "bash scripts/build-editions.sh",
+  "outputDirectory": "dist",
+  "redirects": [{ "source": "/la", "destination": "/la/", "permanent": true }]
+}
