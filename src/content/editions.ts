@@ -82,7 +82,7 @@ export const editions: Record<string, Edition> = {
       tagline: 'Wednesday, November 11, 2026 · Lunch at 12 noon',
       hud: { ref: '32°13′N 110°58′W', op: 'Tucson · 11.11.26' },
     },
-    rsvp: { url: 'https://luma.com/p8n47sar', label: 'RSVP', short: 'November 11' },
+    rsvp: { url: 'https://luma.com/dmug6b3b', label: 'RSVP', short: 'November 11' },
     stop: { name: 'Tucson · November 11', lon: -110.97, lat: 32.22 },
     closingLead:
       'Join us for lunch in Tucson on November 11, and stand with the soldiers, veterans and bereaved families of the unit.',
