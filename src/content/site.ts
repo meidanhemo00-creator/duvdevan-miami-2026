@@ -14,6 +14,8 @@
  * ───────────────────────────────────────────────────────────────────────────
  */
 
+import { edition } from './edition'
+
 /**
  * Where a film plays from.
  *  • `file`  : a web-encoded MP4 in /public/media/video (see README), or a hosted URL
@@ -87,9 +89,8 @@ export type SupportChapter = {
 
 export const site = {
   meta: {
-    title: 'Duvdevan in Los Angeles | November 15, 2026',
-    description:
-      'An evening with Friends of Duvdevan in Beverly Hills, Los Angeles, on November 15, 2026, in support of the soldiers, veterans and bereaved families of the unit.',
+    title: edition.html.title,
+    description: edition.html.description,
   },
 
   organisation: 'Friends of Duvdevan',
@@ -125,22 +126,11 @@ export const site = {
     ],
   },
 
-  event: {
-    /** The title reads: [before] [logo] [after] [city]. Empty parts are skipped. */
-    before: '',
-    after: 'In',
-    city: 'Los Angeles',
-    /** The line under the title (split at " · " onto two lines on phones). */
-    tagline: 'Sunday, November 15, 2026 · Beverly Hills',
-    /** Viewfinder overlay in the hero. */
-    hud: { ref: '34°04′N 118°24′W', op: 'Beverly Hills · 11.15.26' },
-  },
+  /** City, date and title for this edition (see editions.ts). */
+  event: edition.event,
 
   /** RSVP on Luma (registration, approval and guest emails are handled there). */
-  rsvp: {
-    url: 'https://luma.com/8dcclift',
-    label: 'RSVP',
-  },
+  rsvp: edition.rsvp,
 
   mission: {
     heading: 'One mission. Coast to coast.',
@@ -151,7 +141,7 @@ export const site = {
      * Cities on the mission, lit on the map. Add only confirmed stops, e.g.
      * { name: 'Miami', lon: -80.19, lat: 25.76 }. Empty → the whole map glows.
      */
-    stops: [{ name: 'Beverly Hills, Los Angeles · November 15', lon: -118.4, lat: 34.07 }] as { name: string; lon: number; lat: number }[],
+    stops: [edition.stop] as { name: string; lon: number; lat: number }[],
   },
 
   evening: {
@@ -268,9 +258,11 @@ export const site = {
     ],
   },
 
+  footer: edition.footer,
+
   closing: {
     // DRAFT COPY
-    lead: 'Join us in Beverly Hills on November 15, and stand with the soldiers, veterans and bereaved families of the unit.',
+    lead: edition.closingLead,
   },
 } as const
 

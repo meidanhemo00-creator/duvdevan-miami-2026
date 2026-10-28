@@ -1,5 +1,16 @@
 {
   "buildCommand": "bash scripts/build-editions.sh",
   "outputDirectory": "dist",
-  "redirects": [{ "source": "/la", "destination": "/la/", "permanent": true }]
+  "redirects": [
+    {
+      "source": "/la",
+      "destination": "/la/",
+      "permanent": true
+    },
+    {
+      "source": "/tucson",
+      "destination": "/tucson/",
+      "permanent": true
+    }
+  ]
 }

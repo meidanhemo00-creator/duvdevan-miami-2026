@@ -3,7 +3,7 @@ import './Rsvp.css'
 
 /** The RSVP call to action. Renders nothing until `site.rsvp.url` is set. */
 export function Rsvp({ className = '' }: { className?: string }) {
-  const { url, label } = site.rsvp
+  const { url, label, short } = site.rsvp
   if (!url) return null
   return (
     <a
@@ -13,7 +13,7 @@ export function Rsvp({ className = '' }: { className?: string }) {
     >
       <span className="rec-dot" aria-hidden />
       {label}
-      <span className="rsvp__sub">November 15</span>
+      <span className="rsvp__sub">{short}</span>
     </a>
   )
 }
