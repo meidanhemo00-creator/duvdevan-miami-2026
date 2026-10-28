@@ -38,6 +38,8 @@ export type Edition = {
   stop: { name: string; lon: number; lat: number }
   closingLead: string
   footer: string
+  /** The film section about the gathering itself (heading also used in the menu). */
+  gathering: { heading: string; intro: string }
 }
 
 export const editions: Record<string, Edition> = {
@@ -63,6 +65,11 @@ export const editions: Record<string, Edition> = {
     closingLead:
       'Join us in Beverly Hills on November 15, and stand with the soldiers, veterans and bereaved families of the unit.',
     footer: 'Duvdevan in Los Angeles · Beverly Hills · November 15, 2026',
+    gathering: {
+      heading: 'The evening',
+      intro:
+        'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that night looks like.',
+    },
   },
 
   tucson: {
@@ -87,5 +94,10 @@ export const editions: Record<string, Edition> = {
     closingLead:
       'Join us for lunch in Tucson on November 11, and stand with the soldiers, veterans and bereaved families of the unit.',
     footer: 'Duvdevan in Tucson · Lunch · November 11, 2026, 12 noon',
+    gathering: {
+      heading: 'The event',
+      intro:
+        'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that gathering looks like.',
+    },
   },
 }

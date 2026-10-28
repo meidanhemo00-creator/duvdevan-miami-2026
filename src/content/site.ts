@@ -145,10 +145,8 @@ export const site = {
   },
 
   evening: {
-    heading: 'The evening',
-    // DRAFT COPY
-    intro:
-      'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that night looks like.',
+    heading: edition.gathering.heading,
+    intro: edition.gathering.intro,
     film: {
       id: 'evening',
       title: 'In their own words',
