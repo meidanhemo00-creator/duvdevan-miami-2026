@@ -5,7 +5,7 @@ import './SiteHeader.css'
 const links: { href: string; label: string }[] = [
   { href: '#mission', label: 'The mission' },
   { href: '#evening', label: site.evening.heading },
-  { href: '#impact', label: 'The impact' },
+  { href: '#impact', label: site.impact.nav },
   { href: '#unit', label: 'The unit' },
   { href: '#field', label: 'In the field' },
   { href: '#invitation', label: 'Invitation' },

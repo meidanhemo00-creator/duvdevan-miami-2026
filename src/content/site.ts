@@ -164,12 +164,12 @@ export const site = {
   },
 
   impact: {
-    heading: 'What your support makes possible',
+    heading: edition.impact.heading,
+    nav: edition.impact.nav,
     // DRAFT COPY. No figures or promises; add verified ones only.
     statement:
       'Service does not end when the uniform comes off. It stays with the soldier, with the family, and with everyone who stands beside them.',
-    intro:
-      'Funds raised at our events go to the soldiers, veterans and bereaved families of the unit, across three areas of work.',
+    intro: edition.impact.intro,
     /** Backdrop behind the statement: wide frame, and a phone crop on the subject. */
     backdrop: {
       wide: 'media/unit/watch',
@@ -180,7 +180,7 @@ export const site = {
       {
         id: 'resilience',
         title: 'Resilience and recovery',
-        body: 'Service leaves marks that are not always visible. Your support helps soldiers and veterans reach the care, the time and the people they need to recover.',
+        body: edition.impact.body.resilience,
         film: {
           id: 'resilience',
           title: 'Resilience and recovery',
@@ -194,7 +194,7 @@ export const site = {
       {
         id: 'education',
         title: 'Education and career',
-        body: 'After service, a new chapter begins. Your support helps veterans of the unit return to their studies and build the working lives they choose.',
+        body: edition.impact.body.education,
         film: {
           id: 'education',
           title: 'Education and career',
@@ -208,7 +208,7 @@ export const site = {
       {
         id: 'remembrance',
         title: 'Remembrance and support for bereaved families',
-        body: 'We remember every name. Your support keeps the foundation beside bereaved families, on the days of remembrance and on the ordinary days in between.',
+        body: edition.impact.body.remembrance,
         film: {
           id: 'remembrance',
           title: 'Remembrance and support for bereaved families',
