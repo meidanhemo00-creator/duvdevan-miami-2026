@@ -128,6 +128,7 @@ export const site = {
 
   /** City, date and title for this edition (see editions.ts). */
   event: edition.event,
+  host: edition.host,
 
   /** RSVP on Luma (registration, approval and guest emails are handled there). */
   rsvp: edition.rsvp,

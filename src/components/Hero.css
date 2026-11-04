@@ -170,6 +170,34 @@
   margin-top: clamp(2rem, 5vh, 3rem);
 }
 
+/* Hosts: a second, smaller title line under the date. */
+.hero__host {
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  margin-top: clamp(1.6rem, 4vh, 2.4rem);
+  --d: 2;
+}
+.hero__host-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  padding-left: 0.28em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+.hero__host-names {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 1rem + 3.2vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  filter: url(#grit);
+}
+
 /* ─── Motion ────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   /* Title elements arrive quickly and quietly, in reading order. */

@@ -31,6 +31,12 @@ export function Hero() {
       <div className="hero__content">
         <div className="hero__lockup">
           <EventTitle id="hero-title" priority />
+          {site.host && (
+            <p className="hero__host" data-intro>
+              <span className="hero__host-label">{site.host.label}</span>
+              <span className="hero__host-names">{site.host.names}</span>
+            </p>
+          )}
           <Rsvp className="hero__rsvp" />
         </div>
         <a className="hero__cue" href="#mission">

@@ -32,6 +32,8 @@ export type Edition = {
     /** Viewfinder overlay in the hero. */
     hud: { ref: string; op: string }
   }
+  /** Hosts, shown large under the hero title. Omit for no host line. */
+  host?: { label: string; names: string }
   /** Empty url → no RSVP buttons are shown. `short` is the small date on the button. */
   rsvp: { url: string; label: string; short: string }
   /** The city lit on the map. */
@@ -154,6 +156,7 @@ export const editions: Record<string, Edition> = {
       tagline: 'Thursday, November 12, 2026 · 6 pm · Paradise Valley',
       hud: { ref: '33°32′N 111°57′W', op: 'Paradise Valley · 11.12.26' },
     },
+    host: { label: 'Hosted by', names: 'Hilton & Melanie Efune' },
     // Set the Luma link here once the event page exists; until then no RSVP buttons show.
     rsvp: { url: '', label: 'RSVP', short: 'November 12' },
     stop: { name: 'Paradise Valley, Phoenix · November 12', lon: -111.96, lat: 33.53 },
