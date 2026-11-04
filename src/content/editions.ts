@@ -136,4 +136,48 @@ export const editions: Record<string, Edition> = {
       },
     },
   },
+
+  phoenix: {
+    slug: 'phoenix',
+    html: {
+      title: 'Duvdevan in Phoenix | November 12, 2026',
+      description:
+        'An evening with Friends of Duvdevan in Paradise Valley, Arizona, on November 12, 2026, hosted by Hilton and Melanie Efune: meet the operators of Duvdevan and learn about the foundation that stands beside the soldiers, veterans and bereaved families of the unit.',
+      ogTitle: 'Duvdevan in Phoenix',
+      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 12, 2026, at 6 pm, Paradise Valley. Hosted by Hilton and Melanie Efune.',
+      ogImageAlt: 'Duvdevan in Phoenix. Thursday, November 12, 2026, 6 pm, Paradise Valley, Arizona',
+    },
+    event: {
+      before: '',
+      after: 'In',
+      city: 'Phoenix',
+      tagline: 'Thursday, November 12, 2026 · 6 pm · Paradise Valley',
+      hud: { ref: '33°32′N 111°57′W', op: 'Paradise Valley · 11.12.26' },
+    },
+    // Set the Luma link here once the event page exists; until then no RSVP buttons show.
+    rsvp: { url: '', label: 'RSVP', short: 'November 12' },
+    stop: { name: 'Paradise Valley, Phoenix · November 12', lon: -111.96, lat: 33.53 },
+    closingLead:
+      'Hosted by Hilton and Melanie Efune. Join us in Paradise Valley on November 12, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Phoenix · Paradise Valley · November 12, 2026, 6 pm',
+    gathering: {
+      heading: 'The evening',
+      intro:
+        'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that night looks like.',
+    },
+    impact: {
+      heading: 'What the foundation does',
+      intro:
+        'The Duvdevan Foundation stands beside the soldiers, veterans and bereaved families of the unit, across three areas of work.',
+      nav: 'Our work',
+      body: {
+        resilience:
+          'Service leaves marks that are not always visible. The foundation helps soldiers and veterans reach the care, the time and the people they need to recover.',
+        education:
+          'After service, a new chapter begins. The foundation helps veterans of the unit return to their studies and build the working lives they choose.',
+        remembrance:
+          'We remember every name. The foundation stays beside bereaved families, on the days of remembrance and on the ordinary days in between.',
+      },
+    },
+  },
 }

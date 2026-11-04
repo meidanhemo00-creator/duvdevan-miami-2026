@@ -25,8 +25,8 @@ rm -rf dist
 (cd "$src" && npx vite build --outDir "$root/dist" --emptyOutDir)
 npx tsc -b
 # One folder per edition (src/content/editions.ts). Each keeps only its own link-preview image.
-for ed in la tucson; do
+for ed in la tucson phoenix; do
   VITE_EDITION=$ed npx vite build --outDir "dist/$ed" --emptyOutDir
   find "dist/$ed/media/og" -name '*-og.jpg' ! -name "$ed-og.jpg" -delete
 done
-echo "Built: / (mission-v1), /la/ and /tucson/"
+echo "Built: / (mission-v1), /la/, /tucson/ and /phoenix/"
