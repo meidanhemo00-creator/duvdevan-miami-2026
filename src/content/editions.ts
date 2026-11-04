@@ -190,7 +190,7 @@ export const editions: Record<string, Edition> = {
       description:
         'An evening with Friends of Duvdevan in Miami Beach on November 19, 2026, hosted by Norman Cohen and Alex Berenbaum, in support of the soldiers, veterans and bereaved families of the unit.',
       ogTitle: 'Duvdevan in Miami',
-      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 19, 2026, at 6:30 pm, 110 4th San Marino Terrace, Miami Beach. Hosted by Norman Cohen and Alex Berenbaum.',
+      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 19, 2026, at 6:30 pm, Miami Beach. Hosted by Norman Cohen and Alex Berenbaum.',
       ogImageAlt: 'Duvdevan in Miami. Thursday, November 19, 2026, 6:30 pm, Miami Beach',
     },
     event: {
@@ -200,12 +200,12 @@ export const editions: Record<string, Edition> = {
       tagline: 'Thursday, November 19, 2026 · 6:30 pm',
       hud: { ref: '25°47′N 80°09′W', op: 'Miami Beach · 11.19.26' },
     },
-    host: { label: 'Hosted by', names: 'Norman Cohen & Alex Berenbaum', address: '110 4th San Marino Terrace, Miami Beach, FL 33139' },
-    rsvp: { url: '', label: 'RSVP', short: 'November 19' },
+    host: { label: 'Hosted by', names: 'Norman Cohen & Alex Berenbaum', address: 'Miami Beach · Address sent once your RSVP is approved' },
+    rsvp: { url: 'https://luma.com/k0ehbibm', label: 'RSVP', short: 'November 19' },
     stop: { name: 'Miami Beach · November 19', lon: -80.16, lat: 25.79 },
     closingLead:
-      'Hosted by Norman Cohen and Alex Berenbaum at 110 4th San Marino Terrace, Miami Beach. Join us on November 19 at 6:30 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
-    footer: 'Duvdevan in Miami · November 19, 2026, 6:30 pm · 110 4th San Marino Terrace, Miami Beach, FL 33139',
+      'Hosted by Norman Cohen and Alex Berenbaum in Miami Beach. Join us on November 19 at 6:30 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Miami · November 19, 2026, 6:30 pm · Miami Beach',
     gathering: {
       heading: 'The evening',
       intro:
