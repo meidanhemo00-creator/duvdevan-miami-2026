@@ -186,6 +186,17 @@
   text-transform: uppercase;
   color: var(--signal);
 }
+.hero__host-address {
+  margin-top: 0.5rem;
+  max-width: 22rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--ink-2);
+}
 .hero__host-names {
   font-family: var(--font-display);
   font-stretch: var(--display-stretch);

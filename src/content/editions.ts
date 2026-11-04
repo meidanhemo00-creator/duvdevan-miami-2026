@@ -33,7 +33,7 @@ export type Edition = {
     hud: { ref: string; op: string }
   }
   /** Hosts, shown large under the hero title. Omit for no host line. */
-  host?: { label: string; names: string }
+  host?: { label: string; names: string; address?: string }
   /** Empty url → no RSVP buttons are shown. `short` is the small date on the button. */
   rsvp: { url: string; label: string; short: string }
   /** The city lit on the map. */
@@ -146,23 +146,23 @@ export const editions: Record<string, Edition> = {
       description:
         'An evening with Friends of Duvdevan in Paradise Valley, Arizona, on November 12, 2026, hosted by Hilton and Melanie Efune: meet the operators of Duvdevan and learn about the foundation that stands beside the soldiers, veterans and bereaved families of the unit.',
       ogTitle: 'Duvdevan in Phoenix',
-      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 12, 2026, at 6 pm, Paradise Valley. Hosted by Hilton and Melanie Efune.',
+      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 12, 2026, at 6 pm, 6905 E Jackrabbit Rd, Paradise Valley. Hosted by Hilton and Melanie Efune.',
       ogImageAlt: 'Duvdevan in Phoenix. Thursday, November 12, 2026, 6 pm, Paradise Valley, Arizona',
     },
     event: {
       before: '',
       after: 'In',
       city: 'Phoenix',
-      tagline: 'Thursday, November 12, 2026 · 6 pm · Paradise Valley',
+      tagline: 'Thursday, November 12, 2026 · 6 pm',
       hud: { ref: '33°32′N 111°57′W', op: 'Paradise Valley · 11.12.26' },
     },
-    host: { label: 'Hosted by', names: 'Hilton & Melanie Efune' },
+    host: { label: 'Hosted by', names: 'Hilton & Melanie Efune', address: '6905 E Jackrabbit Rd, Paradise Valley, AZ 85253' },
     // Set the Luma link here once the event page exists; until then no RSVP buttons show.
     rsvp: { url: '', label: 'RSVP', short: 'November 12' },
     stop: { name: 'Paradise Valley, Phoenix · November 12', lon: -111.96, lat: 33.53 },
     closingLead:
-      'Hosted by Hilton and Melanie Efune. Join us in Paradise Valley on November 12, and stand with the soldiers, veterans and bereaved families of the unit.',
-    footer: 'Duvdevan in Phoenix · Paradise Valley · November 12, 2026, 6 pm',
+      'Hosted by Hilton and Melanie Efune at 6905 E Jackrabbit Rd, Paradise Valley, AZ 85253. Join us on November 12 at 6 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Phoenix · November 12, 2026, 6 pm · 6905 E Jackrabbit Rd, Paradise Valley, AZ 85253',
     gathering: {
       heading: 'The evening',
       intro:

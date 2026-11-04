@@ -35,6 +35,7 @@ export function Hero() {
             <p className="hero__host" data-intro>
               <span className="hero__host-label">{site.host.label}</span>
               <span className="hero__host-names">{site.host.names}</span>
+              {site.host.address && <span className="hero__host-address">{site.host.address}</span>}
             </p>
           )}
           <Rsvp className="hero__rsvp" />
