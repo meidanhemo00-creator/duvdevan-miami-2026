@@ -182,4 +182,48 @@ export const editions: Record<string, Edition> = {
       },
     },
   },
+
+  miami: {
+    slug: 'miami',
+    html: {
+      title: 'Duvdevan in Miami | November 19, 2026',
+      description:
+        'An evening with Friends of Duvdevan in Miami Beach on November 19, 2026, hosted by Norman Cohen and Alex Berenbaum, in support of the soldiers, veterans and bereaved families of the unit.',
+      ogTitle: 'Duvdevan in Miami',
+      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 19, 2026, at 6:30 pm, 110 4th San Marino Terrace, Miami Beach. Hosted by Norman Cohen and Alex Berenbaum.',
+      ogImageAlt: 'Duvdevan in Miami. Thursday, November 19, 2026, 6:30 pm, Miami Beach',
+    },
+    event: {
+      before: '',
+      after: 'In',
+      city: 'Miami',
+      tagline: 'Thursday, November 19, 2026 · 6:30 pm',
+      hud: { ref: '25°47′N 80°09′W', op: 'Miami Beach · 11.19.26' },
+    },
+    host: { label: 'Hosted by', names: 'Norman Cohen & Alex Berenbaum', address: '110 4th San Marino Terrace, Miami Beach, FL 33139' },
+    rsvp: { url: '', label: 'RSVP', short: 'November 19' },
+    stop: { name: 'Miami Beach · November 19', lon: -80.16, lat: 25.79 },
+    closingLead:
+      'Hosted by Norman Cohen and Alex Berenbaum at 110 4th San Marino Terrace, Miami Beach. Join us on November 19 at 6:30 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Miami · November 19, 2026, 6:30 pm · 110 4th San Marino Terrace, Miami Beach, FL 33139',
+    gathering: {
+      heading: 'The evening',
+      intro:
+        'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that night looks like.',
+    },
+    impact: {
+      heading: 'What your support makes possible',
+      intro:
+        'Funds raised at our events go to the soldiers, veterans and bereaved families of the unit, across three areas of work.',
+      nav: 'The impact',
+      body: {
+        resilience:
+          'Service leaves marks that are not always visible. Your support helps soldiers and veterans reach the care, the time and the people they need to recover.',
+        education:
+          'After service, a new chapter begins. Your support helps veterans of the unit return to their studies and build the working lives they choose.',
+        remembrance:
+          'We remember every name. Your support keeps the foundation beside bereaved families, on the days of remembrance and on the ordinary days in between.',
+      },
+    },
+  },
 }

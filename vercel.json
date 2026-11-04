@@ -16,6 +16,11 @@
       "source": "/phoenix",
       "destination": "/phoenix/",
       "permanent": true
+    },
+    {
+      "source": "/miami",
+      "destination": "/miami/",
+      "permanent": true
     }
   ]
 }
