@@ -157,8 +157,7 @@ export const editions: Record<string, Edition> = {
       hud: { ref: '33°32′N 111°57′W', op: 'Paradise Valley · 11.12.26' },
     },
     host: { label: 'Hosted by', names: 'Hilton & Melanie Efune', address: '6905 E Jackrabbit Rd, Paradise Valley, AZ 85253' },
-    // Set the Luma link here once the event page exists; until then no RSVP buttons show.
-    rsvp: { url: '', label: 'RSVP', short: 'November 12' },
+    rsvp: { url: 'https://luma.com/kceri7ue', label: 'RSVP', short: 'November 12' },
     stop: { name: 'Paradise Valley, Phoenix · November 12', lon: -111.96, lat: 33.53 },
     closingLead:
       'Hosted by Hilton and Melanie Efune at 6905 E Jackrabbit Rd, Paradise Valley, AZ 85253. Join us on November 12 at 6 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
