@@ -120,29 +120,57 @@ function Eyebrow({ children, n }: { children: ReactNode; n?: string }) {
   )
 }
 
-function CountUp({ to, prefix = '', suffix = '', format = true }: { to: number; prefix?: string; suffix?: string; format?: boolean }) {
-  const [ref, seen] = useInView<HTMLSpanElement>(0.6)
+function CountUp({
+  to,
+  prefix = '',
+  suffix = '',
+  format = true,
+  decimals = 0,
+}: {
+  to: number
+  prefix?: string
+  suffix?: string
+  format?: boolean
+  decimals?: number
+}) {
+  const [ref, seen] = useInView<HTMLSpanElement>(0.5)
   const [v, setV] = useState(0)
   useEffect(() => {
     if (!seen) return
     if (reduced()) return setV(to)
     const t0 = performance.now()
-    const dur = 1800
+    // Bigger numbers run a little longer, so the climb reads as scale.
+    const dur = Math.min(2800, 1500 + Math.log10(Math.max(10, to)) * 300)
     let raf = 0
     const tick = (t: number) => {
       const k = Math.min(1, (t - t0) / dur)
-      setV(Math.round(to * (1 - Math.pow(1 - k, 4))))
+      const e = k === 1 ? 1 : 1 - Math.pow(2, -10 * k)
+      setV(to * e)
       if (k < 1) raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [seen, to])
+  const shown = decimals ? v.toFixed(decimals) : format ? Math.round(v).toLocaleString('en-US') : String(Math.round(v))
   return (
-    <span ref={ref} className="count">
-      {prefix}
-      {format ? v.toLocaleString('en-US') : v}
-      {suffix}
+    <span ref={ref} className="count" aria-label={`${prefix}${decimals ? to.toFixed(decimals) : to.toLocaleString('en-US')}${suffix}`}>
+      <span aria-hidden>
+        {prefix}
+        {shown}
+        {suffix}
+      </span>
     </span>
+  )
+}
+
+/** Text where {123} marks a number that counts up when it comes into view. */
+function Counted({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/\{([\d.,]+)\}/).map((part, i) =>
+        i % 2 ? <CountUp key={i} to={Number(part.replace(/,/g, ''))} decimals={part.includes('.') ? part.split('.')[1].length : 0} /> : part,
+      )}
+    </>
   )
 }
 
@@ -346,7 +374,7 @@ function ZeroToHundred() {
           </ol>
         </div>
         <p className="zth__foot wrap hud">
-          150–200 operations in a single mandatory service · <span className="zth__progress">{String(idx + 1).padStart(2, '0')} / 03</span>
+          <Counted text="{150}–{200} operations in a single mandatory service · " /><span className="zth__progress">{String(idx + 1).padStart(2, '0')} / 03</span>
         </p>
       </div>
     </section>
@@ -598,7 +626,7 @@ function Stages() {
 const care = [
   {
     t: 'Professional mental health care',
-    b: 'Discreet one-to-one support, guidance and referral to specialist, trauma-focused care. In the first half of 2026 alone: 65 referrals to therapy in the community and 28 psychiatric consultations.',
+    b: 'Discreet one-to-one support, guidance and referral to specialist, trauma-focused care. In the first half of 2026 alone: {65} referrals to therapy in the community and {28} psychiatric consultations.',
   },
   {
     t: 'Resilience retreats',
@@ -614,7 +642,7 @@ const care = [
   },
   {
     t: 'Rights and legal support',
-    b: 'A dedicated department that helps soldiers and veterans claim the rights they are entitled to. January to June 2026: 64 visits to wounded veterans, 93 helped through Ministry of Defense recognition, 33 legal representations.',
+    b: 'A dedicated department that helps soldiers and veterans claim the rights they are entitled to. January to June 2026: {64} visits to wounded veterans, {93} helped through Ministry of Defense recognition, {33} legal representations.',
   },
 ]
 
@@ -658,7 +686,9 @@ function Programme() {
                   <span className="care__plus" aria-hidden />
                 </button>
                 <div className="care__body">
-                  <p>{c.b}</p>
+                  <p>
+                    <Counted text={c.b} />
+                  </p>
                 </div>
               </li>
             ))}
@@ -754,7 +784,7 @@ const stories: Story[] = [
     place: 'Sri Lanka',
     coords: '06°02′N 80°13′E',
     title: 'A team, out of routine.',
-    body: 'December 2025: 50 participants, away from Israel, phones and everyday stress, with their own therapeutic team. Surfing, yoga and ice baths by day. Every evening, a facilitated processing conversation.',
+    body: 'December 2025: {50} participants, away from Israel, phones and everyday stress, with their own therapeutic team. Surfing, yoga and ice baths by day. Every evening, a facilitated processing conversation.',
     quote: '“It gives us strength to keep going.”',
     loop: 'srilanka-loop.mp4',
     poster: 'surf.jpg',
@@ -804,7 +834,7 @@ function StoryCard({ s, play, flip }: { s: Story; play: (f: Film) => void; flip?
           {s.title}
         </h3>
         <p className="story__body" data-reveal style={{ '--d': 1 } as CSSProperties}>
-          {s.body}
+          <Counted text={s.body} />
         </p>
         <p className="story__quote" data-reveal style={{ '--d': 2 } as CSSProperties}>
           {s.quote}
@@ -865,7 +895,9 @@ function Journeys({ play }: { play: (f: Film) => void }) {
             <span className="voice__l">gave our activities a 4 or a 5</span>
           </div>
           <div className="voice__item" data-reveal style={{ '--d': 1 } as CSSProperties}>
-            <span className="voice__n">4.86</span>
+            <span className="voice__n">
+              <CountUp to={4.86} decimals={2} />
+            </span>
             <span className="voice__l">out of 5 would recommend it</span>
           </div>
           <div className="voice__item" data-reveal style={{ '--d': 2 } as CSSProperties}>
@@ -993,7 +1025,9 @@ function Give() {
             ))}
           </ul>
           <p className="budget__actual">
-            <b>₪1.64 million</b> went directly into resilience care in the first half of 2026 alone.
+            <b>
+              <CountUp to={1.64} decimals={2} prefix="₪" /> million
+            </b> went directly into resilience care in the first half of 2026 alone.
           </p>
           <p className="budget__note">The annual figure is a preliminary estimate. A detailed budget will be developed together with our partners.</p>
         </div>
@@ -1005,7 +1039,9 @@ function Give() {
           <span className="trust__v">Listed in IRS Publication 78 · EIN 83-0860160</span>
         </a>
         <a className="trust__item" href="https://www.charitynavigator.org/ein/830860160" target="_blank" rel="noopener noreferrer" data-reveal style={{ '--d': 1 } as CSSProperties}>
-          <span className="trust__k">89%</span>
+          <span className="trust__k">
+            <CountUp to={89} suffix="%" />
+          </span>
           <span className="trust__v">Charity Navigator · three stars</span>
         </a>
         <a className="trust__item" href="https://www.guidestar.org/profile/83-0860160" target="_blank" rel="noopener noreferrer" data-reveal style={{ '--d': 2 } as CSSProperties}>
