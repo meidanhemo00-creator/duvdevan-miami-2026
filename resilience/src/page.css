@@ -33,7 +33,6 @@
 
   --font-display: 'Archivo Variable', 'Archivo', sans-serif;
   --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
 
   --gutter: clamp(1rem, 0.4rem + 3vw, 4rem);
@@ -1910,39 +1909,29 @@ button {
 
 /* ═══ Pass 2: UX/UI refinements ═════════════════════════════════════ */
 
-/* Serif voice: the human lines (quotes, asides) set against the stencil. */
-.team__quote,
-.story__quote,
-.closing__kicker {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-}
+/* Human lines (quotes, asides): Hanken, larger, set apart by weight not by a script face. */
 .team__quote {
-  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem);
-  line-height: 1.12;
-  max-width: 22ch;
+  font-size: clamp(1.4rem, 1.1rem + 1.1vw, 2rem);
+  line-height: 1.25;
+  font-weight: 550;
+  max-width: 24ch;
 }
 .story__quote {
-  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem);
-  line-height: 1.15;
+  font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.6rem);
+  font-weight: 550;
+  line-height: 1.3;
 }
 .challenge__line em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 1.08em;
-  line-height: 0.95;
+  font-style: normal;
 }
 .why__title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(2rem, 1.2rem + 3.2vw, 4.2rem);
-  line-height: 1.08;
-  letter-spacing: -0.005em;
+  font-size: clamp(1.8rem, 1.1rem + 2.6vw, 3.6rem);
+  font-weight: 450;
+  line-height: 1.15;
+}
+.closing__kicker {
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.5rem);
+  letter-spacing: 0.01em;
 }
 
 /* Header: reading progress. */
