@@ -33,6 +33,7 @@
 
   --font-display: 'Archivo Variable', 'Archivo', sans-serif;
   --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
 
   --gutter: clamp(1rem, 0.4rem + 3vw, 4rem);
@@ -579,6 +580,49 @@ button {
 .zth__level.is-hot {
   color: var(--signal);
 }
+.zth__monitor {
+  position: relative;
+  height: clamp(3.5rem, 7vw, 6rem);
+  margin-top: 1rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(221 214 198 / 0.12);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.zth__live {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 200%;
+  height: 100%;
+  animation: ecg calc(var(--bpm) * 2) linear infinite;
+}
+.zth__live path {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  transition: d 400ms;
+}
+@keyframes ecg {
+  to { transform: translateX(-50%); }
+}
+.zth__rail {
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  display: flex;
+  gap: 0.4rem;
+}
+.zth__rail span {
+  width: 2.25rem;
+  height: 2px;
+  background: rgb(221 214 198 / 0.18);
+  transition: background-color 400ms;
+}
+.zth__rail span.is-on {
+  background: var(--signal);
+}
 .zth__pulse {
   width: 100%;
   height: clamp(3rem, 7vw, 6rem);
@@ -887,7 +931,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 40% 50%;
+  object-position: 42% 50%;
 }
 .team__photo figcaption {
   position: absolute;
@@ -944,9 +988,7 @@ button {
   .stat__n {
     font-size: clamp(1.9rem, 8.4vw, 3.2rem);
   }
-  .stat:last-child .stat__n {
-    font-size: clamp(1.5rem, 6.6vw, 3rem);
-  }
+
   .stat:nth-child(3) {
     padding-left: 0;
     border-left: 0;
@@ -1863,4 +1905,411 @@ button {
     opacity: 1;
     filter: none;
   }
+}
+
+
+/* ═══ Pass 2: UX/UI refinements ═════════════════════════════════════ */
+
+/* Serif voice: the human lines (quotes, asides) set against the stencil. */
+.team__quote,
+.story__quote,
+.closing__kicker {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.team__quote {
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem);
+  line-height: 1.12;
+  max-width: 22ch;
+}
+.story__quote {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem);
+  line-height: 1.15;
+}
+.challenge__line em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1.08em;
+  line-height: 0.95;
+}
+.why__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.2rem + 3.2vw, 4.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+
+/* Header: reading progress. */
+.header__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--cherry-hi);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* Hero: centred, brand-first. */
+.hero__content {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+}
+.hero__title {
+  justify-items: center;
+}
+.hero__lead {
+  margin-inline: auto;
+}
+.hero__actions {
+  justify-content: center;
+}
+.hero__kicker {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 0.5em;
+}
+.hero__kicker-sep {
+  white-space: pre;
+}
+
+/* Centred scene heads. */
+.burden__head,
+.programme > .wrap > .eyebrow,
+.journeys > .wrap > .eyebrow,
+.circle__head {
+  text-align: center;
+}
+.burden__head .eyebrow,
+.programme > .wrap > .eyebrow,
+.journeys > .wrap > .eyebrow,
+.circle__head .eyebrow {
+  justify-content: center;
+}
+.eyebrow {
+  justify-content: flex-start;
+}
+.burden__head .eyebrow::before,
+.programme > .wrap > .eyebrow::before,
+.journeys > .wrap > .eyebrow::before,
+.circle__head .eyebrow::before {
+  content: '';
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+.burden__title,
+.programme__title,
+.journeys__title,
+.circle__title {
+  margin-inline: auto;
+  text-align: center;
+}
+.burden__lead,
+.journeys__lead {
+  margin-inline: auto;
+  text-align: center;
+}
+.programme__title {
+  max-width: 16ch;
+}
+
+/* Burden: the photo follows the item in focus. */
+.burden__photo {
+  background: #000;
+}
+.burden__photo img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 1600ms var(--ease-cine);
+}
+.burden__photo img.is-on {
+  opacity: 1;
+  transform: none;
+}
+.burden__count {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  color: rgb(255 255 255 / 0.85);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+}
+.burden__count span {
+  color: #fff;
+}
+.burden__list li {
+  transition: opacity 400ms;
+}
+@media (min-width: 821px) {
+  .burden__list li:not(.is-on) {
+    opacity: 0.38;
+  }
+  .reveal-ready .burden__list li[data-reveal]:not([data-inview]) {
+    opacity: 0;
+  }
+}
+.burden__list li.is-on h3 {
+  color: #fff;
+}
+
+/* Wider circle: concentric rings. */
+.circle__head {
+  display: grid;
+  justify-items: center;
+}
+.circle__title span {
+  display: block;
+}
+.circle__grid {
+  margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+.circle__rings {
+  position: relative;
+  width: min(100%, 34rem);
+  aspect-ratio: 1;
+  justify-self: center;
+}
+.circle__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition:
+    background-color 400ms var(--ease-out),
+    border-color 400ms,
+    color 400ms;
+}
+.circle__ring--0 {
+  width: 28%;
+  align-items: center;
+  padding-top: 0;
+  background: var(--cherry);
+  border-color: var(--cherry);
+  color: #fff;
+}
+.circle__ring--1 {
+  width: 50%;
+}
+.circle__ring--2 {
+  width: 74%;
+}
+.circle__ring--3 {
+  width: 98%;
+}
+.circle__ring:not(.circle__ring--0):hover,
+.circle__ring.is-on:not(.circle__ring--0) {
+  background: color-mix(in oklab, var(--ink) 7%, transparent);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.circle__ring--0.is-on {
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--cherry) 25%, transparent);
+}
+.circle__panel {
+  display: grid;
+  gap: 0.9rem;
+  animation: panel 600ms var(--ease-cine) both;
+  max-width: 30rem;
+}
+.circle__t {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.9rem, 1.2rem + 2.4vw, 3.4rem);
+  line-height: 0.95;
+}
+.circle__panel p {
+  color: var(--ink-2);
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.3rem);
+}
+@media (max-width: 820px) {
+  .circle__grid {
+    grid-template-columns: 1fr;
+  }
+  .circle__panel {
+    text-align: center;
+    justify-items: center;
+    margin-inline: auto;
+    min-height: 11rem;
+  }
+}
+
+/* Closing: the line comes back to calm. */
+.closing__calm {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: clamp(3rem, 8vw, 6rem);
+}
+.closing__readout {
+  display: block;
+  text-align: center;
+  color: rgb(221 214 198 / 0.6);
+  margin-bottom: 0.75rem;
+}
+.closing__readout b {
+  color: var(--bone);
+  font-weight: 500;
+}
+.closing__line {
+  width: 100%;
+  height: 4rem;
+}
+.closing__line path {
+  fill: none;
+  stroke: rgb(221 214 198 / 0.55);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.closing__calm[data-inview] .closing__line path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 3200ms var(--ease-io) 300ms;
+}
+.closing__inner {
+  padding-top: clamp(6rem, 12vw, 10rem);
+}
+.closing__kicker {
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.6rem);
+  color: rgb(221 214 198 / 0.8);
+  margin-bottom: 1.25rem;
+}
+.closing__title span {
+  display: block;
+}
+.footer {
+  align-items: center;
+}
+.footer__logo {
+  height: 1.2rem;
+  flex: none;
+}
+
+/* Impact numbers (resilience department data). */
+.impact {
+  margin-top: clamp(4rem, 3rem + 5vw, 8rem);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
+  padding-top: 2rem;
+}
+.impact__hero {
+  display: grid;
+  gap: 0.75rem;
+}
+.impact__big {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  font-size: clamp(5rem, 2rem + 10vw, 11rem);
+  line-height: 0.82;
+  color: var(--cherry);
+}
+.impact__label {
+  font-size: clamp(1.1rem, 1rem + 0.4vw, 1.35rem);
+  max-width: 24ch;
+  line-height: 1.35;
+}
+.impact .stats {
+  margin-top: 0.9rem;
+}
+.impact__period {
+  color: var(--ink-2);
+}
+@media (max-width: 860px) {
+  .impact {
+    grid-template-columns: 1fr;
+  }
+}
+.voice {
+  margin-top: clamp(4rem, 3rem + 4vw, 7rem);
+}
+.voice__head {
+  margin-bottom: 1.25rem;
+}
+.voice__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: var(--night);
+  color: var(--bone);
+}
+.voice__item {
+  padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+.voice__item + .voice__item {
+  border-left: 1px solid rgb(221 214 198 / 0.14);
+}
+.voice__n {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  font-size: clamp(3rem, 1.8rem + 4vw, 5.5rem);
+  line-height: 0.85;
+}
+.voice__l {
+  color: rgb(221 214 198 / 0.78);
+  max-width: 26ch;
+}
+@media (max-width: 760px) {
+  .voice__grid {
+    grid-template-columns: 1fr;
+  }
+  .voice__item + .voice__item {
+    border-left: 0;
+    border-top: 1px solid rgb(221 214 198 / 0.14);
+  }
+}
+/* Rings: keep them round. */
+.circle__ring {
+  aspect-ratio: 1;
+}
+.circle__title {
+  max-width: none;
+}
+.budget__actual {
+  font-size: 0.95rem;
+  color: rgb(221 214 198 / 0.85);
+}
+.budget__actual b {
+  color: #fff;
+  font-weight: 600;
 }

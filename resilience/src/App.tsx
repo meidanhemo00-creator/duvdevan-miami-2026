@@ -201,8 +201,18 @@ function FilmLightbox({ film, onClose }: { film: Film | null; onClose: () => voi
 
 function Header() {
   const [scrolled, setScrolled] = useState(false)
+  const bar = useRef<HTMLSpanElement>(null)
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 40)
+    let raf = 0
+    const on = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        setScrolled(window.scrollY > 40)
+        const max = document.documentElement.scrollHeight - window.innerHeight
+        if (bar.current) bar.current.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`
+      })
+    }
     on()
     window.addEventListener('scroll', on, { passive: true })
     return () => window.removeEventListener('scroll', on)
@@ -218,10 +228,12 @@ function Header() {
         <a href="#team">The team</a>
         <a href="#programme">The programme</a>
         <a href="#journeys">Journeys</a>
+        <a href="#give">Give</a>
       </nav>
       <a className="btn btn--small" href={DONATE} target="_blank" rel="noopener noreferrer">
         Donate
       </a>
+      <span className="header__progress" ref={bar} aria-hidden />
     </header>
   )
 }
@@ -294,7 +306,6 @@ function ZeroToHundred() {
   // Intensity rises fast into the middle beat and falls away after it.
   const level = Math.round(p < 0.5 ? 100 * Math.pow(Math.min(1, p / 0.42), 1.6) : 100 * Math.pow(Math.max(0, 1 - (p - 0.58) / 0.42), 1.6))
   const clamped = Math.max(0, Math.min(100, p > 0.42 && p < 0.58 ? 100 : level))
-  const pathLen = 1
   return (
     <section className="zth" id="weight" ref={ref} data-tone="dark" aria-label="A day in the unit">
       <div className="zth__stage">
@@ -309,15 +320,18 @@ function ZeroToHundred() {
             <span className={`zth__level ${clamped >= 70 ? 'is-hot' : ''}`}>
               {clamped}
             </span>
-            <svg className="zth__pulse" viewBox="0 0 600 120" preserveAspectRatio="none">
-              <path
-                d="M0 100 H170 L190 100 L205 92 L215 100 L240 100 L255 10 L270 115 L285 60 L300 100 L330 100 L345 18 L360 112 L372 70 L385 100 H600"
-                pathLength={pathLen}
-                style={{ strokeDashoffset: 1 - p }}
-              />
-            </svg>
+            <div className="zth__monitor" style={{ '--bpm': `${Math.max(0.35, 1.6 - clamped / 80)}s` } as CSSProperties}>
+              <svg className="zth__live" viewBox="0 0 800 120" preserveAspectRatio="none">
+                <path d={[0, 400].map((o) => `M${o} 70 H${o + 150} L${o + 160} ${70 - 6 - clamped * 0.06} L${o + 170} 70 L${o + 190} 70 L${o + 202} ${Math.max(4, 64 - clamped * 0.6)} L${o + 214} ${76 + clamped * 0.4} L${o + 226} 70 H${o + 400}`).join(' ')} />
+              </svg>
+            </div>
           </div>
           <ol className="zth__beats">
+            <li className="zth__rail" aria-hidden>
+              {beats.map((b, i) => (
+                <span key={b.time} className={i <= idx ? 'is-on' : ''} />
+              ))}
+            </li>
             {beats.map((b, i) => (
               <li key={b.time} className={`zth__beat ${i === idx ? 'is-on' : ''} ${i < idx ? 'is-past' : ''}`}>
                 <span className="zth__time">{b.time}</span>
@@ -354,6 +368,13 @@ function Challenge() {
 
 /* ─── 03 why this unit carries more ───────────────────────────────────── */
 
+const burdenImgs = [
+  { src: 'unit.jpg', alt: 'Duvdevan operators on the move' },
+  { src: 'watch.jpg', alt: 'A masked Duvdevan operator at an observation post' },
+  { src: 'nvg.jpg', alt: 'An operator lowering night-vision goggles' },
+  { src: 'pair.jpg', alt: 'Two Duvdevan operators in the field' },
+]
+
 const burdens = [
   { k: 'Always on', t: 'Never off the line', b: 'Duvdevan is in operations around the clock, in peacetime and at war. There is no quiet season.' },
   { k: 'Classified', t: 'Nothing to talk about', b: 'Almost everything they do is secret. Not with friends, not at home. The weight stays inside.' },
@@ -362,6 +383,19 @@ const burdens = [
 ]
 
 function Burden() {
+  const [active, setActive] = useState(0)
+  const items = useRef<(HTMLLIElement | null)[]>([])
+  // The photo follows whichever item sits in the middle of the screen (and hover/focus on desktop).
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.i))
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    )
+    items.current.forEach((el) => el && io.observe(el))
+    return () => io.disconnect()
+  }, [])
   return (
     <section className="burden" data-tone="dark" aria-labelledby="burden-title">
       <div className="wrap burden__head">
@@ -376,11 +410,26 @@ function Burden() {
       </div>
       <div className="wrap burden__grid">
         <figure className="burden__photo" data-reveal="frame">
-          <img src={`${M}watch.jpg`} alt="A Duvdevan operator, masked, at an observation post" loading="lazy" />
+          {burdenImgs.map((im, i) => (
+            <img key={im.src} src={M + im.src} alt={i === active ? im.alt : ''} aria-hidden={i !== active} loading="lazy" className={i === active ? 'is-on' : ''} />
+          ))}
+          <figcaption className="burden__count hud" aria-hidden>
+            <span>{String(active + 1).padStart(2, '0')}</span> / 04 · {burdens[active].k}
+          </figcaption>
         </figure>
         <ul className="burden__list">
           {burdens.map((x, i) => (
-            <li key={x.k} data-reveal style={{ '--d': i } as CSSProperties}>
+            <li
+              key={x.k}
+              data-i={i}
+              ref={(el) => {
+                items.current[i] = el
+              }}
+              className={i === active ? 'is-on' : ''}
+              onMouseEnter={() => setActive(i)}
+              data-reveal
+              style={{ '--d': i } as CSSProperties}
+            >
               <span className="hud">{x.k}</span>
               <h3>{x.t}</h3>
               <p>{x.b}</p>
@@ -446,35 +495,38 @@ function Team() {
           </p>
         </div>
         <figure className="team__photo" data-reveal="frame">
-          <img src={`${M}team.jpg`} alt="A Duvdevan team standing together in a circle on a resilience retreat" loading="lazy" />
+          <img src={`${M}team.jpg`} alt="Duvdevan veterans in a morning session on a resilience retreat in Sri Lanka" loading="lazy" />
           <figcaption className="hud">Team retreat · Sri Lanka</figcaption>
         </figure>
       </div>
 
-      <div className="wrap stats" aria-label="The foundation in numbers">
-        <div className="stat" data-reveal>
-          <span className="stat__n">
-            <CountUp to={1000} suffix="+" />
+      <div className="wrap impact" aria-label="The resilience department in numbers">
+        <div className="impact__hero" data-reveal>
+          <span className="hud">Since the war · 2024 to June 2026</span>
+          <span className="impact__big">
+            <CountUp to={4900} suffix="+" />
           </span>
-          <span className="stat__l">resilience workshops held</span>
+          <span className="impact__label">participations in resilience and mental health programmes</span>
         </div>
-        <div className="stat" data-reveal style={{ '--d': 1 } as CSSProperties}>
-          <span className="stat__n">
-            <CountUp to={1000} suffix="+" />
-          </span>
-          <span className="stat__l">soldiers and veterans supported</span>
-        </div>
-        <div className="stat" data-reveal style={{ '--d': 2 } as CSSProperties}>
-          <span className="stat__n">
-            <CountUp to={350} />
-          </span>
-          <span className="stat__l">scholarships awarded</span>
-        </div>
-        <div className="stat" data-reveal style={{ '--d': 3 } as CSSProperties}>
-          <span className="stat__n">
-            4,000<span className="stat__dash">–</span>5,000
-          </span>
-          <span className="stat__l">people in daily contact with the community</span>
+        <div className="impact__half">
+          <p className="hud impact__period" data-reveal>
+            January to June 2026
+          </p>
+          <div className="stats">
+            {[
+              { n: 563, l: 'people received direct support' },
+              { n: 437, l: 'active care files' },
+              { n: 260, l: 'wounded veterans supported' },
+              { n: 93, l: 'helped through Ministry of Defense recognition' },
+            ].map((x, i) => (
+              <div className="stat" key={x.l} data-reveal style={{ '--d': i } as CSSProperties}>
+                <span className="stat__n">
+                  <CountUp to={x.n} />
+                </span>
+                <span className="stat__l">{x.l}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <p className="wrap motto" data-reveal>
@@ -546,23 +598,23 @@ function Stages() {
 const care = [
   {
     t: 'Professional mental health care',
-    b: 'Confidential access to specialist, trauma-focused care, and ongoing support to process experiences, find stability and move forward.',
+    b: 'Discreet one-to-one support, guidance and referral to specialist, trauma-focused care. In the first half of 2026 alone: 65 referrals to therapy in the community and 28 psychiatric consultations.',
   },
   {
     t: 'Resilience retreats',
-    b: 'Time away together, out of routine and familiar surroundings, with professionals beside them: a space to process with the people who were there.',
+    b: 'Time away together, out of routine, with professionals beside them. Team sailing and surfing, weekly resilience groups, and journeys abroad for teams that went through loss.',
   },
   {
     t: 'Couples and families',
-    b: 'Care for partners, children and families, including couples in deep crisis, sometimes on the verge of separation, facing what combat has done to their life together.',
+    b: 'A couples retreat with NATAL, a parent and child surf workshop for ages 12 to 18, and care for couples in deep crisis, sometimes on the verge of separation.',
   },
   {
     t: 'Community and healing',
-    b: 'Spaces where Duvdevan veterans can speak, or simply sit in silence, among people who understand without explanation.',
+    b: 'Spaces where Duvdevan veterans can speak, or simply sit in silence, among people who understand without explanation. Rowing, basketball and CrossFit groups keep them close.',
   },
   {
     t: 'Rights and legal support',
-    b: 'A dedicated department that helps soldiers and veterans claim the legal rights and benefits they are entitled to, so no one fights the system alone.',
+    b: 'A dedicated department that helps soldiers and veterans claim the rights they are entitled to. January to June 2026: 64 visits to wounded veterans, 93 helped through Ministry of Defense recognition, 33 legal representations.',
   },
 ]
 
@@ -702,7 +754,7 @@ const stories: Story[] = [
     place: 'Sri Lanka',
     coords: '06°02′N 80°13′E',
     title: 'A team, out of routine.',
-    body: 'A whole team, away from Israel, phones and everyday stress. Surfing, yoga and ice baths by day. Every evening, the team sits together for a facilitated processing conversation, with our therapists there.',
+    body: 'December 2025: 50 participants, away from Israel, phones and everyday stress, with their own therapeutic team. Surfing, yoga and ice baths by day. Every evening, a facilitated processing conversation.',
     quote: '“It gives us strength to keep going.”',
     loop: 'srilanka-loop.mp4',
     poster: 'surf.jpg',
@@ -801,33 +853,76 @@ function Journeys({ play }: { play: (f: Film) => void }) {
           ))}
         </ol>
       </div>
+      <div className="wrap voice">
+        <p className="hud voice__head" data-reveal>
+          What participants told us · January to June 2026
+        </p>
+        <div className="voice__grid">
+          <div className="voice__item" data-reveal>
+            <span className="voice__n">
+              <CountUp to={92} suffix="%" />
+            </span>
+            <span className="voice__l">gave our activities a 4 or a 5</span>
+          </div>
+          <div className="voice__item" data-reveal style={{ '--d': 1 } as CSSProperties}>
+            <span className="voice__n">4.86</span>
+            <span className="voice__l">out of 5 would recommend it</span>
+          </div>
+          <div className="voice__item" data-reveal style={{ '--d': 2 } as CSSProperties}>
+            <span className="voice__n">
+              <CountUp to={103} />
+            </span>
+            <span className="voice__l">asked us to stay in touch afterwards. That is where one‑to‑one care begins.</span>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
 
 /* ─── 08 the wider circle ─────────────────────────────────────────────── */
 
+const rings = [
+  { k: 'The soldier', t: 'At the centre', b: 'Trauma-focused care, retreats and one-to-one therapy, from active service to years after discharge.' },
+  { k: 'His team', t: 'The brothers he served with', b: 'Facilitated team workshops after hard events, at discharge, and when the team is brought back together.' },
+  { k: 'His family', t: 'Partners, children, siblings, parents', b: 'What they carry comes home with them. Partners and families get care and support of their own, including couples in deep crisis.' },
+  { k: 'The bereaved', t: 'Families of the fallen', b: 'We stay beside bereaved families and siblings, and keep the memory of those who fell.' },
+]
+
 function Circle() {
-  const ring = ['Partners', 'Children', 'Siblings', 'Parents', 'Bereaved families', 'Couples in crisis']
+  const [on, setOn] = useState(2)
+  const r = rings[on]
   return (
     <section className="circle" data-tone="light" aria-labelledby="circle-title">
+      <div className="wrap circle__head">
+        <Eyebrow n="05">The wider circle</Eyebrow>
+        <h2 className="display circle__title" id="circle-title" data-reveal>
+          <span>Service doesn’t end</span> <span>at the soldier.</span>
+        </h2>
+      </div>
       <div className="wrap circle__grid">
-        <div>
-          <Eyebrow n="05">The wider circle</Eyebrow>
-          <h2 className="display circle__title" id="circle-title" data-reveal>
-            Service doesn’t end at the soldier.
-          </h2>
-          <p className="circle__lead" data-reveal style={{ '--d': 1 } as CSSProperties}>
-            What they carry comes home with them. Our care reaches the people around them too.
-          </p>
+        <div className="circle__rings" role="tablist" aria-label="Who we support" data-reveal>
+          {rings
+            .map((x, i) => (
+              <button
+                key={x.k}
+                role="tab"
+                aria-selected={on === i}
+                className={`circle__ring circle__ring--${i} ${on === i ? 'is-on' : ''}`}
+                onClick={() => setOn(i)}
+                onMouseEnter={() => setOn(i)}
+                onFocus={() => setOn(i)}
+              >
+                <span>{x.k}</span>
+              </button>
+            ))
+            .reverse()}
         </div>
-        <ul className="circle__ring" aria-label="Who we support">
-          {ring.map((r, i) => (
-            <li key={r} data-reveal style={{ '--d': i } as CSSProperties}>
-              {r}
-            </li>
-          ))}
-        </ul>
+        <div className="circle__panel" role="tabpanel" key={on}>
+          <span className="hud">0{on + 1} / 04</span>
+          <h3 className="circle__t">{r.t}</h3>
+          <p>{r.b}</p>
+        </div>
       </div>
     </section>
   )
@@ -897,7 +992,10 @@ function Give() {
               <li key={c}>{c}</li>
             ))}
           </ul>
-          <p className="budget__note">A preliminary estimate. A detailed budget will be developed together with our partners.</p>
+          <p className="budget__actual">
+            <b>₪1.64 million</b> went directly into resilience care in the first half of 2026 alone.
+          </p>
+          <p className="budget__note">The annual figure is a preliminary estimate. A detailed budget will be developed together with our partners.</p>
         </div>
       </div>
 
@@ -925,14 +1023,24 @@ function Closing() {
   return (
     <section className="closing" data-tone="dark" aria-labelledby="close-title">
       <img className="closing__img" src={`${M}dusk.jpg`} alt="" aria-hidden loading="lazy" />
+      <div className="closing__calm" aria-hidden data-reveal>
+        <span className="hud closing__readout">
+          Intensity <b>0</b>
+        </span>
+        <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="closing__line">
+          <path pathLength={1} d="M0 40 H520 L540 40 L552 30 L562 40 L580 40 L596 8 L612 70 L626 40 H1200" />
+        </svg>
+      </div>
       <div className="wrap closing__inner">
-        <Logo className="closing__logo" />
-        <h2 className="display closing__title" id="close-title" data-reveal>
-          Stand beside those who stood for us.
+        <p className="closing__kicker" data-reveal>
+          From a hundred, back to zero.
+        </p>
+        <h2 className="display closing__title" id="close-title" data-reveal style={{ '--d': 1 } as CSSProperties}>
+          <span>Help them</span> <span>find the way home.</span>
         </h2>
-        <div className="closing__actions" data-reveal style={{ '--d': 1 } as CSSProperties}>
+        <div className="closing__actions" data-reveal style={{ '--d': 2 } as CSSProperties}>
           <a className="btn" href={DONATE} target="_blank" rel="noopener noreferrer">
-            Donate now <Arrow />
+            Stand with them <Arrow />
           </a>
           <a className="btn btn--ghost" href={EMAIL}>
             friends@duvdevanus.org
@@ -940,6 +1048,7 @@ function Closing() {
         </div>
       </div>
       <footer className="footer wrap">
+        <Logo className="footer__logo" />
         <p>
           Friends of Duvdevan is a U.S. nonprofit recognised under section 501(c)(3), EIN 83-0860160. Our partner in Israel,
           the Duvdevan Foundation, delivers the programmes on the ground. Credentials above apply to Friends of Duvdevan in
