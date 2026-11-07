@@ -188,24 +188,24 @@ export const editions: Record<string, Edition> = {
     html: {
       title: 'Duvdevan in Miami | November 19, 2026',
       description:
-        'An evening with Friends of Duvdevan in Miami Beach on November 19, 2026, hosted by Norman Cohen and Alex Berenbaum, in support of the soldiers, veterans and bereaved families of the unit.',
+        'An evening with Friends of Duvdevan in Miami on November 19, 2026, hosted by Norman Cohen, Alex Berenbaum and Franck Cohen, in support of the soldiers, veterans and bereaved families of the unit.',
       ogTitle: 'Duvdevan in Miami',
-      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 19, 2026, at 6:30 pm, Miami Beach. Hosted by Norman Cohen and Alex Berenbaum.',
-      ogImageAlt: 'Duvdevan in Miami. Thursday, November 19, 2026, 6:30 pm, Miami Beach',
+      ogDescription: 'An evening with Friends of Duvdevan. Thursday, November 19, 2026, at 6:30 pm, Miami. Hosted by Norman Cohen, Alex Berenbaum and Franck Cohen.',
+      ogImageAlt: 'Duvdevan in Miami. Thursday, November 19, 2026, 6:30 pm, Miami',
     },
     event: {
       before: '',
       after: 'In',
       city: 'Miami',
       tagline: 'Thursday, November 19, 2026 · 6:30 pm',
-      hud: { ref: '25°47′N 80°09′W', op: 'Miami Beach · 11.19.26' },
+      hud: { ref: '25°48′N 80°11′W', op: 'Miami · 11.19.26' },
     },
-    host: { label: 'Hosted by', names: 'Norman Cohen & Alex Berenbaum', address: 'Miami Beach · Address sent once your RSVP is approved' },
+    host: { label: 'Hosted by', names: 'Norman\u00a0Cohen, Alex\u00a0Berenbaum &\u00a0Franck\u00a0Cohen', address: 'Miami · Address sent once your RSVP is approved' },
     rsvp: { url: 'https://luma.com/k0ehbibm', label: 'RSVP', short: 'November 19' },
-    stop: { name: 'Miami Beach · November 19', lon: -80.16, lat: 25.79 },
+    stop: { name: 'Miami · November 19', lon: -80.19, lat: 25.81 },
     closingLead:
-      'Hosted by Norman Cohen and Alex Berenbaum in Miami Beach. Join us on November 19 at 6:30 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
-    footer: 'Duvdevan in Miami · November 19, 2026, 6:30 pm · Miami Beach',
+      'Hosted by Norman Cohen, Alex Berenbaum and Franck Cohen in Miami. Join us on November 19 at 6:30 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Miami · November 19, 2026, 6:30 pm · Miami',
     gathering: {
       heading: 'The evening',
       intro:
