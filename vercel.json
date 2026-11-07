@@ -21,6 +21,11 @@
       "source": "/miami",
       "destination": "/miami/",
       "permanent": true
+    },
+    {
+      "source": "/resilience",
+      "destination": "/resilience/",
+      "permanent": true
     }
   ]
 }

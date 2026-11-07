@@ -29,4 +29,6 @@ for ed in la tucson phoenix miami; do
   VITE_EDITION=$ed npx vite build --outDir "dist/$ed" --emptyOutDir
   find "dist/$ed/media/og" -name '*-og.jpg' ! -name "$ed-og.jpg" -delete
 done
-echo "Built: / (mission-v1), /la/, /tucson/, /phoenix/ and /miami/"
+# The resilience programme page: its own root (resilience/), own media.
+npx vite build --config vite.resilience.config.ts
+echo "Built: / (mission-v1), /la/, /tucson/, /phoenix/, /miami/ and /resilience/"
