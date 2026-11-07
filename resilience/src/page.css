@@ -454,10 +454,15 @@ button {
 }
 .hero__lead {
   margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
-  max-width: 34ch;
+  max-width: 40ch;
   font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
   line-height: 1.45;
   color: rgb(221 214 198 / 0.85);
+}
+.zth__beat p span,
+.hero__lead span,
+.tracks__line span {
+  display: block;
 }
 .hero__actions {
   display: flex;

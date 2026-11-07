@@ -257,7 +257,8 @@ function Hero({ play }: { play: (f: Film) => void }) {
           </span>
         </h1>
         <p className="hero__lead" data-intro style={{ '--i': 3 } as CSSProperties}>
-          In places most of us will never see. Now it is our turn to stand beside them.
+          <span>In places most of us will never see.</span>
+          <span>Now it is our turn to stand beside them.</span>
         </p>
         <div className="hero__actions" data-intro style={{ '--i': 4 } as CSSProperties}>
           <a className="btn" href={DONATE} target="_blank" rel="noopener noreferrer">
@@ -321,7 +322,11 @@ function ZeroToHundred() {
               <li key={b.time} className={`zth__beat ${i === idx ? 'is-on' : ''} ${i < idx ? 'is-past' : ''}`}>
                 <span className="zth__time">{b.time}</span>
                 <h3>{b.title}</h3>
-                <p>{b.body}</p>
+                <p>
+                  {b.body.split(/(?<=\.)\s+/).map((x) => (
+                    <span key={x}>{x}</span>
+                  ))}
+                </p>
               </li>
             ))}
           </ol>
@@ -406,6 +411,7 @@ function Turn() {
             {turnWords.map((w, i) => (
               <span key={i} aria-hidden className="turn__w" style={{ '--k': Math.max(0, Math.min(1, shown - i)) } as CSSProperties}>
                 {w}{' '}
+                {w === 'on.' && <br />}
               </span>
             ))}
           </p>
@@ -661,7 +667,11 @@ function Tracks() {
         <span className="tracks__thumb" style={{ '--x': k === 'extreme' ? 0 : 1 } as CSSProperties} aria-hidden />
       </div>
       <div className="tracks__panel" role="tabpanel" key={k}>
-        <p className="tracks__line">{t.line}</p>
+        <p className="tracks__line">
+          {t.line.split(/(?<=\.)\s+/).map((x) => (
+            <span key={x}>{x}</span>
+          ))}
+        </p>
         <p className="tracks__body">{t.body}</p>
         <ul className="tracks__chips">
           {t.chips.map((c) => (
