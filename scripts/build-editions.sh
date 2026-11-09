@@ -25,10 +25,10 @@ rm -rf dist
 (cd "$src" && npx vite build --outDir "$root/dist" --emptyOutDir)
 npx tsc -b
 # One folder per edition (src/content/editions.ts). Each keeps only its own link-preview image.
-for ed in la tucson phoenix miami; do
+for ed in la tucson phoenix miami santa-monica; do
   VITE_EDITION=$ed npx vite build --outDir "dist/$ed" --emptyOutDir
   find "dist/$ed/media/og" -name '*-og.jpg' ! -name "$ed-og.jpg" -delete
 done
 # The resilience programme page: its own root (resilience/), own media.
 npx vite build --config vite.resilience.config.ts
-echo "Built: / (mission-v1), /la/, /tucson/, /phoenix/, /miami/ and /resilience/"
+echo "Built: / (mission-v1), /la/, /tucson/, /phoenix/, /miami/, /santa-monica/ and /resilience/"

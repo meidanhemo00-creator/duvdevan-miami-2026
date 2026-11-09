@@ -23,6 +23,11 @@
       "permanent": true
     },
     {
+      "source": "/santa-monica",
+      "destination": "/santa-monica/",
+      "permanent": true
+    },
+    {
       "source": "/resilience",
       "destination": "/resilience/",
       "permanent": true

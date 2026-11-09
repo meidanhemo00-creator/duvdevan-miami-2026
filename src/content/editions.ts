@@ -226,4 +226,48 @@ export const editions: Record<string, Edition> = {
       },
     },
   },
+
+  'santa-monica': {
+    slug: 'santa-monica',
+    html: {
+      title: 'Duvdevan in Santa Monica | November 16, 2026',
+      description:
+        'A dinner with Friends of Duvdevan in Santa Monica on November 16, 2026, hosted by Jesse Sharf, in support of the soldiers, veterans and bereaved families of the unit.',
+      ogTitle: 'Duvdevan in Santa Monica',
+      ogDescription: 'A dinner with Friends of Duvdevan. Monday, November 16, 2026, at 6 pm, Santa Monica. Hosted by Jesse Sharf.',
+      ogImageAlt: 'Duvdevan in Santa Monica. Monday, November 16, 2026, 6 pm, Santa Monica',
+    },
+    event: {
+      before: '',
+      after: 'In',
+      city: 'Santa Monica',
+      tagline: 'Monday, November 16, 2026 · 6 pm',
+      hud: { ref: '34°01′N 118°29′W', op: 'Santa Monica · 11.16.26' },
+    },
+    host: { label: 'Hosted by', names: 'Jesse\u00a0Sharf', address: 'Santa Monica · Address sent once your RSVP is approved' },
+    rsvp: { url: 'https://luma.com/eeyc32m6', label: 'RSVP', short: 'November 16' },
+    stop: { name: 'Santa Monica · November 16', lon: -118.49, lat: 34.02 },
+    closingLead:
+      'Hosted by Jesse Sharf in Santa Monica. Join us for dinner on November 16 at 6 pm, and stand with the soldiers, veterans and bereaved families of the unit.',
+    footer: 'Duvdevan in Santa Monica · November 16, 2026, 6 pm · Santa Monica',
+    gathering: {
+      heading: 'The evening',
+      intro:
+        'Each year, friends of the unit gather in one room to honor its soldiers and stand with the families who carry its story. This is what that night looks like.',
+    },
+    impact: {
+      heading: 'What your support makes possible',
+      intro:
+        'Funds raised at our events go to the soldiers, veterans and bereaved families of the unit, across three areas of work.',
+      nav: 'The impact',
+      body: {
+        resilience:
+          'Service leaves marks that are not always visible. Your support helps soldiers and veterans reach the care, the time and the people they need to recover.',
+        education:
+          'After service, a new chapter begins. Your support helps veterans of the unit return to their studies and build the working lives they choose.',
+        remembrance:
+          'We remember every name. Your support keeps the foundation beside bereaved families, on the days of remembrance and on the ordinary days in between.',
+      },
+    },
+  },
 }
